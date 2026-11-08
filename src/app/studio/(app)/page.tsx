@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { StudioHeading, StudioTopBar } from "@/components/studio/page-header";
 import { fmtDay, fmtDayShort, StatusBadge, statusMeta, whenLabel } from "@/components/studio/status";
-import { tones } from "@/content/projects";
+import { tones } from "@/lib/tones";
 import { studioCounts, studioIdeas, studioLastPublished, studioNextScheduled, studioRecentNotes, studioSubjects } from "@/lib/notes";
 import { QuickIdea } from "./quick-idea";
 

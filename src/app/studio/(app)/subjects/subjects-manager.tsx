@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useState, useTransition, type FormEvent } from "react";
 import { EASE } from "@/components/motion/ease";
 import { useToast } from "@/components/studio/toast";
-import { tones, type Tone } from "@/content/projects";
+import { tones, type Tone } from "@/lib/tones";
 import { cn } from "@/lib/cn";
 import { createSubject, deleteSubject, updateSubject, type SubjectInput } from "../../actions";
 

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import type { Tone } from "@/content/projects";
+import type { Tone } from "@/lib/tones";
 import { studioGetNote, studioSubjects } from "@/lib/notes";
 import { NoteEditor } from "../note-editor";
 

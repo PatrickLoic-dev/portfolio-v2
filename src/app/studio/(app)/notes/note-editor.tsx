@@ -10,7 +10,7 @@ import { EASE } from "@/components/motion/ease";
 import { StudioTopBar } from "@/components/studio/page-header";
 import { fmtDay, fromLocalInput, statusMeta, toLocalInput } from "@/components/studio/status";
 import { useToast } from "@/components/studio/toast";
-import { tones, type Tone } from "@/content/projects";
+import { tones, type Tone } from "@/lib/tones";
 import type { NoteStatus } from "@/db/schema";
 import { cn } from "@/lib/cn";
 import { readingMinutes, slugify, wordCount } from "@/lib/slug";

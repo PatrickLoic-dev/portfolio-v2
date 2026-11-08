@@ -6,9 +6,12 @@ import { SplitHeadline } from "@/components/motion/split-headline";
 import { ProjectFeature, ProjectTile } from "@/components/project/project-card";
 import { SitemapFooter } from "@/components/site/site-footer";
 import { Testimonial } from "@/components/site/testimonial";
-import { projects } from "@/content/projects";
 import { site, stats, toolkit } from "@/content/site";
 import { Link } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/routing";
+import { getPublicProjects } from "@/lib/portfolio";
+
+export const dynamic = "force-dynamic";
 
 const services = [
   { key: "web", icon: Monitor, tone: "bg-blob-a", stack: "Angular · Next.js · React" },
@@ -22,7 +25,9 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const t = await getTranslations("home");
   const nav = await getTranslations("nav");
 
-  const [featured, ...rest] = projects;
+  const projects = await getPublicProjects(locale as Locale);
+  const [featured, ...rest] = projects.filter((p) => p.featured).slice(0, 5);
+  const statValue = (key: (typeof stats)[number]["key"], value: string) => (key === "projects" ? String(projects.length) : value);
 
   return (
     <>
@@ -88,7 +93,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               className={`hairline flex flex-col-reverse gap-2.5 py-8 ${i === 0 ? "pr-6" : "border-l px-6"}`}
             >
               <dt className="label text-muted-foreground">{t(`stats.${s.key}`)}</dt>
-              <dd className="display m-0 text-[64px]">{s.value}</dd>
+              <dd className="display m-0 text-[64px]">{statValue(s.key, s.value)}</dd>
             </StaggerItem>
           ))}
         </Stagger>
@@ -117,12 +122,14 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           </Link>
         </div>
 
-        <Reveal className="mb-14">
-          <ProjectFeature project={featured} />
-        </Reveal>
+        {featured && (
+          <Reveal className="mb-14">
+            <ProjectFeature project={featured} />
+          </Reveal>
+        )}
 
         <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,520px),1fr))] gap-x-8 gap-y-14">
-          {rest.slice(0, 4).map((p, i) => (
+          {rest.map((p, i) => (
             <Reveal key={p.slug} delay={(i % 2) * 0.08}>
               <ProjectTile project={p} />
             </Reveal>

@@ -7,7 +7,7 @@ import { useState, type ReactNode } from "react";
 import { signOut } from "@/app/studio/actions";
 import { cn } from "@/lib/cn";
 
-type Counts = { all: number; published: number; draft: number; scheduled: number; subjects: number };
+type Counts = { all: number; published: number; draft: number; scheduled: number; subjects: number; projects: number; games: number };
 
 function Item({
   href,
@@ -120,13 +120,23 @@ export function StudioSidebar({ counts, email }: { counts: Counts; email: string
           </Group>
 
           <Group icon={<LayoutGrid size={14} aria-hidden />} label="Projets" color="var(--blob-c)">
-            <Soon>Tous les projets</Soon>
+            <Item href="/studio/projects" active={pathname === "/studio/projects"} count={counts.projects} onNavigate={close}>
+              Tous les projets
+            </Item>
+            <Item href="/studio/projects/new" active={pathname === "/studio/projects/new"} onNavigate={close}>
+              Nouveau projet
+            </Item>
           </Group>
           <Group icon={<Share2 size={14} aria-hidden />} label="Réseaux sociaux" color="var(--blob-b)">
             <Soon>Composer &amp; programmer</Soon>
           </Group>
           <Group icon={<Gamepad2 size={14} aria-hidden />} label="Passions" color="var(--secondary)">
-            <Soon>Jeux &amp; musique</Soon>
+            <Item href="/studio/passions/games" active={pathname === "/studio/passions/games"} count={counts.games} onNavigate={close}>
+              Jeux vidéo
+            </Item>
+            <Item href="/studio/passions/music" active={pathname === "/studio/passions/music"} onNavigate={close}>
+              Musique &amp; humeur
+            </Item>
           </Group>
         </nav>
 

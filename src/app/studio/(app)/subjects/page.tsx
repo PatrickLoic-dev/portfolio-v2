@@ -2,7 +2,7 @@ import { Plus } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { StudioHeading, StudioTopBar } from "@/components/studio/page-header";
-import type { Tone } from "@/content/projects";
+import type { Tone } from "@/lib/tones";
 import { studioSubjects } from "@/lib/notes";
 import { SubjectsManager } from "./subjects-manager";
 

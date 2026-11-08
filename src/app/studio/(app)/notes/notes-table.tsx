@@ -8,7 +8,7 @@ import { useEffect, useState, useTransition } from "react";
 import { EASE } from "@/components/motion/ease";
 import { fmtDay, StatusBadge, whenLabel } from "@/components/studio/status";
 import { useToast } from "@/components/studio/toast";
-import { tones, type Tone } from "@/content/projects";
+import { tones, type Tone } from "@/lib/tones";
 import type { NoteStatus } from "@/db/schema";
 import type { StatusFilter } from "@/lib/notes";
 import { cn } from "@/lib/cn";

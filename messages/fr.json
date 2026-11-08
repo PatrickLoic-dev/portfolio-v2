@@ -120,7 +120,9 @@
     "approach": "L'approche",
     "outcome": "Le résultat",
     "next": "Projet suivant — {n}",
-    "metaTitle": "{name} — Étude de cas"
+    "metaTitle": "{name} — Étude de cas",
+    "role": "Rôle",
+    "gallery": "Galerie"
   },
   "about": {
     "eyebrow": "À propos & expérience",
@@ -171,27 +173,52 @@
       "discovery": {
         "title": "Découverte",
         "desc": "Avant le moindre pixel, on cartographie le vrai problème : pour qui, à quoi ressemble le succès, et ce qui existe déjà. Vous repartez avec un brief court sur lequel tout le monde est d'accord.",
-        "points": ["Entretiens parties prenantes & utilisateurs", "Audit de l'outillage existant", "Indicateurs de succès définis en amont", "Un brief écrit concis, pas un deck de 60 pages"]
+        "points": [
+          "Entretiens parties prenantes & utilisateurs",
+          "Audit de l'outillage existant",
+          "Indicateurs de succès définis en amont",
+          "Un brief écrit concis, pas un deck de 60 pages"
+        ]
       },
       "design": {
         "title": "Design",
         "desc": "Tokens, composants et mouvement sont définis tôt, puis éprouvés dans des prototypes interactifs — avec des boucles de retour courtes pour éviter les surprises.",
-        "points": ["Tokens & système de composants", "Prototypes interactifs", "Langage de mouvement défini tôt", "Boucles de retour serrées avec vous"]
+        "points": [
+          "Tokens & système de composants",
+          "Prototypes interactifs",
+          "Langage de mouvement défini tôt",
+          "Boucles de retour serrées avec vous"
+        ]
       },
       "build": {
         "title": "Build",
         "desc": "Un frontend de qualité production, centré sur l'accessibilité, la performance et un code que votre équipe pourra faire évoluer longtemps après la livraison.",
-        "points": ["TypeScript de bout en bout", "Architecture de composants modulaire", "Performance budgétée, pas promise", "Déploiement continu dès le premier jour"]
+        "points": [
+          "TypeScript de bout en bout",
+          "Architecture de composants modulaire",
+          "Performance budgétée, pas promise",
+          "Déploiement continu dès le premier jour"
+        ]
       },
       "ship": {
         "title": "Lancement",
         "desc": "La mise en production est une fonctionnalité, pas un détail. QA, monitoring et plan de déploiement sont prêts avant le jour J.",
-        "points": ["QA & accessibilité avant lancement", "Analytics & suivi d'erreurs branchés", "Déploiements par feature flags", "Communication & documentation prêtes"]
+        "points": [
+          "QA & accessibilité avant lancement",
+          "Analytics & suivi d'erreurs branchés",
+          "Déploiements par feature flags",
+          "Communication & documentation prêtes"
+        ]
       },
       "iterate": {
         "title": "Itération",
         "desc": "La première version est une donnée, pas une fin. On analyse l'usage réel et on continue d'améliorer — ou on passe la main proprement.",
-        "points": ["Revue & analytics post-lancement", "Priorisation du backlog avec vous", "Travail continu sur la performance", "Une passation qui transmet vraiment"]
+        "points": [
+          "Revue & analytics post-lancement",
+          "Priorisation du backlog avec vous",
+          "Travail continu sur la performance",
+          "Une passation qui transmet vraiment"
+        ]
       }
     }
   },
@@ -248,11 +275,26 @@
     "browse": "Parcourir par sujet",
     "subjects": "Sujets",
     "categories": {
-      "engineering": { "label": "Ingénierie", "desc": "Architecture, TypeScript, APIs et performance." },
-      "design": { "label": "Design", "desc": "Systèmes, typographie et mouvement." },
-      "product": { "label": "Produit", "desc": "Transformer de vrais usages en logiciel." },
-      "studio": { "label": "Studio", "desc": "La vie de freelance et KreativEinfluss." },
-      "community": { "label": "Communauté", "desc": "Projets perso et scène locale." }
+      "engineering": {
+        "label": "Ingénierie",
+        "desc": "Architecture, TypeScript, APIs et performance."
+      },
+      "design": {
+        "label": "Design",
+        "desc": "Systèmes, typographie et mouvement."
+      },
+      "product": {
+        "label": "Produit",
+        "desc": "Transformer de vrais usages en logiciel."
+      },
+      "studio": {
+        "label": "Studio",
+        "desc": "La vie de freelance et KreativEinfluss."
+      },
+      "community": {
+        "label": "Communauté",
+        "desc": "Projets perso et scène locale."
+      }
     },
     "newsletter": "Newsletter",
     "newsletterTitle": "Nouvelles notes,\nzéro bruit",
@@ -293,20 +335,14 @@
     "music": "Musique ↓",
     "gamingEyebrow": "(01) — Jeux vidéo",
     "gamingTitle": "Press\nstart",
-    "gamingBody": "Succès et trophées de mes profils Steam et PlayStation. Les jeux de combat, c'est la maison — je construis aussi des sites pour la communauté Tekken.",
+    "gamingBody": "Heures et succès synchronisés depuis mon profil Steam. Les jeux de combat, c'est la maison — je construis aussi des sites pour la communauté Tekken.",
     "profile": "Profil ↗",
     "games": "Jeux",
     "avgCompletion": "Complétion moy.",
     "perfect": "Jeux à 100 %",
-    "avgTrophies": "Trophées moy.",
-    "platinums": "Platines",
     "currentlyPlaying": "En cours",
-    "currentBody": "Soirées classées et tournois communautaires avec Tekken Mboa. Le jeu auquel je reviens toujours.",
-    "trophies": "Trophées",
     "achievements": "Succès",
     "hoursPlayed": "{hours} h de jeu",
-    "platform": "Plateforme",
-    "allGames": "Tous les jeux",
     "sort": "Trier",
     "sortPct": "Complétion",
     "sortHours": "Heures de jeu",
@@ -319,10 +355,13 @@
     "musicBody": "Le morceau et l'humeur du moment — mis à jour quand l'ambiance change.",
     "songOfMoment": "Le morceau du moment",
     "coverAlt": "Pochette",
-    "playSpotify": "Écouter sur Spotify ↗",
     "updated": "Mis à jour {when}",
     "mood": "Humeur du moment",
-    "followSpotify": "Me suivre sur Spotify"
+    "gamesCount": "{count, plural, one {# jeu} other {# jeux}}",
+    "playOn": "Écouter sur {provider} ↗",
+    "listen": "Écouter ↗",
+    "followOn": "Me suivre sur {provider}",
+    "noAchievements": "Pas de succès"
   },
   "notFound": {
     "title": "Page\nintrouvable",

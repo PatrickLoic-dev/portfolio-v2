@@ -9,7 +9,8 @@ import { Reveal } from "@/components/motion/reveal";
 import { SplitHeadline } from "@/components/motion/split-headline";
 import { CtaFooter } from "@/components/site/site-footer";
 import { Toc } from "@/components/site/toc";
-import { getProject, tones } from "@/content/projects";
+import { projectNames } from "@/lib/portfolio";
+import { tones } from "@/lib/tones";
 import { site } from "@/content/site";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -52,7 +53,7 @@ export default async function PostPage({ params }: PageProps<"/[locale]/blog/[sl
   const blog = await getTranslations("blog");
   const cta = await getTranslations("cta");
   const format = await getFormatter();
-  const related = post.relatedProject ? getProject(post.relatedProject) : undefined;
+  const related = post.relatedProject ? (await projectNames()).find((p) => p.slug === post.relatedProject) : undefined;
   const more = (await getPublishedPosts(locale)).filter((p) => p.slug !== slug).slice(0, 3);
   const url = `${site.url}/${locale === "en" ? "" : "fr/"}blog/${slug}`;
   const tone = tones[post.tone] ?? tones.peach;

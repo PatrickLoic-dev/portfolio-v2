@@ -5,6 +5,10 @@ import { SplitHeadline } from "@/components/motion/split-headline";
 import { CtaFooter } from "@/components/site/site-footer";
 import { WorkExplorer } from "@/components/work/work-explorer";
 import { Link } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/routing";
+import { getPublicProjects } from "@/lib/portfolio";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/work">): Promise<Metadata> {
   const { locale } = await params;
@@ -16,10 +20,11 @@ export default async function WorkPage({ params }: PageProps<"/[locale]/work">) 
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("cta");
+  const projects = await getPublicProjects(locale as Locale);
 
   return (
     <>
-      <WorkExplorer />
+      <WorkExplorer projects={projects} />
       <CtaFooter>
         <div className="flex flex-wrap items-end justify-between gap-8">
           <SplitHeadline text={t("gotProject")} accent={t("question")} className="text-[clamp(56px,9vw,136px)] text-background" />

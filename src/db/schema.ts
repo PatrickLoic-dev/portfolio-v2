@@ -3,6 +3,7 @@ import {
   boolean,
   index,
   integer,
+  jsonb,
   pgEnum,
   pgTable,
   primaryKey,
@@ -49,7 +50,7 @@ export const notes = pgTable(
     coverUrl: text("cover_url"),
     tags: text("tags").array().notNull().default(sql`'{}'::text[]`),
     featured: boolean("featured").notNull().default(false),
-    /** Slug of a project in src/content/projects.ts. */
+    /** Slug of a project (projects.slug). */
     relatedProject: text("related_project"),
     /** Soft delete — lets the editor offer "Restaurer la note". */
     deletedAt: timestamp("deleted_at", { withTimezone: true }),
@@ -85,6 +86,117 @@ export const ideas = pgTable("ideas", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 }).enableRLS();
 
+/* ------------------------------------------------------------------ */
+/* Projects                                                            */
+/* ------------------------------------------------------------------ */
+
+export const projectType = pgEnum("project_type", ["professional", "community"]);
+export const projectPlatform = pgEnum("project_platform", ["web", "mobile"]);
+export const projectStatus = pgEnum("project_status", ["draft", "published"]);
+
+export type ProjectMetric = { value: string; labelEn: string; labelFr: string };
+
+export const projects = pgTable(
+  "projects",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    slug: text("slug").notNull().unique(),
+    name: text("name").notNull(),
+    type: projectType("type").notNull().default("professional"),
+    platform: projectPlatform("platform").notNull().default("web"),
+    status: projectStatus("status").notNull().default("draft"),
+    /** Shown on the Work page and the case study when true. */
+    visible: boolean("visible").notNull().default(true),
+    /** Home page "Selected work" (5 max, the first is the large card). */
+    featured: boolean("featured").notNull().default(false),
+    /** Order on Work (and among featured projects on Home). */
+    position: integer("position").notNull().default(0),
+    client: text("client"),
+    role: text("role"),
+    liveUrl: text("live_url"),
+    tone: text("tone").notNull().default("peach"),
+    tags: text("tags").array().notNull().default(sql`'{}'::text[]`),
+    /** Screenshots (Storage URLs). The first one replaces the stylised frame. */
+    media: text("media").array().notNull().default(sql`'{}'::text[]`),
+    metrics: jsonb("metrics").$type<ProjectMetric[]>().notNull().default([]),
+    deletedAt: timestamp("deleted_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("projects_position_idx").on(t.position)],
+).enableRLS();
+
+export const projectTranslations = pgTable(
+  "project_translations",
+  {
+    projectId: uuid("project_id")
+      .notNull()
+      .references(() => projects.id, { onDelete: "cascade" }),
+    locale: locale("locale").notNull(),
+    /** Short description for cards (≤ 160 chars). */
+    description: text("description").notNull().default(""),
+    sector: text("sector").notNull().default(""),
+    problemTitle: text("problem_title").notNull().default(""),
+    problem: text("problem").notNull().default(""),
+    approachTitle: text("approach_title").notNull().default(""),
+    approach: text("approach").notNull().default(""),
+    outcomeTitle: text("outcome_title").notNull().default(""),
+    outcome: text("outcome").notNull().default(""),
+  },
+  (t) => [primaryKey({ columns: [t.projectId, t.locale] })],
+).enableRLS();
+
+/* ------------------------------------------------------------------ */
+/* Passions                                                            */
+/* ------------------------------------------------------------------ */
+
+/** Steam games (synced) — rows without an app id are sample data. */
+export const games = pgTable("games", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  steamAppId: integer("steam_app_id").unique(),
+  name: text("name").notNull(),
+  /** Minutes played. */
+  playtime: integer("playtime").notNull().default(0),
+  achievementsUnlocked: integer("achievements_unlocked"),
+  achievementsTotal: integer("achievements_total"),
+  lastPlayedAt: timestamp("last_played_at", { withTimezone: true }),
+  tone: text("tone").notNull().default("sand"),
+  visible: boolean("visible").notNull().default(true),
+  /** "Currently playing" on the Passions page (one at a time). */
+  pinned: boolean("pinned").notNull().default(false),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}).enableRLS();
+
+export const musicProvider = pgEnum("music_provider", ["apple", "spotify", "other"]);
+
+/** Each "Mettre à jour le site" adds a row; the latest one is live, older ones are the history. */
+export const songs = pgTable("songs", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  title: text("title").notNull(),
+  artist: text("artist").notNull().default(""),
+  album: text("album").notNull().default(""),
+  artworkUrl: text("artwork_url"),
+  link: text("link"),
+  provider: musicProvider("provider").notNull().default("other"),
+  noteEn: text("note_en").notNull().default(""),
+  noteFr: text("note_fr").notNull().default(""),
+  mood: text("mood").notNull().default("focused"),
+  moodTextEn: text("mood_text_en").notNull().default(""),
+  moodTextFr: text("mood_text_fr").notNull().default(""),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}).enableRLS();
+
+/** Key/value settings (Steam account, music profiles, display options). */
+export const settings = pgTable("settings", {
+  key: text("key").primaryKey(),
+  value: jsonb("value").notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}).enableRLS();
+
+export type Project = typeof projects.$inferSelect;
+export type ProjectTranslation = typeof projectTranslations.$inferSelect;
+export type Game = typeof games.$inferSelect;
+export type Song = typeof songs.$inferSelect;
 export type Subject = typeof subjects.$inferSelect;
 export type Note = typeof notes.$inferSelect;
 export type NoteTranslation = typeof noteTranslations.$inferSelect;

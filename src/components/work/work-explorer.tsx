@@ -8,7 +8,7 @@ import { EASE } from "@/components/motion/ease";
 import { Reveal } from "@/components/motion/reveal";
 import { SplitHeadline } from "@/components/motion/split-headline";
 import { ProjectCard, ProjectRow } from "@/components/project/project-card";
-import { projects, technologies, type Project } from "@/content/projects";
+import type { PublicProject as Project } from "@/lib/portfolio";
 
 type TypeFilter = "all" | Project["type"];
 
@@ -16,16 +16,26 @@ type TypeFilter = "all" | Project["type"];
 const rowCls =
   "no-scrollbar flex items-center gap-2 nav:flex-wrap max-nav:-mx-5 max-nav:snap-x max-nav:overflow-x-auto max-nav:px-5 max-nav:w-[calc(100%+40px)]";
 
-export function WorkExplorer() {
+export function WorkExplorer({ projects }: { projects: Project[] }) {
   const t = useTranslations("work");
   const types = useTranslations("types");
   const [type, setType] = useState<TypeFilter>("all");
   const [tech, setTech] = useState<string>("all");
   const [view, setView] = useState<"grid" | "list">("grid");
 
+  // Every technology in use becomes a filter, most used first.
+  const technologies = useMemo(() => {
+    const count = new Map<string, number>();
+    projects.forEach((p) => p.tags.forEach((tag) => count.set(tag, (count.get(tag) ?? 0) + 1)));
+    return [...count.entries()].filter(([, n]) => n >= 1).sort((a, b) => b[1] - a[1]).map(([tag]) => tag);
+  }, [projects]);
+
   const okType = (p: Project, v: TypeFilter) => v === "all" || p.type === v;
   const okTech = (p: Project, v: string) => v === "all" || p.tags.includes(v);
-  const shown = useMemo(() => projects.filter((p) => okType(p, type) && okTech(p, tech)), [type, tech]);
+  const shown = useMemo(
+    () => projects.filter((p) => okType(p, type) && okTech(p, tech)),
+    [projects, type, tech],
+  );
 
   return (
     <>

@@ -120,7 +120,9 @@
     "approach": "The approach",
     "outcome": "The outcome",
     "next": "Next project — {n}",
-    "metaTitle": "{name} — Case study"
+    "metaTitle": "{name} — Case study",
+    "role": "Role",
+    "gallery": "Gallery"
   },
   "about": {
     "eyebrow": "About & experience",
@@ -171,27 +173,52 @@
       "discovery": {
         "title": "Discovery",
         "desc": "Before a single pixel, we map the actual problem: who it is for, what success looks like, and what already exists. You leave with a lean brief everyone agrees on.",
-        "points": ["Stakeholder & user interviews", "Audit of existing tooling", "Success metrics agreed upfront", "Lean written brief, not a 60-page deck"]
+        "points": [
+          "Stakeholder & user interviews",
+          "Audit of existing tooling",
+          "Success metrics agreed upfront",
+          "Lean written brief, not a 60-page deck"
+        ]
       },
       "design": {
         "title": "Design",
         "desc": "Tokens, components and motion are defined early, then pressure-tested in interactive prototypes — with short feedback loops so nothing surprises you later.",
-        "points": ["Design tokens & component system", "Interactive prototypes", "Motion language defined early", "Tight feedback loops with you"]
+        "points": [
+          "Design tokens & component system",
+          "Interactive prototypes",
+          "Motion language defined early",
+          "Tight feedback loops with you"
+        ]
       },
       "build": {
         "title": "Build",
         "desc": "Production-grade frontend with a focus on accessibility, performance, and code your team can extend long after handover.",
-        "points": ["TypeScript end-to-end", "Modular component architecture", "Performance budgeted, not promised", "Continuous deploys from day one"]
+        "points": [
+          "TypeScript end-to-end",
+          "Modular component architecture",
+          "Performance budgeted, not promised",
+          "Continuous deploys from day one"
+        ]
       },
       "ship": {
         "title": "Ship",
         "desc": "Releasing is a feature, not an afterthought. QA, monitoring and rollout plans are ready before launch day.",
-        "points": ["Pre-launch QA & accessibility pass", "Analytics & error monitoring wired", "Feature-flagged rollouts", "Launch comms & docs ready"]
+        "points": [
+          "Pre-launch QA & accessibility pass",
+          "Analytics & error monitoring wired",
+          "Feature-flagged rollouts",
+          "Launch comms & docs ready"
+        ]
       },
       "iterate": {
         "title": "Iterate",
         "desc": "The first release is data, not an ending. We review what users actually do and keep improving — or hand over cleanly.",
-        "points": ["Post-launch review & analytics", "Backlog grooming with you", "Continuous performance work", "Handover that actually transfers"]
+        "points": [
+          "Post-launch review & analytics",
+          "Backlog grooming with you",
+          "Continuous performance work",
+          "Handover that actually transfers"
+        ]
       }
     }
   },
@@ -248,11 +275,26 @@
     "browse": "Browse by subject",
     "subjects": "Subjects",
     "categories": {
-      "engineering": { "label": "Engineering", "desc": "Architecture, TypeScript, APIs and performance." },
-      "design": { "label": "Design", "desc": "Systems, typography and motion." },
-      "product": { "label": "Product", "desc": "Turning real workflows into software." },
-      "studio": { "label": "Studio", "desc": "Freelance life and running KreativEinfluss." },
-      "community": { "label": "Community", "desc": "Side projects and the local scene." }
+      "engineering": {
+        "label": "Engineering",
+        "desc": "Architecture, TypeScript, APIs and performance."
+      },
+      "design": {
+        "label": "Design",
+        "desc": "Systems, typography and motion."
+      },
+      "product": {
+        "label": "Product",
+        "desc": "Turning real workflows into software."
+      },
+      "studio": {
+        "label": "Studio",
+        "desc": "Freelance life and running KreativEinfluss."
+      },
+      "community": {
+        "label": "Community",
+        "desc": "Side projects and the local scene."
+      }
     },
     "newsletter": "Newsletter",
     "newsletterTitle": "New notes,\nno noise",
@@ -293,20 +335,14 @@
     "music": "Music ↓",
     "gamingEyebrow": "(01) — Gaming",
     "gamingTitle": "Press\nstart",
-    "gamingBody": "Achievements and trophies from my Steam and PlayStation profiles. Fighting games are home — I also build sites for the Tekken community.",
+    "gamingBody": "Hours and achievements synced from my Steam profile. Fighting games are home — I also build sites for the Tekken community.",
     "profile": "Profile ↗",
     "games": "Games",
     "avgCompletion": "Avg. completion",
     "perfect": "Perfect games",
-    "avgTrophies": "Avg. trophies",
-    "platinums": "Platinums",
     "currentlyPlaying": "Currently playing",
-    "currentBody": "Ranked nights and community tournaments with Tekken Mboa. The game I keep coming back to.",
-    "trophies": "Trophies",
     "achievements": "Achievements",
     "hoursPlayed": "{hours} h played",
-    "platform": "Platform",
-    "allGames": "All games",
     "sort": "Sort",
     "sortPct": "Completion",
     "sortHours": "Hours played",
@@ -319,10 +355,13 @@
     "musicBody": "The song and the mood of the moment — updated whenever the vibe changes.",
     "songOfMoment": "Song of the moment",
     "coverAlt": "Cover art",
-    "playSpotify": "Play on Spotify ↗",
     "updated": "Updated {when}",
     "mood": "Mood right now",
-    "followSpotify": "Follow me on Spotify"
+    "gamesCount": "{count, plural, one {# game} other {# games}}",
+    "playOn": "Play on {provider} ↗",
+    "listen": "Listen ↗",
+    "followOn": "Follow me on {provider}",
+    "noAchievements": "No achievements"
   },
   "notFound": {
     "title": "Lost\nin space",

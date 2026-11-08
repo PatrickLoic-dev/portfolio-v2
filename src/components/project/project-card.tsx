@@ -1,8 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import type { Project } from "@/content/projects";
+import { useTranslations } from "next-intl";
+import type { PublicProject as Project } from "@/lib/portfolio";
 import { Link } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
 import { cn } from "@/lib/cn";
 import { ProjectMedia } from "./project-media";
 
@@ -22,7 +21,6 @@ function Arrow({ filled = false, size = 40 }: { filled?: boolean; size?: number 
 
 /** Large hero card (Home, first project). */
 export function ProjectFeature({ project }: { project: Project }) {
-  const locale = useLocale() as Locale;
   return (
     <Link href={`/work/${project.slug}`} className="card-link block">
       <div className="overflow-hidden rounded-[28px]">
@@ -34,7 +32,7 @@ export function ProjectFeature({ project }: { project: Project }) {
           <span className="card-title display text-[36px] tracking-[-0.03em]">{project.name}</span>
         </div>
         <p className="m-0 max-w-[520px] flex-[1_1_360px] text-base leading-[1.55] text-muted-foreground">
-          {project.content[locale].description}
+          {project.description}
         </p>
         <div className="flex items-center gap-2">
           {project.tags.map((tag) => (
@@ -73,7 +71,6 @@ export function ProjectTile({ project }: { project: Project }) {
 
 /** Grid card on the Work page. */
 export function ProjectCard({ project }: { project: Project }) {
-  const locale = useLocale() as Locale;
   const t = useTranslations("types");
   return (
     <Link href={`/work/${project.slug}`} className="card-link block">
@@ -88,7 +85,7 @@ export function ProjectCard({ project }: { project: Project }) {
           </div>
           <Arrow />
         </div>
-        <p className="m-0 text-[15px] leading-[1.55] text-muted-foreground">{project.content[locale].description}</p>
+        <p className="m-0 text-[15px] leading-[1.55] text-muted-foreground">{project.description}</p>
         <div className="mt-1 flex flex-wrap gap-1.5">
           <span className="chip chip-ink">{t(project.type)}</span>
           {project.tags.map((tag) => (
@@ -102,7 +99,6 @@ export function ProjectCard({ project }: { project: Project }) {
 
 /** Row in the Work list view. */
 export function ProjectRow({ project }: { project: Project }) {
-  const locale = useLocale() as Locale;
   const t = useTranslations("types");
   return (
     <Link
@@ -112,7 +108,7 @@ export function ProjectRow({ project }: { project: Project }) {
       <span className="label text-muted-foreground">{project.n}</span>
       <span className="card-title display text-[clamp(24px,2.6vw,36px)] tracking-[-0.03em]">{project.name}</span>
       <span className="hidden text-[15px] leading-normal text-muted-foreground nav:block">
-        {project.content[locale].description}
+        {project.description}
       </span>
       <span className="label hidden text-muted-foreground nav:block">{t(project.type)}</span>
       <Arrow size={44} />

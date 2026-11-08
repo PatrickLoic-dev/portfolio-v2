@@ -1,4 +1,4 @@
-import type { Locale } from "@/i18n/routing";
+import type { Locale } from "../../src/i18n/routing";
 import data from "./projects.data.json";
 
 /** Background tones from the design system, used for project media panels. */

@@ -7,7 +7,7 @@ import { useMemo, useState } from "react";
 import { EASE } from "@/components/motion/ease";
 import { Reveal } from "@/components/motion/reveal";
 import { SplitHeadline } from "@/components/motion/split-headline";
-import { tones } from "@/content/projects";
+import { tones } from "@/lib/tones";
 import { Link } from "@/i18n/navigation";
 import type { LocalizedSubject, PublicPost } from "@/lib/notes";
 import { PostByline, PostCard } from "./post-card";

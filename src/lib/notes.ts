@@ -3,7 +3,7 @@ import { and, asc, desc, eq, ilike, inArray, isNotNull, isNull, lte, or, sql, ty
 import { db } from "@/db";
 import { ideas, notes, noteTranslations, subjects, type Note, type NoteStatus, type NoteTranslation, type Subject } from "@/db/schema";
 import type { Locale } from "@/i18n/routing";
-import type { Tone } from "@/content/projects";
+import type { Tone } from "@/lib/tones";
 import { extractToc, readingMinutes } from "./slug";
 
 /* ------------------------------------------------------------------ */

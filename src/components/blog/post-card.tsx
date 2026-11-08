@@ -1,6 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
-import { tones } from "@/content/projects";
+import { tones } from "@/lib/tones";
 import { Link } from "@/i18n/navigation";
 import type { PublicPost } from "@/lib/notes";
 

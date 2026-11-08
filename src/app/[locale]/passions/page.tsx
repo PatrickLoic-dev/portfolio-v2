@@ -98,12 +98,17 @@ export default async function PassionsPage({ params }: PageProps<"/[locale]/pass
           <Reveal className="flex flex-[1_1_380px] flex-col gap-[22px] rounded-3xl bg-[#1b2838] p-7 text-background">
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3.5">
-                <span aria-hidden className="flex size-[52px] items-center justify-center rounded-[14px] bg-background text-[13px] font-extrabold text-[#1b2838]">
-                  STEAM
-                </span>
-                <div className="flex flex-col gap-0.5">
+                {steam.avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={steam.avatarUrl} alt="" className="size-[52px] rounded-[14px] object-cover" />
+                ) : (
+                  <span aria-hidden className="flex size-[52px] items-center justify-center rounded-[14px] bg-background text-[13px] font-extrabold text-[#1b2838]">
+                    STEAM
+                  </span>
+                )}
+                <div className="flex min-w-0 flex-col gap-0.5">
                   <span className="label text-background/70">Steam</span>
-                  <span className="text-xl font-bold">{steam.steamId || "Steam"}</span>
+                  <span className="truncate text-xl font-bold">{steam.personaName || "Steam"}</span>
                 </div>
               </div>
               {steam.profileUrl && (

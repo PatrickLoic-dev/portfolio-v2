@@ -107,9 +107,18 @@ export async function syncSteam(input: string) {
     }
   });
 
+  // Display name + avatar for the Passions page.
+  const summary = await get<{ response: { players?: { personaname?: string; avatarfull?: string; profileurl?: string }[] } }>(
+    "ISteamUser/GetPlayerSummaries/v2/",
+    { steamids: steamid },
+  ).catch(() => null);
+  const player = summary?.response.players?.[0];
+
   await setSetting("steam", {
     steamId: input.trim(),
-    profileUrl: `https://steamcommunity.com/profiles/${steamid}`,
+    profileUrl: player?.profileurl ?? `https://steamcommunity.com/profiles/${steamid}`,
+    personaName: player?.personaname ?? "",
+    avatarUrl: player?.avatarfull ?? "",
     lastSyncAt: new Date().toISOString(),
   });
   return top.length;

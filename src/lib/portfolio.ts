@@ -123,13 +123,13 @@ export async function projectNames() {
 /* ------------------------------------------------------------------ */
 
 export type Settings = {
-  steam: { steamId: string; profileUrl: string; lastSyncAt: string | null; autoSync: boolean };
+  steam: { steamId: string; profileUrl: string; personaName: string; avatarUrl: string; lastSyncAt: string | null; autoSync: boolean };
   games: { minPct: number };
   music: { spotifyProfile: string; appleProfile: string };
 };
 
 const DEFAULTS: Settings = {
-  steam: { steamId: "", profileUrl: "", lastSyncAt: null, autoSync: true },
+  steam: { steamId: "", profileUrl: "", personaName: "", avatarUrl: "", lastSyncAt: null, autoSync: true },
   games: { minPct: 0 },
   music: { spotifyProfile: "", appleProfile: "" },
 };

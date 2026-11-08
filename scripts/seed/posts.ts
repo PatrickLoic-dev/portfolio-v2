@@ -114,12 +114,12 @@ export const posts: Post[] = [
     text: {
       en: {
         title: "Design tokens before pixels",
-        excerpt: "Why every project now starts with a color, type and motion system — even the small ones.",
+        excerpt: "Why every project now starts with a color, type and motion system, even the small ones.",
         hook: "Tokens\nfirst",
       },
       fr: {
         title: "Les tokens avant les pixels",
-        excerpt: "Pourquoi chaque projet commence désormais par un système de couleurs, de typo et de mouvement — même les petits.",
+        excerpt: "Pourquoi chaque projet commence désormais par un système de couleurs, de typo et de mouvement, même les petits.",
         hook: "Tokens\nd'abord",
       },
     },

@@ -104,7 +104,7 @@ export function PostsTable({ posts, initialTab, openId }: { posts: PostView[]; i
                 {p.networks.map((n) => (
                   <NetBadge key={n} network={n} dim={p.status === "scheduled" && !!p.published[n]} />
                 ))}
-                {!p.networks.length && <span className="text-xs text-muted-foreground">—</span>}
+                {!p.networks.length && <span className="text-xs text-muted-foreground">-</span>}
               </span>
               <div className="flex min-w-0 items-center gap-3">
                 {p.media[0] && (
@@ -122,7 +122,7 @@ export function PostsTable({ posts, initialTab, openId }: { posts: PostView[]; i
                   </span>
                 </div>
               </div>
-              <span className="hidden font-mono text-xs text-muted-foreground nav:block">{p.scheduledAt ? fmtDayTime(p.scheduledAt) : "—"}</span>
+              <span className="hidden font-mono text-xs text-muted-foreground nav:block">{p.scheduledAt ? fmtDayTime(p.scheduledAt) : "-"}</span>
               <span className="hidden nav:block">
                 <span className="inline-flex min-h-7 items-center rounded-full px-2.5 text-xs font-semibold" style={{ background: status.bg }}>
                   {status.label}

@@ -70,7 +70,7 @@ export async function saveProject(raw: ProjectInput): Promise<ActionResult<{ id:
   const p = parsed.data;
 
   if (p.featured && (await featuredCount(p.id)) >= MAX_FEATURED)
-    return { ok: false, error: `${MAX_FEATURED} projets maximum à la une — retirez-en un d'abord.` };
+    return { ok: false, error: `${MAX_FEATURED} projets maximum à la une, retirez-en un d'abord.` };
 
   const slug = slugify(p.slug || p.name) || `projet-${Date.now()}`;
   const clash = await db
@@ -124,7 +124,7 @@ export async function setProjectFlags(id: string, flags: { featured?: boolean; v
   await requireAdmin();
   const projectId = z.uuid().parse(id);
   if (flags.featured && (await featuredCount(projectId)) >= MAX_FEATURED)
-    return { ok: false, error: `${MAX_FEATURED} projets maximum à la une — retirez-en un d'abord.` };
+    return { ok: false, error: `${MAX_FEATURED} projets maximum à la une, retirez-en un d'abord.` };
   await db.update(projects).set({ ...flags, updatedAt: new Date() }).where(eq(projects.id, projectId));
   refresh();
   return { ok: true };

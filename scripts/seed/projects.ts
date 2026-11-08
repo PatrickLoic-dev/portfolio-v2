@@ -50,7 +50,7 @@ const extras: Record<string, Project["extras"]> = {
       headlines: {
         problem: "BICEC clients living abroad had no secure, practical way to manage their accounts from home.",
         approach: "A modular Angular frontend over idempotent NestJS calls.",
-        outcome: "A production banking platform — and fewer support tickets.",
+        outcome: "A production banking platform, and fewer support tickets.",
       },
       highlights: [
         { label: "Architecture", value: "Modular feature workspaces" },
@@ -63,7 +63,7 @@ const extras: Record<string, Project["extras"]> = {
       headlines: {
         problem: "Les clients BICEC de la diaspora n'avaient aucun moyen sûr et pratique de gérer leurs comptes à distance.",
         approach: "Un frontend Angular modulaire sur des appels NestJS idempotents.",
-        outcome: "Une plateforme bancaire en production — et moins de tickets support.",
+        outcome: "Une plateforme bancaire en production, et moins de tickets support.",
       },
       highlights: [
         { label: "Architecture", value: "Espaces fonctionnels modulaires" },

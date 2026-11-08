@@ -218,7 +218,7 @@ export function Composer({
               Partir d&apos;une note du blog
             </label>
             <select id="imp" className={field} value={d.noteId ?? ""} onChange={(e) => importNote(e.target.value)}>
-              <option value="">— Choisir une note —</option>
+              <option value="">Choisir une note</option>
               {notes.map((n) => (
                 <option key={n.id} value={n.id}>
                   {n.title}
@@ -290,7 +290,7 @@ export function Composer({
                 {activeTab === "all"
                   ? "Ce texte est utilisé partout, sauf là où vous l'adaptez."
                   : isCustom
-                    ? `Version adaptée pour ${NETWORKS[activeTab].name} — les autres réseaux gardent le texte commun.`
+                    ? `Version adaptée pour ${NETWORKS[activeTab].name}. Les autres réseaux gardent le texte commun.`
                     : `${NETWORKS[activeTab].name} utilise le texte commun. Cochez la case pour l'adapter.`}
               </span>
               {activeTab !== "all" && (
@@ -477,7 +477,7 @@ export function Composer({
                     {c.level === "error" ? "!" : c.level === "warn" ? "i" : "✓"}
                   </span>
                   <span>
-                    <b>{NETWORKS[c.network].name}</b> — {c.message}
+                    <b>{NETWORKS[c.network].name}</b> : {c.message}
                   </span>
                 </div>
               ))}

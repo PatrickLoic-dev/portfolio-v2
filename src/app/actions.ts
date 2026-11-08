@@ -22,7 +22,7 @@ export async function sendContact(_: FormState, formData: FormData): Promise<For
 
   const key = process.env.RESEND_API_KEY;
   if (!key) {
-    console.info("[contact] RESEND_API_KEY not set — message not emailed:", { name, email, kind, message });
+    console.info("[contact] RESEND_API_KEY not set, message not emailed:", { name, email, kind, message });
     return { status: "ok" };
   }
 
@@ -33,7 +33,7 @@ export async function sendContact(_: FormState, formData: FormData): Promise<For
       from: process.env.CONTACT_FROM ?? "Portfolio <onboarding@resend.dev>",
       to: [site.email],
       reply_to: email,
-      subject: `[Portfolio] ${kind} — ${name}`,
+      subject: `[Portfolio] ${kind} · ${name}`,
       text: `${name} <${email}>\n${kind}\n\n${message}`,
     }),
   });

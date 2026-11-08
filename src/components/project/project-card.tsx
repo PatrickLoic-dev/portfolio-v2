@@ -60,7 +60,7 @@ export function ProjectTile({ project }: { project: Project }) {
             <span className="card-title display text-[28px] tracking-[-0.03em]">{project.name}</span>
           </div>
           <span className="text-[15px] text-muted-foreground">
-            {t(project.type)} — {project.tags.join(" / ")}
+            {t(project.type)} · {project.tags.join(" / ")}
           </span>
         </div>
         <Arrow size={44} />

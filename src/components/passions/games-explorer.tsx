@@ -35,7 +35,7 @@ export function GamesExplorer({ games }: { games: PublicGame[] }) {
     [games, sort],
   );
 
-  const last = (d: number | null) => (d === null ? "—" : d < 30 ? t("last", { days: d }) : t("lastMonths", { months: Math.round(d / 30) }));
+  const last = (d: number | null) => (d === null ? "-" : d < 30 ? t("last", { days: d }) : t("lastMonths", { months: Math.round(d / 30) }));
 
   return (
     <>
@@ -94,7 +94,7 @@ export function GamesExplorer({ games }: { games: PublicGame[] }) {
                   {art && <h3 className="m-0 truncate text-base font-bold">{g.name}</h3>}
                   <div className="flex items-baseline justify-between">
                     <span className="font-semibold">{t("achievements")}</span>
-                    <span className="display text-[32px]">{g.pct === null ? "—" : `${g.pct}%`}</span>
+                    <span className="display text-[32px]">{g.pct === null ? "-" : `${g.pct}%`}</span>
                   </div>
                   <div
                     role="progressbar"

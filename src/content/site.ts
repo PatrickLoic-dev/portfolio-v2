@@ -27,6 +27,7 @@ export const toolkit = [
   "JavaScript",
   "TypeScript",
   "Angular",
+  "React Native",
   "Ionic",
   "React",
   "Next.js",
@@ -36,6 +37,7 @@ export const toolkit = [
   "Stencil",
   "NestJS",
   "Node.js",
+  "PostgreSQL",
   "MongoDB",
   "MySQL",
   "SQL",
@@ -45,8 +47,8 @@ export const toolkit = [
 
 export const toolkitGroups = [
   { key: "frontend", items: ["JavaScript", "TypeScript", "Angular", "React", "Next.js", "Redux", "Stencil"] },
-  { key: "mobile", items: ["Ionic", "Tailwind CSS", "Sass"] },
-  { key: "backend", items: ["NestJS", "Node.js", "MongoDB", "MySQL", "SQL"] },
+  { key: "mobile", items: ["React Native", "Ionic", "Tailwind CSS", "Sass"] },
+  { key: "backend", items: ["NestJS", "Node.js", "PostgreSQL", "MongoDB", "MySQL", "SQL"] },
   { key: "workflow", items: ["Docker", "Git", "Notion"] },
 ] as const;
 

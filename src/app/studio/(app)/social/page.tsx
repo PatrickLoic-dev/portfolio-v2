@@ -44,7 +44,7 @@ export default async function SocialOverviewPage() {
             href="/studio/social/posts?statut=due"
             label="À publier"
             value={counts.due}
-            note={counts.due ? "Prêtes — un clic par réseau" : "Rien en attente"}
+            note={counts.due ? "Prêtes, un clic par réseau" : "Rien en attente"}
             tone={counts.due ? "color-mix(in srgb, var(--accent) 16%, var(--card))" : undefined}
           />
           <Stat href="/studio/social/calendar" label="Programmées · 7 jours" value={counts.scheduledWeek} note={counts.next ? `Prochaine : ${fmtDayTime(counts.next)}` : "Rien de prévu"} />

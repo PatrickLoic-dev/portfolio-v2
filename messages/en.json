@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Patrick Loic — Digital Consultant & Frontend Engineer",
-    "description": "Digital consultant and frontend engineer based in Cameroon. Fintech, e-commerce and design-led web — founder of KreativEinfluss."
+    "title": "Patrick Loic · Digital Consultant & Frontend Engineer",
+    "description": "Digital consultant and frontend engineer based in Cameroon. Fintech, e-commerce and design-led web. Founder of KreativEinfluss."
   },
   "nav": {
     "home": "Home",
@@ -26,7 +26,7 @@
     "sitemap": "Sitemap",
     "elsewhere": "Elsewhere",
     "basedIn": "Based in",
-    "basedInValue": "Cameroon — working with teams worldwide",
+    "basedInValue": "Cameroon, working with teams worldwide",
     "built": "Designed & built in Cameroon"
   },
   "cta": {
@@ -35,7 +35,7 @@
     "getInTouch": "Get in touch"
   },
   "home": {
-    "role": "Digital Consultant & Frontend Engineer — Cameroon",
+    "role": "Digital Consultant & Frontend Engineer, Cameroon",
     "bio": "I'm a digital consultant and frontend engineer with experience across fintech, e-commerce, and design-led web. I'm also the founder of <studio>KreativEinfluss</studio>, a web studio crafting considered digital products for ambitious teams.",
     "viewWork": "View selected work",
     "getInTouch": "Get in touch",
@@ -50,18 +50,18 @@
       "studio": "Studio founded"
     },
     "toolkit": "Toolkit",
-    "selectedEyebrow": "(01) — Selected work",
+    "selectedEyebrow": "(01) Selected work",
     "selectedTitle": "Selected\nwork",
     "allProjects": "All projects ({count})",
-    "doEyebrow": "(02) — What I do",
+    "doEyebrow": "(02) What I do",
     "doTitle": "Four years\nof craft",
-    "doBody": "Crafting minimalist digital products with a focus on motion, typography and performance — from fintech platforms to editorial showcases.",
+    "doBody": "Crafting minimalist digital products with a focus on motion, typography and performance, from fintech platforms to editorial showcases.",
     "aboutMe": "About me",
     "howIWork": "How I work",
     "services": {
       "web": {
         "title": "Web platforms",
-        "body": "Banking portals, marketplaces and showcase sites built with Angular and Next.js — fast, accessible, typed end-to-end."
+        "body": "Banking portals, marketplaces and showcase sites built with Angular and Next.js: fast, accessible, typed end-to-end."
       },
       "mobile": {
         "title": "Mobile apps",
@@ -69,16 +69,16 @@
       },
       "api": {
         "title": "APIs & consulting",
-        "body": "NestJS services, payment flows and digital consulting — the backbone that keeps the interface honest."
+        "body": "NestJS services, payment flows and digital consulting: the backbone that keeps the interface honest."
       }
     },
-    "kindWords": "(03) — Kind words",
+    "kindWords": "(03) Kind words",
     "openTo": "Open to freelance & full-time",
     "talkTitle": "Let’s\ntalk",
     "talkBody": "Currently open to select freelance projects and full-time opportunities. Based in Cameroon, working with teams worldwide."
   },
   "testimonial": {
-    "quote": "Patrick brought a level of clarity to our frontend that we didn't know we were missing. He cares about the details that compound — performance, types, motion.",
+    "quote": "Patrick brought a level of clarity to our frontend that we didn't know we were missing. He cares about the details that compound: performance, types, motion.",
     "name": "Aïcha M.",
     "role": "Head of Product, Fintech"
   },
@@ -88,9 +88,9 @@
     "community": "Community"
   },
   "work": {
-    "eyebrow": "Selected work — {count} of {total}",
+    "eyebrow": "Selected work ({count} of {total})",
     "title": "Four years\nof craft",
-    "intro": "Banking platforms, marketplaces, mobile ordering and editorial showcases — professional and community work, built end-to-end.",
+    "intro": "Banking platforms, marketplaces, mobile ordering and editorial showcases: professional and community work, built end-to-end.",
     "filters": "Filters",
     "type": "Type",
     "tech": "Tech",
@@ -119,15 +119,15 @@
     "problem": "The problem",
     "approach": "The approach",
     "outcome": "The outcome",
-    "next": "Next project — {n}",
-    "metaTitle": "{name} — Case study",
+    "next": "Next project · {n}",
+    "metaTitle": "{name} · Case study",
     "role": "Role",
     "gallery": "Gallery"
   },
   "about": {
     "eyebrow": "About & experience",
     "title": "Kangue Kwelle\nPatrick Loic",
-    "lead": "I design and build modern, performant web and mobile experiences — from banking platforms to architectural showcases.",
+    "lead": "I design and build modern, performant web and mobile experiences, from banking platforms to architectural showcases.",
     "bio": "I'm a digital consultant and frontend engineer with experience across fintech, e-commerce, and design-led web. I'm also the founder of KreativEinfluss, a web studio crafting considered digital products for ambitious teams.",
     "portraitCaption": "Douala, Cameroon",
     "role": "Role",
@@ -137,9 +137,9 @@
     "status": "Status",
     "workWithMe": "Work with me",
     "downloadCv": "Download CV",
-    "xpEyebrow": "(01) — Experience",
+    "xpEyebrow": "(01) Experience",
     "xpTitle": "Where I've\nworked",
-    "toolkitEyebrow": "(02) — Toolkit",
+    "toolkitEyebrow": "(02) Toolkit",
     "toolkitTitle": "What I\nbuild with",
     "groups": {
       "frontend": "Frontend",
@@ -147,9 +147,9 @@
       "backend": "Backend & data",
       "workflow": "Workflow"
     },
-    "studioEyebrow": "(03) — The studio",
-    "studioBody": "A web studio crafting considered digital products for ambitious teams — founded and led by Patrick.",
-    "kindWords": "(04) — Kind words",
+    "studioEyebrow": "(03) The studio",
+    "studioBody": "A web studio crafting considered digital products for ambitious teams, founded and led by Patrick.",
+    "kindWords": "(04) Kind words",
     "xpTypes": {
       "fulltime": "Full-time",
       "internship": "Internship"
@@ -159,7 +159,7 @@
   "process": {
     "eyebrow": "How I work",
     "title": "From idea\nto shipped",
-    "intro": "A repeatable, honest process built from years of client work. No surprises, no theatre — just the steps that get a product from a first conversation to something real in users' hands.",
+    "intro": "A repeatable, honest process built from years of client work. No surprises, no theatre. Just the steps that get a product from a first conversation to something real in users' hands.",
     "steps": "Process steps",
     "whatYouGet": "What you get",
     "prev": "Previous step",
@@ -182,7 +182,7 @@
       },
       "design": {
         "title": "Design",
-        "desc": "Tokens, components and motion are defined early, then pressure-tested in interactive prototypes — with short feedback loops so nothing surprises you later.",
+        "desc": "Tokens, components and motion are defined early, then pressure-tested in interactive prototypes, with short feedback loops so nothing surprises you later.",
         "points": [
           "Design tokens & component system",
           "Interactive prototypes",
@@ -212,7 +212,7 @@
       },
       "iterate": {
         "title": "Iterate",
-        "desc": "The first release is data, not an ending. We review what users actually do and keep improving — or hand over cleanly.",
+        "desc": "The first release is data, not an ending. We review what users actually do and keep improving, or hand over cleanly.",
         "points": [
           "Post-launch review & analytics",
           "Backlog grooming with you",
@@ -245,20 +245,20 @@
     "yourEmail": "Your email",
     "emailPlaceholder": "jane@company.com",
     "message": "Tell me about it",
-    "messagePlaceholder": "Goals, timeline, links — whatever helps.",
+    "messagePlaceholder": "Goals, timeline, links: whatever helps.",
     "reply": "I reply to every message personally, by email.",
     "send": "Send message",
     "sending": "Sending…",
     "error": "Something went wrong. Please email me directly.",
     "sentTitle": "Message\nsent",
-    "sentBody": "Thanks — I'll get back to you by email. In the meantime, have a look at some recent work.",
+    "sentBody": "Thanks! I'll get back to you by email. In the meantime, have a look at some recent work.",
     "seeWork": "See the work",
     "again": "Send another"
   },
   "blog": {
-    "eyebrow": "Journal — {count} articles",
+    "eyebrow": "Journal · {count} articles",
     "title": "Notes from\nthe build",
-    "intro": "Articles on frontend engineering, product craft and running a studio — written from real client work in Cameroon and beyond.",
+    "intro": "Articles on frontend engineering, product craft and running a studio, written from real client work in Cameroon and beyond.",
     "search": "Search articles",
     "searchPlaceholder": "Search articles…",
     "subject": "Subject",
@@ -301,7 +301,7 @@
     "newsletterBody": "One email when a new article goes live. Unsubscribe in one click.",
     "newsletterEmail": "Email address",
     "subscribe": "Subscribe",
-    "subscribed": "You're in — check your inbox to confirm.",
+    "subscribed": "You're in! Check your inbox to confirm.",
     "author": "Frontend Engineer"
   },
   "post": {
@@ -333,9 +333,9 @@
     "intro": "When I'm not shipping, I'm grinding ranked matches, chasing trophies or digging for the next song to code to.",
     "gaming": "Gaming ↓",
     "music": "Music ↓",
-    "gamingEyebrow": "(01) — Gaming",
+    "gamingEyebrow": "(01) Gaming",
     "gamingTitle": "Press\nstart",
-    "gamingBody": "Hours and achievements synced from my Steam profile. Fighting games are home — I also build sites for the Tekken community.",
+    "gamingBody": "Hours and achievements synced from my Steam profile. Fighting games are home, and I also build sites for the Tekken community.",
     "profile": "Profile ↗",
     "games": "Games",
     "avgCompletion": "Avg. completion",
@@ -350,9 +350,9 @@
     "unlocked": "{got} / {total} unlocked",
     "last": "{days, plural, =0 {today} =1 {yesterday} other {# days ago}}",
     "lastMonths": "{months} mo ago",
-    "musicEyebrow": "(02) — Music",
+    "musicEyebrow": "(02) Music",
     "musicTitle": "On\nrepeat",
-    "musicBody": "The song and the mood of the moment — updated whenever the vibe changes.",
+    "musicBody": "The song and the mood of the moment, updated whenever the vibe changes.",
     "songOfMoment": "Song of the moment",
     "coverAlt": "Cover art",
     "updated": "Updated {when}",
@@ -365,7 +365,7 @@
   },
   "notFound": {
     "title": "Lost\nin space",
-    "body": "This page doesn't exist — or it moved.",
+    "body": "This page doesn't exist, or it moved.",
     "home": "Back home"
   }
 }

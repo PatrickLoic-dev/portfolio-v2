@@ -26,7 +26,7 @@ function NetworkStep({ post, network }: { post: PostView; network: SocialNetwork
       setCopied(what);
       setTimeout(() => setCopied(null), 1800);
     } catch {
-      toast("Copie impossible — sélectionnez le texte à la main.", { tone: "error" });
+      toast("Copie impossible, sélectionnez le texte à la main.", { tone: "error" });
     }
   };
 

@@ -41,7 +41,7 @@ async function get<T>(path: string, params: Record<string, string | number>): Pr
   const url = new URL(`${API}/${path}`);
   Object.entries({ key: key(), format: "json", ...params }).forEach(([k, v]) => url.searchParams.set(k, String(v)));
   const res = await steamFetch(url);
-  if (res.status === 403) throw new SteamError("Clé Steam refusée — vérifiez STEAM_API_KEY.");
+  if (res.status === 403) throw new SteamError("Clé Steam refusée, vérifiez STEAM_API_KEY.");
   if (!res.ok) throw new SteamError(`Steam a répondu ${res.status}.`);
   return res.json() as Promise<T>;
 }
@@ -161,7 +161,7 @@ async function storeName(appid: number) {
   if (!res.ok) throw new SteamError("Le Steam Store ne répond pas. Réessayez plus tard.");
   const data = (await res.json()) as Record<string, { success: boolean; data?: { name?: string } }>;
   const name = data[appid]?.success ? data[appid].data?.name : null;
-  if (!name) throw new SteamError("Jeu introuvable sur le Steam Store — vérifiez le lien.");
+  if (!name) throw new SteamError("Jeu introuvable sur le Steam Store, vérifiez le lien.");
   return name;
 }
 

@@ -50,7 +50,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/work/
           </Link>
           <span aria-hidden>/</span>
           <span className="text-foreground" aria-current="page">
-            {project.n} — {project.name}
+            {project.n} · {project.name}
           </span>
         </nav>
 
@@ -108,7 +108,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/work/
               {project.sections.map((s, i) => (
                 <Reveal as="article" key={s.key} id={s.key} className="flex scroll-mt-24 flex-col gap-6">
                   <span className="label text-accent-ink">
-                    0{i + 1} — {t(s.key)}
+                    0{i + 1} · {t(s.key)}
                   </span>
                   {s.title && <h2 className="heading max-w-[820px] text-[clamp(30px,3.4vw,48px)] leading-[1.1]">{s.title}</h2>}
                   {s.body && (
@@ -143,7 +143,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/work/
                       className={`hairline overflow-hidden rounded-[22px] border bg-surface ${all.length % 2 === 1 && i === all.length - 1 ? "col-span-full" : ""}`}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={src} alt={`${project.name} — ${i + 2}`} className="size-full object-cover" loading="lazy" />
+                      <img src={src} alt={`${project.name} ${i + 2}`} className="size-full object-cover" loading="lazy" />
                     </Reveal>
                   ))}
                 </div>
@@ -170,7 +170,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/work/
               </span>
             </div>
             <p className="mb-0 mt-6 max-w-[520px] text-[17px] leading-[1.55] text-background/70">
-              {next.tags.join(" · ")} — {next.description}
+              {next.tags.join(" · ")} · {next.description}
             </p>
           </Link>
         ) : (

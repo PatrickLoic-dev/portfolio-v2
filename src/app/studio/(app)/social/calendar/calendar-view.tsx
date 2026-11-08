@@ -46,7 +46,7 @@ export function CalendarView({
   const visible = posts.filter((p) => p.networks.some((n) => filter.includes(n)));
   const sel = posts.find((p) => p.id === selected) ?? queue.find((p) => p.id === selected) ?? null;
   const weekParam = (offset: number) => local(new Date(startMs + offset * 7 * DAY).toISOString()).toISOString().slice(0, 10);
-  const label = `${dayFmt.format(local(days[0].toISOString()))} — ${dayFmt.format(local(days[6].toISOString()))}`;
+  const label = `${dayFmt.format(local(days[0].toISOString()))} au ${dayFmt.format(local(days[6].toISOString()))}`;
 
   const run = (fn: () => Promise<{ ok: boolean; error?: string }>, ok: string) =>
     start(async () => {
@@ -205,7 +205,7 @@ export function CalendarView({
                               const r = await unschedule(sel.id);
                               setSelected(null);
                               return r;
-                            }, "Déprogrammée — remise dans la file d'attente")
+                            }, "Déprogrammée, remise dans la file d'attente")
                           }
                         >
                           <Undo2 size={15} aria-hidden /> Déprogrammer
@@ -233,7 +233,7 @@ export function CalendarView({
                 {queue.length} brouillon{queue.length > 1 ? "s" : ""}
               </span>
             </div>
-            {queue.length === 0 && <span className="text-sm text-muted-foreground">File vide — tout est planifié.</span>}
+            {queue.length === 0 && <span className="text-sm text-muted-foreground">File vide, tout est planifié.</span>}
             {queue.map((q) => (
               <div key={q.id} className="hairline flex flex-col gap-2 border-t py-3">
                 <button type="button" onClick={() => setSelected(q.id)} className="flex items-start gap-2 text-left">

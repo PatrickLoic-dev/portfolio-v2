@@ -1,6 +1,6 @@
 ## Le problème du double tap
 
-Sur la fibre, une requête de paiement revient en quelques centaines de millisecondes. Sur un réseau mobile saturé à l'étranger, elle peut rester bloquée dix secondes — assez pour qu'un utilisateur inquiet appuie à nouveau sur « Envoyer », ou que l'app relance d'elle-même.
+Sur la fibre, une requête de paiement revient en quelques centaines de millisecondes. Sur un réseau mobile saturé à l'étranger, elle peut rester bloquée dix secondes, assez pour qu'un utilisateur inquiet appuie à nouveau sur « Envoyer », ou que l'app relance d'elle-même.
 
 Sans protection, les deux requêtes atteignent l'API. Les deux semblent valides. Les deux déplacent de l'argent.
 
@@ -17,7 +17,7 @@ return this.http.post<TransferResult>(
 ).pipe(retry({ count: 3, delay: backoff }));
 ```
 
-Comme la clé est créée avant la première tentative, chaque retry — automatique ou humain — porte la même identité.
+Comme la clé est créée avant la première tentative, chaque retry (automatique ou humain) porte la même identité.
 
 > Un retry ne devrait jamais être une nouvelle décision. C'est la même décision, posée une seconde fois.
 
@@ -25,16 +25,16 @@ Comme la clé est créée avant la première tentative, chaque retry — automat
 
 Partager les types de requête et de réponse entre Angular et NestJS a fait qu'un champ renommé cassait le build plutôt qu'un virement. Cela a aussi rendu les états explicites :
 
-- **pending** — accepté, pas encore réglé
-- **completed** — l'argent a bougé, on affiche le reçu
-- **rejected** — rien n'a bougé, on peut réessayer sans risque
+- **pending** : accepté, pas encore réglé
+- **completed** : l'argent a bougé, on affiche le reçu
+- **rejected** : rien n'a bougé, on peut réessayer sans risque
 
 ## Ce que voit l'utilisateur
 
-Le bouton se verrouille dès qu'on appuie dessus, et une réponse lente affiche « Envoi en cours — ne fermez pas cette page » au lieu d'un spinner qui semble figé.
+Le bouton se verrouille dès qu'on appuie dessus, et une réponse lente affiche « Envoi en cours, ne fermez pas cette page » au lieu d'un spinner qui semble figé.
 
 > [!TIP]
-> Astuce — journalisez la clé d'idempotence avec chaque rapport d'erreur. Le support peut alors répondre à « est-ce que c'est passé ? » en quelques secondes.
+> Astuce : journalisez la clé d'idempotence avec chaque rapport d'erreur. Le support peut alors répondre à « est-ce que c'est passé ? » en quelques secondes.
 
 ## À retenir
 

@@ -94,7 +94,7 @@ function FamilyForm({ disabled }: { disabled: boolean }) {
 }
 
 const last = (d: number | null) =>
-  d === null ? "—" : d === 0 ? "aujourd'hui" : d === 1 ? "hier" : d < 30 ? `il y a ${d} j` : `il y a ${Math.round(d / 30)} mois`;
+  d === null ? "-" : d === 0 ? "aujourd'hui" : d === 1 ? "hier" : d < 30 ? `il y a ${d} j` : `il y a ${Math.round(d / 30)} mois`;
 
 const grid = "grid grid-cols-[minmax(0,1fr)_110px_52px] items-center gap-4 nav:grid-cols-[86px_minmax(0,2fr)_minmax(0,1.4fr)_80px_120px_80px]";
 
@@ -126,7 +126,7 @@ export function GamesManager({
     startSync(async () => {
       const res = await syncSteamNow(steamId);
       if (!res.ok) return toast(res.error, { tone: "error" });
-      toast(`Steam synchronisé — ${res.data!.count} jeux`);
+      toast(`Steam synchronisé : ${res.data!.count} jeux`);
     });
 
   const sorted = [...list].sort((a, b) => (b.pct ?? -1) - (a.pct ?? -1) || b.hours - a.hours);
@@ -135,7 +135,7 @@ export function GamesManager({
     <>
       {sample && (
         <div role="note" className="rounded-2xl border border-dashed border-accent/50 bg-blob-c/40 px-5 py-3.5 text-sm font-medium">
-          Données d&apos;exemple — elles seront remplacées par vos vrais jeux et succès après la première synchronisation Steam.
+          Données d&apos;exemple : elles seront remplacées par vos vrais jeux et succès après la première synchronisation Steam.
         </div>
       )}
 
@@ -273,12 +273,12 @@ export function GamesManager({
                 <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
                   <div className={cn("h-2 rounded-full", g.pct === 100 ? "bg-success" : "bg-accent")} style={{ width: `${g.pct ?? 0}%` }} />
                 </div>
-                <b className="w-11 text-right text-sm">{g.pct === null ? "—" : `${g.pct} %`}</b>
+                <b className="w-11 text-right text-sm">{g.pct === null ? "-" : `${g.pct} %`}</b>
               </div>
               {g.family ? (
                 <span className="hidden items-center gap-1 nav:flex">
                   <label className="sr-only" htmlFor={`h-${g.id}`}>
-                    Heures jouées — {g.name}
+                    Heures jouées : {g.name}
                   </label>
                   <input
                     id={`h-${g.id}`}
@@ -346,7 +346,7 @@ export function GamesManager({
           );
         })}
         {list.length === 0 && (
-          <p className="hairline m-0 border-t px-6 py-12 text-center text-muted-foreground">Aucun jeu pour l&apos;instant — liez votre compte Steam.</p>
+          <p className="hairline m-0 border-t px-6 py-12 text-center text-muted-foreground">Aucun jeu pour l&apos;instant. Liez votre compte Steam.</p>
         )}
       </div>
     </>

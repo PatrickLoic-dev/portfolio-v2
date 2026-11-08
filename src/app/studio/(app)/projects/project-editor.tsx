@@ -30,9 +30,9 @@ const COVERS: [Tone, string][] = [
 ];
 
 const SECTIONS = [
-  { key: "problem", label: "01 — Le problème" },
-  { key: "approach", label: "02 — L'approche" },
-  { key: "outcome", label: "03 — Le résultat" },
+  { key: "problem", label: "01 · Le problème" },
+  { key: "approach", label: "02 · L'approche" },
+  { key: "outcome", label: "03 · Le résultat" },
 ] as const;
 
 const field = "field min-h-11 rounded-xl py-2 text-[15px]";
@@ -159,7 +159,7 @@ export function ProjectEditor({ initial }: { initial: EditorProject }) {
               ? "Modifications non enregistrées"
               : savedAt
                 ? `Enregistré · ${new Date(savedAt).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`
-                : "Nouveau projet — non enregistré"}
+                : "Nouveau projet (non enregistré)"}
         </span>
       </StudioTopBar>
 
@@ -304,12 +304,12 @@ export function ProjectEditor({ initial }: { initial: EditorProject }) {
                     <input
                       id={`${s.key}-t`}
                       className={cn(field, "bg-card font-semibold")}
-                      placeholder="Titre (facultatif) — une phrase forte"
+                      placeholder="Titre (facultatif) : une phrase forte"
                       value={t[`${s.key}Title`]}
                       onChange={(e) => updText({ [`${s.key}Title`]: e.target.value } as Partial<Text>)}
                     />
                     <label className="sr-only" htmlFor={`${s.key}-b`}>
-                      {s.label} — texte
+                      {s.label} · texte
                     </label>
                     <textarea
                       id={`${s.key}-b`}

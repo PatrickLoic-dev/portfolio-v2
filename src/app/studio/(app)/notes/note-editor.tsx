@@ -269,7 +269,7 @@ export function NoteEditor({
               ? "Modifications non enregistrées"
               : savedAt
                 ? `Enregistré · ${new Date(savedAt).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`
-                : "Nouvelle note — non enregistrée"}
+                : "Nouvelle note (non enregistrée)"}
         </span>
         <div role="tablist" aria-label="Mode" className="hairline flex gap-1 rounded-full border bg-card p-1">
           {(["write", "preview"] as const).map((m) => (
@@ -346,7 +346,7 @@ export function NoteEditor({
                     lang={lang}
                     rows={2}
                     className="w-full resize-none border-0 bg-transparent p-0 text-[19px] leading-[1.55] text-muted-foreground outline-none placeholder:text-muted-foreground/70"
-                    placeholder="Chapeau — une ou deux phrases qui donnent envie de lire."
+                    placeholder="Chapeau : une ou deux phrases qui donnent envie de lire."
                     value={t.dek}
                     onChange={(e) => updText({ dek: e.target.value })}
                   />

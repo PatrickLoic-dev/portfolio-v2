@@ -54,7 +54,7 @@ export function MusicEditor({
         album: info.album || d.album,
         artworkUrl: info.artworkUrl ?? d.artworkUrl,
       });
-      toast(info.provider === "spotify" && !info.artist ? "Titre et pochette récupérés — complétez l'artiste" : "Infos récupérées");
+      toast(info.provider === "spotify" && !info.artist ? "Titre et pochette récupérés, complétez l'artiste" : "Infos récupérées");
     });
 
   const publish = () =>
@@ -279,7 +279,7 @@ export function MusicEditor({
                   void id;
                   void createdAt;
                   setD(song);
-                  toast("Morceau rechargé — cliquez sur « Mettre à jour le site »");
+                  toast("Morceau rechargé, cliquez sur « Mettre à jour le site »");
                 }}
               >
                 Remettre

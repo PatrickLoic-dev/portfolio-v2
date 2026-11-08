@@ -19,7 +19,7 @@ const PAGES: Record<StatusFilter, { title: string; intro: string; empty: string 
   draft: {
     title: "Brouillons",
     intro: "Les notes en cours d'écriture, triées par dernière modification.",
-    empty: "Aucun brouillon — tout est publié.",
+    empty: "Aucun brouillon, tout est publié.",
   },
   scheduled: {
     title: "Programmées",

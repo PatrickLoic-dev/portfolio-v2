@@ -56,7 +56,7 @@ export default async function PassionsPage({ params }: PageProps<"/[locale]/pass
   const withPct = view.filter((g) => g.pct !== null);
   const stats = [
     { label: t("games"), value: String(view.length) },
-    { label: t("avgCompletion"), value: withPct.length ? `${Math.round(withPct.reduce((a, g) => a + (g.pct ?? 0), 0) / withPct.length)}%` : "—" },
+    { label: t("avgCompletion"), value: withPct.length ? `${Math.round(withPct.reduce((a, g) => a + (g.pct ?? 0), 0) / withPct.length)}%` : "-" },
     { label: t("perfect"), value: String(withPct.filter((g) => g.pct === 100).length) },
   ];
   const pinnedPct = pinned ? gamePct(pinned) : null;

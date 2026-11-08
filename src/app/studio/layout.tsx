@@ -5,7 +5,7 @@ import { fontVariables } from "../fonts";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: { default: "Studio", template: "%s — Studio" },
+  title: { default: "Studio", template: "%s · Studio" },
   robots: { index: false, follow: false },
 };
 

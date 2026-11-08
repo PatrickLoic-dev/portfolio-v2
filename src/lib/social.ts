@@ -102,7 +102,7 @@ export function checks(d: Draft): Check[] {
     if (r.needsMedia && !d.media.length) out.push({ network: n, level: "error", message: "au moins une image est obligatoire." });
     if (d.media.length > r.maxImages) out.push({ network: n, level: "error", message: `${r.maxImages} images maximum.` });
     if (r.maxHashtags && hashtags(t) > r.maxHashtags) out.push({ network: n, level: "error", message: `${r.maxHashtags} hashtags maximum (${hashtags(t)}).` });
-    if (n === "instagram" && d.link) out.push({ network: n, level: "warn", message: "les liens ne sont pas cliquables — mettez-le en bio ou en premier commentaire." });
+    if (n === "instagram" && d.link) out.push({ network: n, level: "warn", message: "les liens ne sont pas cliquables : mettez-le en bio ou en premier commentaire." });
     if (r.fold && len > r.fold && len <= r.limit) out.push({ network: n, level: "warn", message: `coupé après ~${r.fold} caractères (« voir plus »).` });
     if (n === "x" && len > 250 && len <= r.limit) out.push({ network: n, level: "warn", message: "proche de la limite." });
     if (out.length === before) out.push({ network: n, level: "ok", message: "prêt à publier." });

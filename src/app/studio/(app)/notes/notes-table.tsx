@@ -250,7 +250,7 @@ export function NotesTable({
               <StatusBadge status={r.status} />
             </span>
             <span className="hidden font-mono text-xs text-muted-foreground nav:block">
-              {r.status === "draft" ? whenLabel(r.status, r.publishedAt, r.updatedAt) : r.publishedAt ? `${r.status === "scheduled" ? "Le " : ""}${fmtDay(r.publishedAt)}` : "—"}
+              {r.status === "draft" ? whenLabel(r.status, r.publishedAt, r.updatedAt) : r.publishedAt ? `${r.status === "scheduled" ? "Le " : ""}${fmtDay(r.publishedAt)}` : "-"}
             </span>
             <div className="hidden justify-end gap-1.5 nav:flex">
               <Link href={`/studio/notes/${r.id}`} className="icon-btn size-10" aria-label={`Éditer « ${r.title} »`} title="Éditer">

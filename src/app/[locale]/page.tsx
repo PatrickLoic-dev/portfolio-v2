@@ -15,8 +15,8 @@ export const dynamic = "force-dynamic";
 
 const services = [
   { key: "web", icon: Monitor, tone: "bg-blob-a", stack: "Angular · Next.js · React" },
-  { key: "mobile", icon: Smartphone, tone: "bg-blob-b", stack: "Ionic · Angular" },
-  { key: "api", icon: Code2, tone: "bg-blob-c", stack: "NestJS · Node.js · SQL" },
+  { key: "mobile", icon: Smartphone, tone: "bg-blob-b", stack: "React Native · Ionic · Angular" },
+  { key: "api", icon: Code2, tone: "bg-blob-c", stack: "NestJS · Node.js · PostgreSQL" },
 ] as const;
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {

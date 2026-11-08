@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
   const t = await getTranslations({ locale, namespace: "meta" });
   return {
     metadataBase: new URL(site.url),
-    title: { default: t("title"), template: `%s — ${site.name}` },
+    title: { default: t("title"), template: `%s · ${site.name}` },
     description: t("description"),
     openGraph: { title: t("title"), description: t("description"), siteName: site.name, locale },
     alternates: { languages: { en: "/", fr: "/fr" } },

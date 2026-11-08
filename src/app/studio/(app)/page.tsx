@@ -89,7 +89,7 @@ export default async function DashboardPage() {
             dot={statusMeta.scheduled.dot}
             note={next ? `Prochaine : ${fmtDay(next)}` : "Rien de prévu"}
           />
-          <StatCard label="Abonnés newsletter" value="—" dot="var(--accent-ink)" note="À connecter" />
+          <StatCard label="Abonnés newsletter" value="-" dot="var(--accent-ink)" note="À connecter" />
         </div>
 
         <div className="flex flex-wrap items-start gap-5">

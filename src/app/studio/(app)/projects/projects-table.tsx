@@ -153,7 +153,7 @@ export function ProjectsTable({ projects }: { projects: Row[] }) {
                     r.featured ? "border-accent/40 bg-accent/10 text-accent" : "border-ink/18 text-muted-foreground hover:text-foreground",
                   )}
                   onClick={() => {
-                    if (!r.featured && featuredCount >= MAX) return toast(`${MAX} projets maximum à la une — retirez-en un d'abord`, { tone: "error" });
+                    if (!r.featured && featuredCount >= MAX) return toast(`${MAX} projets maximum à la une, retirez-en un d'abord`, { tone: "error" });
                     run(async () => {
                       update({ id: r.id, featured: !r.featured });
                       return setProjectFlags(r.id, { featured: !r.featured });

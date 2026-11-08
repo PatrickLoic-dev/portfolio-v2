@@ -88,7 +88,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
             <SplitHeadline text={t("xpTitle")} className="text-[clamp(44px,6vw,88px)]" />
           </div>
           <span className="label text-muted-foreground">
-            {years[0]} — {years[years.length - 1]}
+            {years[0]} → {years[years.length - 1]}
           </span>
         </div>
         <Stagger as="ul" className="hairline m-0 list-none border-b p-0">
@@ -108,7 +108,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
                 <span className="chip bg-secondary!">{t("months", { count: x.months })}</span>
               </span>
               <span className="label col-start-2 text-muted-foreground nav:col-start-auto">
-                {month(x.start)} — {month(x.end)}
+                {month(x.start)} → {month(x.end)}
               </span>
             </StaggerItem>
           ))}

@@ -40,9 +40,23 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // New page → start at the top.
+  // New page → start at the top, or at the #anchor when the URL has one.
   useEffect(() => {
-    lenis.current?.scrollTo(0, { immediate: true });
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    const target = id ? document.getElementById(id) : null;
+    if (!target) {
+      lenis.current?.scrollTo(0, { immediate: true });
+      return;
+    }
+    // Jump now, then once more after the page has settled (cards and media
+    // above the anchor can still shift the layout right after navigation).
+    const go = () => lenis.current?.scrollTo(target, { offset: -24, immediate: true });
+    go();
+    const settle = window.setTimeout(() => {
+      lenis.current?.resize();
+      go();
+    }, 400);
+    return () => window.clearTimeout(settle);
   }, [pathname]);
 
   return <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>;

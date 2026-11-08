@@ -1,5 +1,6 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Code2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { BrandIcon } from "@/components/brand-icon";
 import type { PublicProject as Project } from "@/lib/portfolio";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
@@ -95,6 +96,56 @@ export function ProjectCard({ project }: { project: Project }) {
       </div>
     </Link>
   );
+}
+
+/**
+ * Side-project card: the case study link, plus a separate link to the
+ * source code when the project is open source (links can't be nested).
+ */
+export function SideProjectCard({ project }: { project: Project }) {
+  const t = useTranslations("work");
+  return (
+    <article className="flex flex-col">
+      <Link href={`/work/${project.slug}`} className="card-link block">
+        <div className="overflow-hidden rounded-[22px]">
+          <ProjectMedia project={project} size="card" className="aspect-[5/4]" />
+        </div>
+        <div className="flex flex-col gap-2.5 pt-5">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-baseline gap-3.5">
+              <span className="label text-muted-foreground">{project.n}</span>
+              <span className="card-title display text-[26px] tracking-[-0.03em]">{project.name}</span>
+            </div>
+            <Arrow />
+          </div>
+          <p className="m-0 text-[15px] leading-[1.55] text-muted-foreground">{project.description}</p>
+          <div className="mt-1 flex flex-wrap gap-1.5">
+            <span className={cn("chip", project.openSource && "chip-ink")}>{project.openSource ? t("openSource") : t("closedSource")}</span>
+            {project.tags.map((tag) => (
+              <span key={tag} className="chip">{tag}</span>
+            ))}
+          </div>
+        </div>
+      </Link>
+      {project.repo && (
+        <a
+          href={project.repo}
+          target="_blank"
+          rel="noreferrer"
+          className="link-underline mt-3.5 inline-flex min-h-11 items-center gap-2 self-start text-sm font-semibold"
+        >
+          <RepoIcon url={project.repo} />
+          {t("viewCode")}
+          <ArrowUpRight size={14} aria-hidden />
+        </a>
+      )}
+    </article>
+  );
+}
+
+/** GitHub mark for GitHub repos, a generic code icon otherwise. */
+export function RepoIcon({ url, size = 16 }: { url: string; size?: number }) {
+  return /github\.com/i.test(url) ? <BrandIcon brand="github" size={size} /> : <Code2 size={size} aria-hidden />;
 }
 
 /** Row in the Work list view. */

@@ -37,6 +37,8 @@ export default async function EditProjectPage({ params }: PageProps<"/studio/pro
         client: p.client ?? "",
         role: p.role ?? "",
         liveUrl: p.liveUrl ?? "",
+        openSource: p.openSource,
+        repoUrl: p.repoUrl ?? "",
         tone: p.tone,
         tags: p.tags,
         media: p.media,

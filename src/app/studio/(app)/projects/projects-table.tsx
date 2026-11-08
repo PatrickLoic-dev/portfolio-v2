@@ -16,7 +16,8 @@ type Row = {
   slug: string;
   name: string;
   description: string;
-  type: "professional" | "community";
+  type: "professional" | "community" | "personal";
+  openSource: boolean;
   status: "draft" | "published";
   tags: string[];
   tone: string;
@@ -30,7 +31,14 @@ const TABS = [
   { key: "all", label: "Tous" },
   { key: "professional", label: "Professionnels" },
   { key: "community", label: "Communauté" },
+  { key: "personal", label: "Persos" },
 ] as const;
+
+const TYPE_BADGE: Record<Row["type"], { label: string; bg: string }> = {
+  professional: { label: "Pro", bg: "var(--muted)" },
+  community: { label: "Communauté", bg: "var(--secondary)" },
+  personal: { label: "Perso", bg: "var(--blob-c)" },
+};
 
 const grid =
   "grid grid-cols-[44px_minmax(0,1fr)_52px] items-center gap-4 nav:grid-cols-[44px_56px_minmax(0,2.4fr)_minmax(0,1.2fr)_110px_72px_72px_140px]";
@@ -137,9 +145,11 @@ export function ProjectsTable({ projects }: { projects: Row[] }) {
               <span className="hidden nav:block">
                 <span
                   className="inline-flex min-h-7 items-center rounded-full px-2.5 text-xs font-semibold"
-                  style={{ background: r.type === "professional" ? "var(--muted)" : "var(--secondary)" }}
+                  style={{ background: TYPE_BADGE[r.type].bg }}
+                  title={r.type === "personal" ? (r.openSource ? "Projet perso open source" : "Projet perso, code privé") : undefined}
                 >
-                  {r.type === "professional" ? "Pro" : "Communauté"}
+                  {TYPE_BADGE[r.type].label}
+                  {r.type === "personal" && <span className="ml-1 font-mono text-[10px] opacity-70">{r.openSource ? "OSS" : "privé"}</span>}
                 </span>
               </span>
               <span className="hidden nav:block">

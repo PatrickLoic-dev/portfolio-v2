@@ -85,7 +85,8 @@
   "types": {
     "all": "Tous",
     "professional": "Professionnel",
-    "community": "Communauté"
+    "community": "Communauté",
+    "personal": "Perso"
   },
   "work": {
     "eyebrow": "Projets ({count} sur {total})",
@@ -103,7 +104,16 @@
     "emptyBody": "Aucun projet ne combine encore ces filtres.",
     "reset": "Réinitialiser",
     "appScreen": "Écran de l'app",
-    "screenshot": "Capture"
+    "screenshot": "Capture",
+    "sideEyebrow": "(02) Projets persos · {count}",
+    "sideTitle": "Construits\npar passion",
+    "sideIntro": "Expériences, outils et idées que je construis sur mon temps libre. Les projets open source renvoient directement vers leur code.",
+    "source": "Code",
+    "filterSource": "Filtrer les projets persos par code source",
+    "openSource": "Open source",
+    "closedSource": "Code privé",
+    "viewCode": "Voir le code",
+    "sideEmpty": "Pas encore de projet perso dans cette catégorie."
   },
   "project": {
     "allProjects": "Tous les projets",
@@ -122,7 +132,12 @@
     "next": "Projet suivant · {n}",
     "metaTitle": "{name} · Étude de cas",
     "role": "Rôle",
-    "gallery": "Galerie"
+    "gallery": "Galerie",
+    "source": "Code source",
+    "openSource": "Open source",
+    "closedSource": "Code privé",
+    "viewCode": "Voir le code source",
+    "allSide": "Tous les projets persos"
   },
   "about": {
     "eyebrow": "À propos & expérience",

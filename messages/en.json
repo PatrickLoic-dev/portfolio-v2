@@ -85,7 +85,8 @@
   "types": {
     "all": "All",
     "professional": "Professional",
-    "community": "Community"
+    "community": "Community",
+    "personal": "Personal"
   },
   "work": {
     "eyebrow": "Selected work ({count} of {total})",
@@ -103,7 +104,16 @@
     "emptyBody": "No project combines these filters yet.",
     "reset": "Reset filters",
     "appScreen": "App screen",
-    "screenshot": "Screenshot"
+    "screenshot": "Screenshot",
+    "sideEyebrow": "(02) Side projects · {count}",
+    "sideTitle": "Built for\nthe love of it",
+    "sideIntro": "Experiments, tools and ideas I build on my own time. The open-source ones link straight to their code.",
+    "source": "Source",
+    "filterSource": "Filter side projects by source",
+    "openSource": "Open source",
+    "closedSource": "Closed source",
+    "viewCode": "View code",
+    "sideEmpty": "No side project in this category yet."
   },
   "project": {
     "allProjects": "All projects",
@@ -122,7 +132,12 @@
     "next": "Next project · {n}",
     "metaTitle": "{name} · Case study",
     "role": "Role",
-    "gallery": "Gallery"
+    "gallery": "Gallery",
+    "source": "Source code",
+    "openSource": "Open source",
+    "closedSource": "Closed source",
+    "viewCode": "View the source code",
+    "allSide": "All side projects"
   },
   "about": {
     "eyebrow": "About & experience",

@@ -14,20 +14,23 @@ const emptyText = {
   outcome: "",
 };
 
-export default function NewProjectPage() {
+export default async function NewProjectPage({ searchParams }: PageProps<"/studio/projects/new">) {
+  const personal = (await searchParams).type === "personal";
   return (
     <ProjectEditor
       initial={{
         id: null,
         slug: "",
         name: "",
-        type: "professional",
+        type: personal ? "personal" : "professional",
         platform: "web",
         status: "draft",
         featured: false,
         client: "",
         role: "",
         liveUrl: "",
+        openSource: false,
+        repoUrl: "",
         tone: "peach",
         tags: [],
         media: [],

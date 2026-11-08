@@ -14,6 +14,10 @@ export default async function ProjectsPage() {
   return (
     <>
       <StudioTopBar crumbs={[{ label: "Studio", href: "/studio" }, { label: "Projets" }]}>
+        <Link href="/studio/projects/new?type=personal" className="btn btn-ghost min-h-11 px-[18px] text-sm">
+          <Plus size={16} aria-hidden />
+          Projet perso
+        </Link>
         <Link href="/studio/projects/new" className="btn btn-primary min-h-11 px-[18px] text-sm">
           <Plus size={16} aria-hidden />
           Nouveau projet
@@ -23,7 +27,7 @@ export default async function ProjectsPage() {
         <StudioHeading
           kicker={`Portfolio · ${visible} visibles sur ${list.length}`}
           title="Projets"
-          intro="L'ordre ici est l'ordre de la page Work. Les projets « à la une » (5 maximum) apparaissent sur l'accueil."
+          intro="L'ordre ici est l'ordre de la page Work (les projets persos ont leur propre section, dans le même ordre). Les projets « à la une » (5 maximum) apparaissent sur l'accueil."
         />
         <ProjectsTable
           projects={list.map((p) => ({
@@ -32,6 +36,7 @@ export default async function ProjectsPage() {
             name: p.name,
             description: p.description,
             type: p.type,
+            openSource: p.openSource,
             status: p.status,
             tags: p.tags,
             tone: p.tone,

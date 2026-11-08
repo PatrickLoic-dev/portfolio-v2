@@ -90,7 +90,7 @@ export const ideas = pgTable("ideas", {
 /* Projects                                                            */
 /* ------------------------------------------------------------------ */
 
-export const projectType = pgEnum("project_type", ["professional", "community"]);
+export const projectType = pgEnum("project_type", ["professional", "community", "personal"]);
 export const projectPlatform = pgEnum("project_platform", ["web", "mobile"]);
 export const projectStatus = pgEnum("project_status", ["draft", "published"]);
 
@@ -114,6 +114,9 @@ export const projects = pgTable(
     client: text("client"),
     role: text("role"),
     liveUrl: text("live_url"),
+    /** Personal projects: public source code, and where it lives. */
+    openSource: boolean("open_source").notNull().default(false),
+    repoUrl: text("repo_url"),
     tone: text("tone").notNull().default("peach"),
     tags: text("tags").array().notNull().default(sql`'{}'::text[]`),
     /** Screenshots (Storage URLs). The first one replaces the stylised frame. */

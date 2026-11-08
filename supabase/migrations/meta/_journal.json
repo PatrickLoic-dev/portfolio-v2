@@ -29,6 +29,13 @@
       "when": 1794159246324,
       "tag": "20261108173406_social_planner",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794176673641,
+      "tag": "20261108222433_personal_projects",
+      "breakpoints": true
     }
   ]
 }

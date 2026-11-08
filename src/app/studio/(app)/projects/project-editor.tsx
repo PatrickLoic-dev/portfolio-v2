@@ -8,6 +8,7 @@ import { useEffect, useRef, useState, useTransition, type ChangeEvent, type Form
 import { EASE } from "@/components/motion/ease";
 import { ProjectMedia } from "@/components/project/project-media";
 import { StudioTopBar } from "@/components/studio/page-header";
+import { Switch } from "@/components/studio/switch";
 import { useToast } from "@/components/studio/toast";
 import { cn } from "@/lib/cn";
 import { slugify } from "@/lib/slug";
@@ -51,6 +52,7 @@ export function ProjectEditor({ initial }: { initial: EditorProject }) {
   const [uploading, startUpload] = useTransition();
   const fileInput = useRef<HTMLInputElement>(null);
   const isNew = p.id === null;
+  const personal = p.type === "personal";
   const t = p.translations[lang];
 
   const upd = (patch: Partial<EditorProject>) => {
@@ -182,16 +184,19 @@ export function ProjectEditor({ initial }: { initial: EditorProject }) {
                 <input id="pn" className={field} value={p.name} onChange={(e) => upd({ name: e.target.value })} />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[13px] font-semibold" htmlFor="pc">Client</label>
-                <input id="pc" className={field} value={p.client} onChange={(e) => upd({ client: e.target.value })} />
-              </div>
-              <div className="flex flex-col gap-1.5">
                 <label className="text-[13px] font-semibold" htmlFor="pt">Type</label>
                 <select id="pt" className={field} value={p.type} onChange={(e) => upd({ type: e.target.value as ProjectInput["type"] })}>
                   <option value="professional">Professionnel</option>
                   <option value="community">Communauté</option>
+                  <option value="personal">Projet perso</option>
                 </select>
               </div>
+              {!personal && (
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[13px] font-semibold" htmlFor="pc">Client</label>
+                  <input id="pc" className={field} value={p.client} onChange={(e) => upd({ client: e.target.value })} />
+                </div>
+              )}
               <div className="flex flex-col gap-1.5">
                 <label className="text-[13px] font-semibold" htmlFor="pp">Plateforme</label>
                 <select id="pp" className={field} value={p.platform} onChange={(e) => upd({ platform: e.target.value as ProjectInput["platform"] })}>
@@ -246,6 +251,51 @@ export function ProjectEditor({ initial }: { initial: EditorProject }) {
               </div>
             </div>
           </section>
+
+          {/* Personal projects: source code */}
+          <AnimatePresence initial={false}>
+            {personal && (
+              <motion.section
+                key="source"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3, ease: EASE }}
+                className="hairline overflow-hidden rounded-[20px] border bg-card"
+              >
+                <div className="flex flex-col gap-3.5 p-[22px]">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex flex-col gap-0.5">
+                      <h2 className="m-0 text-base font-bold">Code source</h2>
+                      <span className="text-[13px] text-muted-foreground">
+                        Classe le projet dans « Open source » ou « Code privé » sur la page Projets.
+                      </span>
+                    </div>
+                    <label className="inline-flex min-h-11 cursor-pointer items-center gap-3 text-sm font-semibold">
+                      Open source
+                      <Switch checked={p.openSource} label="Projet open source" onChange={(openSource) => upd({ openSource })} />
+                    </label>
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[13px] font-semibold" htmlFor="prepo">
+                      Lien du dépôt{" "}
+                      <span className="font-normal text-muted-foreground">
+                        {p.openSource ? "(GitHub, GitLab…)" : "(facultatif, affiché seulement si le projet est open source)"}
+                      </span>
+                    </label>
+                    <input
+                      id="prepo"
+                      type="url"
+                      className={field}
+                      placeholder="https://github.com/…"
+                      value={p.repoUrl}
+                      onChange={(e) => upd({ repoUrl: e.target.value })}
+                    />
+                  </div>
+                </div>
+              </motion.section>
+            )}
+          </AnimatePresence>
 
           {/* Bilingual text */}
           <section className="hairline overflow-hidden rounded-[20px] border bg-card">

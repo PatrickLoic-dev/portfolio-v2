@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { SplitHeadline } from "@/components/motion/split-headline";
+import { RepoIcon } from "@/components/project/project-card";
 import { ProjectMedia } from "@/components/project/project-media";
 import { CtaFooter } from "@/components/site/site-footer";
 import { Toc } from "@/components/site/toc";
@@ -34,7 +35,8 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/work/
   const hasTitles = project.sections.some((s) => s.title.trim());
 
   const meta = [
-    project.client && { label: t("client"), value: project.client },
+    !project.personal && project.client && { label: t("client"), value: project.client },
+    project.personal && { label: t("source"), value: project.openSource ? t("openSource") : t("closedSource") },
     { label: t("platform"), value: project.mobile ? t("mobile") : t("web") },
     project.tags.length > 0 && { label: t("stack"), value: project.tags.join(" · ") },
     project.role ? { label: t("role"), value: project.role } : { label: t("type"), value: types(project.type) },
@@ -44,9 +46,9 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/work/
     <>
       <section className="wrap flex flex-col gap-8 pb-12 pt-10">
         <nav aria-label={t("breadcrumb")} className="label flex items-center gap-2.5 text-muted-foreground">
-          <Link href="/work" className="inline-flex min-h-11 items-center gap-2 hover:text-foreground">
+          <Link href={project.personal ? "/work#side-projects" : "/work"} className="inline-flex min-h-11 items-center gap-2 hover:text-foreground">
             <ArrowLeft size={16} aria-hidden />
-            {t("allProjects")}
+            {project.personal ? t("allSide") : t("allProjects")}
           </Link>
           <span aria-hidden>/</span>
           <span className="text-foreground" aria-current="page">
@@ -58,6 +60,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/work/
           <div className="flex min-w-0 flex-[999_1_560px] flex-col gap-6">
             <div className="flex flex-wrap gap-2">
               <span className="chip chip-ink">{types(project.type)}</span>
+              {project.personal && <span className="chip">{project.openSource ? t("openSource") : t("closedSource")}</span>}
               {project.sector && <span className="chip">{project.sector}</span>}
             </div>
             <SplitHeadline as="h1" immediate text={project.name.replace(" ", "\n")} accent="." className="text-[clamp(64px,12vw,184px)]" />
@@ -76,12 +79,21 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/work/
               <dd className="m-0 font-semibold">{m.value}</dd>
             </StaggerItem>
           ))}
-          {project.url && (
-            <StaggerItem className="hairline flex flex-col justify-center border-l px-6 py-6">
-              <a href={project.url} target="_blank" rel="noreferrer" className="btn btn-primary">
-                {t("visit")}
-                <ArrowUpRight size={16} aria-hidden />
-              </a>
+          {(project.url || project.repo) && (
+            <StaggerItem className="hairline flex flex-col justify-center gap-2.5 border-l px-6 py-6">
+              {project.url && (
+                <a href={project.url} target="_blank" rel="noreferrer" className="btn btn-primary">
+                  {t("visit")}
+                  <ArrowUpRight size={16} aria-hidden />
+                </a>
+              )}
+              {project.repo && (
+                <a href={project.repo} target="_blank" rel="noreferrer" className={project.url ? "btn btn-ghost" : "btn btn-primary"}>
+                  <RepoIcon url={project.repo} />
+                  {t("viewCode")}
+                  <ArrowUpRight size={16} aria-hidden />
+                </a>
+              )}
             </StaggerItem>
           )}
         </Stagger>

@@ -16,7 +16,10 @@ export type PublicProject = {
   slug: string;
   n: string;
   name: string;
-  type: "professional" | "community";
+  type: "professional" | "community" | "personal";
+  personal: boolean;
+  openSource: boolean;
+  repo: string | null;
   featured: boolean;
   mobile: boolean;
   tone: Tone;
@@ -55,6 +58,9 @@ function toPublic(p: Project, texts: ProjectTranslation[], locale: Locale, index
     n: String(index + 1).padStart(2, "0"),
     name: p.name,
     type: p.type,
+    personal: p.type === "personal",
+    openSource: p.openSource,
+    repo: p.openSource ? p.repoUrl : null,
     featured: p.featured,
     mobile: p.platform === "mobile",
     tone: p.tone as Tone,
@@ -77,19 +83,26 @@ function toPublic(p: Project, texts: ProjectTranslation[], locale: Locale, index
 
 const isPublic = () => and(isNull(projects.deletedAt), eq(projects.status, "published"), eq(projects.visible, true));
 
-/** Work page order. Numbers ("01") follow this order. */
+/**
+ * Work page order. Client work and personal projects are numbered
+ * separately ("01", "02"…), each in Studio order.
+ */
 export async function getPublicProjects(locale: Locale) {
   const rows = await db.select().from(projects).where(isPublic()).orderBy(asc(projects.position), asc(projects.createdAt));
   if (!rows.length) return [];
   const texts = await db.select().from(projectTranslations).where(inArray(projectTranslations.projectId, rows.map((r) => r.id)));
-  return rows.map((p, i) => toPublic(p, texts, locale, i));
+  const seen = { client: 0, personal: 0 };
+  return rows.map((p) => toPublic(p, texts, locale, seen[p.type === "personal" ? "personal" : "client"]++));
 }
 
+/** A case study and the next one in the same group (client work or personal). */
 export async function getPublicProject(slug: string, locale: Locale) {
   const all = await getPublicProjects(locale);
-  const i = all.findIndex((p) => p.slug === slug);
-  if (i < 0) return null;
-  return { project: all[i], next: all.length > 1 ? all[(i + 1) % all.length] : null };
+  const project = all.find((p) => p.slug === slug);
+  if (!project) return null;
+  const group = all.filter((p) => p.personal === project.personal);
+  const i = group.indexOf(project);
+  return { project, next: group.length > 1 ? group[(i + 1) % group.length] : null };
 }
 
 /* Studio --------------------------------------------------------------- */

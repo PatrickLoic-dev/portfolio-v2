@@ -4,7 +4,9 @@ import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { EASE } from "@/components/motion/ease";
+import { steamArt } from "@/lib/steam-art";
 import { toneOf } from "@/lib/tones";
+import { SteamImage } from "./steam-image";
 
 export type PublicGame = {
   id: string;
@@ -15,6 +17,7 @@ export type PublicGame = {
   hours: number;
   daysAgo: number | null;
   tone: string;
+  appId: number | null;
 };
 
 type Sort = "pct" | "hours" | "recent";
@@ -59,6 +62,7 @@ export function GamesExplorer({ games }: { games: PublicGame[] }) {
           {list.map((g) => {
             const tone = toneOf(g.tone);
             const full = g.pct === 100;
+            const art = steamArt(g.appId);
             return (
               <motion.article
                 key={g.id}
@@ -70,18 +74,21 @@ export function GamesExplorer({ games }: { games: PublicGame[] }) {
                 whileHover={{ y: -4 }}
                 className="hairline flex flex-col overflow-hidden rounded-[22px] border bg-card"
               >
-                <div className="flex aspect-video flex-col justify-between p-4" style={{ background: tone.bg }}>
-                  <div className="flex items-center justify-between">
+                <div className="relative flex aspect-[616/353] flex-col justify-between overflow-hidden p-4" style={{ background: tone.bg }}>
+                  {/* The name shows on the tone panel until (or unless) the Steam cover loads over it. */}
+                  <span className="display order-last text-[26px]" style={{ color: tone.ink }}>
+                    {g.name}
+                  </span>
+                  {art && <SteamImage srcs={art.capsule} className="absolute inset-0 size-full object-cover" />}
+                  <div className="relative flex items-center justify-between">
                     <span className="inline-flex min-h-[26px] items-center rounded-full bg-[#1b2838] px-2.5 text-xs font-semibold text-white">Steam</span>
                     {full && (
                       <span className="inline-flex min-h-[26px] items-center rounded-full bg-ink px-2.5 text-xs font-semibold text-white">100 %</span>
                     )}
                   </div>
-                  <span className="display text-[26px]" style={{ color: tone.ink }}>
-                    {g.name}
-                  </span>
                 </div>
                 <div className="flex flex-col gap-3 p-[18px]">
+                  {art && <h3 className="m-0 truncate text-base font-bold">{g.name}</h3>}
                   <div className="flex items-baseline justify-between">
                     <span className="font-semibold">{t("achievements")}</span>
                     <span className="display text-[32px]">{g.pct === null ? "—" : `${g.pct}%`}</span>

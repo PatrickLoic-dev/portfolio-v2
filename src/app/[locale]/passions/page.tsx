@@ -4,6 +4,8 @@ import { getFormatter, getTranslations, setRequestLocale } from "next-intl/serve
 import { Reveal } from "@/components/motion/reveal";
 import { SplitHeadline } from "@/components/motion/split-headline";
 import { GamesExplorer, type PublicGame } from "@/components/passions/games-explorer";
+import { SteamImage } from "@/components/passions/steam-image";
+import { steamArt } from "@/lib/steam-art";
 import { CtaFooter } from "@/components/site/site-footer";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -48,6 +50,7 @@ export default async function PassionsPage({ params }: PageProps<"/[locale]/pass
     hours: Math.round(g.playtime / 60),
     daysAgo: daysSince(g.lastPlayedAt),
     tone: g.tone,
+    appId: g.steamAppId,
   }));
   const withPct = view.filter((g) => g.pct !== null);
   const stats = [
@@ -56,6 +59,7 @@ export default async function PassionsPage({ params }: PageProps<"/[locale]/pass
     { label: t("perfect"), value: String(withPct.filter((g) => g.pct === 100).length) },
   ];
   const pinnedPct = pinned ? gamePct(pinned) : null;
+  const pinnedArt = steamArt(pinned?.steamAppId);
 
   const mood = MOODS[(song?.mood as Mood) ?? "focused"] ?? MOODS.focused;
   const provider = song?.provider === "apple" || song?.provider === "spotify" ? PROVIDERS[song.provider] : null;
@@ -128,9 +132,20 @@ export default async function PassionsPage({ params }: PageProps<"/[locale]/pass
           </Reveal>
 
           {pinned && (
-            <Reveal delay={0.08} className="flex flex-[999_1_480px] flex-wrap items-center gap-8 rounded-[28px] bg-ink p-[clamp(24px,4vw,40px)] text-background">
-              <div className="flex aspect-[16/10] flex-[1_1_220px] items-end rounded-[18px] bg-accent p-5">
+            <Reveal
+              delay={0.08}
+              className="relative isolate flex flex-[999_1_480px] flex-wrap items-center gap-8 overflow-hidden rounded-[28px] bg-ink p-[clamp(24px,4vw,40px)] text-background"
+            >
+              {pinnedArt && (
+                <>
+                  <SteamImage srcs={pinnedArt.hero} className="absolute inset-0 -z-20 size-full scale-105 object-cover" />
+                  {/* Ink veil: keeps the text readable over any key art. */}
+                  <span aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgb(37_30_25/0.55)_0%,rgb(37_30_25/0.7)_40%,rgb(37_30_25/0.35)_100%)]" />
+                </>
+              )}
+              <div className="relative flex aspect-[16/10] flex-[1_1_220px] items-end overflow-hidden rounded-[18px] bg-accent p-5 shadow-[0_18px_40px_rgb(0_0_0/0.35)]">
                 <span className="display text-[clamp(32px,3.6vw,48px)] text-ink">{pinned.name}</span>
+                {pinnedArt && <SteamImage srcs={pinnedArt.header} alt={pinned.name} className="absolute inset-0 size-full object-cover" />}
               </div>
               <div className="flex flex-[999_1_260px] flex-col gap-4">
                 <span className="label inline-flex items-center gap-2 text-blob-b">

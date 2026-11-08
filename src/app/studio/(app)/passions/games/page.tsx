@@ -35,6 +35,7 @@ export default async function GamesPage() {
             hours: Math.round(g.playtime / 60),
             daysAgo: daysSince(g.lastPlayedAt),
             tone: g.tone,
+            appId: g.steamAppId,
             visible: g.visible,
             pinned: g.pinned,
           }))}

@@ -8,6 +8,8 @@ import { fmtDayTime } from "@/components/studio/status";
 import { Switch } from "@/components/studio/switch";
 import { useToast } from "@/components/studio/toast";
 import { cn } from "@/lib/cn";
+import { SteamImage } from "@/components/passions/steam-image";
+import { steamArt } from "@/lib/steam-art";
 import { toneOf } from "@/lib/tones";
 import { saveSteamOptions, setGameFlags, setMinPct, syncSteamNow } from "../../../portfolio-actions";
 
@@ -18,6 +20,7 @@ type Row = {
   hours: number;
   daysAgo: number | null;
   tone: string;
+  appId: number | null;
   visible: boolean;
   pinned: boolean;
 };
@@ -25,7 +28,7 @@ type Row = {
 const last = (d: number | null) =>
   d === null ? "—" : d === 0 ? "aujourd'hui" : d === 1 ? "hier" : d < 30 ? `il y a ${d} j` : `il y a ${Math.round(d / 30)} mois`;
 
-const grid = "grid grid-cols-[minmax(0,1fr)_110px_52px] items-center gap-4 nav:grid-cols-[44px_minmax(0,2fr)_minmax(0,1.4fr)_80px_120px_80px]";
+const grid = "grid grid-cols-[minmax(0,1fr)_110px_52px] items-center gap-4 nav:grid-cols-[86px_minmax(0,2fr)_minmax(0,1.4fr)_80px_120px_80px]";
 
 export function GamesManager({
   configured,
@@ -180,7 +183,9 @@ export function GamesManager({
               transition={{ duration: 0.3, ease: EASE }}
               className={cn(grid, "hairline border-t px-5 py-3", hidden && "opacity-55")}
             >
-              <span className="hidden h-10 w-11 rounded-lg border border-ink/8 nav:block" style={{ background: toneOf(g.tone).bg }} />
+              <span className="relative hidden h-10 w-[86px] overflow-hidden rounded-lg border border-ink/8 nav:block" style={{ background: toneOf(g.tone).bg }}>
+                {steamArt(g.appId) && <SteamImage srcs={steamArt(g.appId)!.header} className="absolute inset-0 size-full object-cover" />}
+              </span>
               <div className="flex min-w-0 flex-col gap-0.5">
                 <span className="truncate text-[15px] font-semibold">{g.name}</span>
                 <span className="text-[13px] text-muted-foreground">Joué {last(g.daysAgo)}</span>

@@ -1,5 +1,5 @@
-import type { Locale } from "@/i18n/routing";
-import type { Tone } from "./projects";
+import type { Locale } from "../../src/i18n/routing";
+import type { Tone } from "../../src/content/projects";
 
 export const categories = ["engineering", "design", "product", "studio", "community"] as const;
 export type Category = (typeof categories)[number];

@@ -1,9 +1,7 @@
-import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {
-  pageExtensions: ["ts", "tsx", "md", "mdx"],
   turbopack: {
     rules: {
       "*.css": {
@@ -12,9 +10,12 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  experimental: {
+    // Cover and inline images uploaded from the Studio editor.
+    serverActions: { bodySizeLimit: "6mb" },
+  },
 };
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
-const withMDX = createMDX({});
 
-export default withNextIntl(withMDX(nextConfig));
+export default withNextIntl(nextConfig);

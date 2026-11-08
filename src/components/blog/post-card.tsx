@@ -1,32 +1,32 @@
 import { ArrowUpRight } from "lucide-react";
-import { useFormatter, useLocale, useTranslations } from "next-intl";
-import type { Post } from "@/content/posts";
+import { useFormatter, useTranslations } from "next-intl";
 import { tones } from "@/content/projects";
 import { Link } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
+import type { PublicPost } from "@/lib/notes";
 
-export function PostCover({ post, size = "md" }: { post: Post; size?: "md" | "sm" }) {
-  const locale = useLocale() as Locale;
-  const t = useTranslations("blog");
-  const tone = tones[post.tone];
+/** Cover: uploaded image, or the tone panel with the display hook. */
+export function PostCover({ post, size = "md" }: { post: PublicPost; size?: "md" | "sm" }) {
+  const tone = tones[post.tone] ?? tones.peach;
   return (
     <div
-      className="card-media flex aspect-[16/10] flex-col justify-between"
+      className="card-media relative flex aspect-[16/10] flex-col justify-between overflow-hidden"
       style={{ background: tone.bg, color: tone.ink, padding: size === "md" ? 24 : 22 }}
     >
-      <span className="label">{t(`categories.${post.category}.label`)}</span>
-      <span className={`display whitespace-pre-line ${size === "md" ? "text-[40px]" : "text-[36px]"}`}>
-        {post.text[locale].hook}
-      </span>
+      {post.coverUrl && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={post.coverUrl} alt="" className="absolute inset-0 size-full object-cover" loading="lazy" />
+      )}
+      <span className="label relative">{post.subject.label}</span>
+      {!post.coverUrl && (
+        <span className={`display relative whitespace-pre-line ${size === "md" ? "text-[40px]" : "text-[36px]"}`}>{post.hook}</span>
+      )}
     </div>
   );
 }
 
-export function PostCard({ post }: { post: Post }) {
-  const locale = useLocale() as Locale;
+export function PostCard({ post }: { post: PublicPost }) {
   const t = useTranslations("blog");
   const format = useFormatter();
-  const text = post.text[locale];
   return (
     <Link href={`/blog/${post.slug}`} className="card-link flex flex-col gap-5">
       <div className="overflow-hidden rounded-[22px]">
@@ -37,8 +37,8 @@ export function PostCard({ post }: { post: Post }) {
           {format.dateTime(new Date(post.date), { day: "numeric", month: "short", year: "numeric" })} ·{" "}
           {t("min", { min: post.minutes })}
         </span>
-        <h3 className="card-title heading text-2xl leading-[1.15] tracking-[-0.02em]">{text.title}</h3>
-        <p className="m-0 text-[15px] leading-relaxed text-muted-foreground">{text.excerpt}</p>
+        <h3 className="card-title heading text-2xl leading-[1.15] tracking-[-0.02em]">{post.title}</h3>
+        <p className="m-0 text-[15px] leading-relaxed text-muted-foreground">{post.excerpt}</p>
         <span className="mt-1 inline-flex items-center gap-2 text-sm font-semibold">
           {t("read")}
           <ArrowUpRight size={16} className="card-arrow" aria-hidden />

@@ -2,46 +2,38 @@
 
 import { ArrowUpRight, Search } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useFormatter, useLocale, useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { EASE } from "@/components/motion/ease";
 import { Reveal } from "@/components/motion/reveal";
 import { SplitHeadline } from "@/components/motion/split-headline";
-import { categories, categoryTone, posts, type Category } from "@/content/posts";
 import { tones } from "@/content/projects";
 import { Link } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
+import type { LocalizedSubject, PublicPost } from "@/lib/notes";
 import { PostByline, PostCard } from "./post-card";
 
-type Filter = "all" | Category;
-
-export function BlogExplorer() {
+export function BlogExplorer({ posts, subjects }: { posts: PublicPost[]; subjects: LocalizedSubject[] }) {
   const t = useTranslations("blog");
   const types = useTranslations("types");
-  const locale = useLocale() as Locale;
   const format = useFormatter();
-  const [cat, setCat] = useState<Filter>("all");
+  const [cat, setCat] = useState<string>("all");
   const [q, setQ] = useState("");
 
-  const featured = posts.find((p) => p.featured)!;
+  const featured = posts.find((p) => p.featured) ?? posts[0];
   const rest = posts.filter((p) => p !== featured);
   const query = q.trim().toLowerCase();
 
-  const okCat = (c: Category, f: Filter) => f === "all" || c === f;
-  const okQ = (slug: string) => {
-    if (!query) return true;
-    const p = posts.find((x) => x.slug === slug)!;
-    return `${p.text[locale].title} ${p.text[locale].excerpt}`.toLowerCase().includes(query);
-  };
+  const okCat = (p: PublicPost, f: string) => f === "all" || p.subject.slug === f;
+  const okQ = (p: PublicPost) => !query || `${p.title} ${p.excerpt}`.toLowerCase().includes(query);
 
   const shown = useMemo(
-    () => rest.filter((p) => okCat(p.category, cat) && okQ(p.slug)),
+    () => rest.filter((p) => okCat(p, cat) && okQ(p)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [cat, query, locale],
+    [cat, query, posts],
   );
-  const showFeatured = okCat(featured.category, cat) && !query;
-  const countFor = (f: Filter) => posts.filter((p) => okCat(p.category, f)).length;
-  const label = (f: Filter) => (f === "all" ? types("all") : t(`categories.${f}.label`));
+  const showFeatured = !!featured && okCat(featured, cat) && okQ(featured) && !query;
+  const countFor = (f: string) => posts.filter((p) => okCat(p, f)).length;
+  const label = (f: string) => (f === "all" ? types("all") : (subjects.find((s) => s.slug === f)?.label ?? f));
   const reset = () => {
     setCat("all");
     setQ("");
@@ -79,7 +71,7 @@ export function BlogExplorer() {
           aria-label={t("subjects")}
         >
           <span className="label mr-2 flex-none text-muted-foreground max-nav:hidden">{t("subject")}</span>
-          {(["all", ...categories] as Filter[]).map((f) => (
+          {["all", ...subjects.map((s) => s.slug)].map((f) => (
             <button key={f} type="button" className="pill" aria-pressed={cat === f} onClick={() => setCat(f)}>
               {label(f)} <span className="count">{countFor(f)}</span>
             </button>
@@ -103,31 +95,33 @@ export function BlogExplorer() {
             >
               <div className="min-h-[420px] flex-[1_1_520px] overflow-hidden">
                 <div
-                  className="card-media flex h-full min-h-[420px] flex-col justify-between p-10"
-                  style={{ background: tones[featured.tone].bg }}
+                  className="card-media relative flex h-full min-h-[420px] flex-col justify-between overflow-hidden p-10"
+                  style={{ background: (tones[featured.tone] ?? tones.peach).bg, color: (tones[featured.tone] ?? tones.peach).ink }}
                 >
-                  <span className="label">{t("featured")}</span>
-                  <span className="display whitespace-pre-line text-[clamp(56px,7vw,112px)] leading-[0.85]">
-                    {featured.text[locale].hook}
-                    <span className="text-card">.</span>
-                  </span>
+                  {featured.coverUrl && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={featured.coverUrl} alt="" className="absolute inset-0 size-full object-cover" />
+                  )}
+                  <span className="label relative">{t("featured")}</span>
+                  {!featured.coverUrl && (
+                    <span className="display relative whitespace-pre-line text-[clamp(56px,7vw,112px)] leading-[0.85]">
+                      {featured.hook}
+                      <span className="text-card">.</span>
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="flex flex-[1_1_420px] flex-col justify-between gap-6 p-[clamp(28px,4vw,56px)]">
                 <div className="flex flex-col gap-5">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="label rounded-full bg-ink px-3 py-1.5 text-card">
-                      {t(`categories.${featured.category}.label`)}
-                    </span>
+                    <span className="label rounded-full bg-ink px-3 py-1.5 text-card">{featured.subject.label}</span>
                     <span className="label text-muted-foreground">
                       {format.dateTime(new Date(featured.date), { day: "numeric", month: "short", year: "numeric" })} ·{" "}
                       {t("minRead", { min: featured.minutes })}
                     </span>
                   </div>
-                  <h2 className="card-title heading text-[clamp(30px,3vw,44px)] leading-[1.08]">
-                    {featured.text[locale].title}
-                  </h2>
-                  <p className="m-0 text-[17px] leading-[1.65] text-muted-foreground">{featured.text[locale].excerpt}</p>
+                  <h2 className="card-title heading text-[clamp(30px,3vw,44px)] leading-[1.08]">{featured.title}</h2>
+                  <p className="m-0 text-[17px] leading-[1.65] text-muted-foreground">{featured.excerpt}</p>
                 </div>
                 <div className="flex items-center justify-between gap-4">
                   <PostByline />
@@ -174,35 +168,37 @@ export function BlogExplorer() {
         )}
       </section>
 
-      <section className="bg-surface">
-        <div className="wrap py-24">
-          <div className="mb-10 flex flex-col gap-4">
-            <span className="label text-accent-ink">{t("browse")}</span>
-            <SplitHeadline text={t("subjects")} className="text-[clamp(44px,6vw,88px)]" />
+      {subjects.length > 0 && (
+        <section className="bg-surface">
+          <div className="wrap py-24">
+            <div className="mb-10 flex flex-col gap-4">
+              <span className="label text-accent-ink">{t("browse")}</span>
+              <SplitHeadline text={t("subjects")} className="text-[clamp(44px,6vw,88px)]" />
+            </div>
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
+              {subjects.map((s) => (
+                <button
+                  key={s.slug}
+                  type="button"
+                  onClick={() => {
+                    setCat(s.slug);
+                    setQ("");
+                    document.getElementById("content")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="hairline flex min-h-[180px] cursor-pointer flex-col justify-between gap-7 rounded-[20px] border bg-card p-6 text-left font-[inherit] transition-colors hover:bg-surface"
+                >
+                  <span className="size-11 rounded-xl" style={{ background: (tones[s.tone] ?? tones.leaf).bg }} />
+                  <span className="flex flex-col gap-1.5">
+                    <span className="display text-2xl tracking-[-0.03em]">{s.label}</span>
+                    <span className="text-sm leading-normal text-muted-foreground">{s.description}</span>
+                    <span className="label mt-1.5 text-muted-foreground">{t("count", { count: countFor(s.slug) })}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
-            {categories.map((c) => (
-              <button
-                key={c}
-                type="button"
-                onClick={() => {
-                  setCat(c);
-                  setQ("");
-                  document.getElementById("content")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="hairline flex min-h-[180px] cursor-pointer flex-col justify-between gap-7 rounded-[20px] border bg-card p-6 text-left font-[inherit] transition-colors hover:bg-surface"
-              >
-                <span className="size-11 rounded-xl" style={{ background: tones[categoryTone[c]].bg }} />
-                <span className="flex flex-col gap-1.5">
-                  <span className="display text-2xl tracking-[-0.03em]">{t(`categories.${c}.label`)}</span>
-                  <span className="text-sm leading-normal text-muted-foreground">{t(`categories.${c}.desc`)}</span>
-                  <span className="label mt-1.5 text-muted-foreground">{t("count", { count: countFor(c) })}</span>
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
     </>
   );
 }

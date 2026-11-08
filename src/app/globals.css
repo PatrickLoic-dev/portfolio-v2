@@ -21,6 +21,8 @@
   --blob-b: #bdd7b0;
   --blob-c: #f0dbb9;
   --success: #4f7a43;
+  --success-ink: #3d6b33;
+  --danger: #a3282c;
 
   --ease-out-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
@@ -42,6 +44,8 @@
   --color-blob-b: var(--blob-b);
   --color-blob-c: var(--blob-c);
   --color-success: var(--success);
+  --color-success-ink: var(--success-ink);
+  --color-danger: var(--danger);
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-archivo), var(--font-inter), sans-serif;

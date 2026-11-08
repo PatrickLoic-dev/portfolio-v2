@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Archivo, Inter, JetBrains_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -8,21 +7,8 @@ import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { SiteHeader } from "@/components/site/site-header";
 import { site } from "@/content/site";
 import { routing } from "@/i18n/routing";
+import { fontVariables } from "../fonts";
 import "../globals.css";
-
-const archivo = Archivo({
-  subsets: ["latin"],
-  weight: ["600", "700", "800", "900"],
-  variable: "--font-archivo",
-  display: "swap",
-});
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const jetbrains = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-jetbrains",
-  display: "swap",
-});
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -46,7 +32,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} className={`${archivo.variable} ${inter.variable} ${jetbrains.variable}`}>
+    <html lang={locale} className={fontVariables}>
       <body>
         <NextIntlClientProvider>
           <MotionProvider>

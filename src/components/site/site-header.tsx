@@ -11,6 +11,7 @@ import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { cn } from "@/lib/cn";
 import { isActive, navItems } from "./nav-items";
+import { SocialLink, SOCIALS } from "./social-link";
 
 function LanguageSwitch({ className }: { className?: string }) {
   const locale = useLocale() as Locale;
@@ -174,9 +175,11 @@ export function SiteHeader() {
                 {t("startProject")}
               </Link>
               <div className="flex flex-wrap gap-[18px] text-[15px] text-background/70">
-                <a href={site.social.github.url} className="hover:text-blob-a">GitHub ↗</a>
-                <a href={site.social.linkedin.url} className="hover:text-blob-a">LinkedIn ↗</a>
-                <a href={site.social.x.url} className="hover:text-blob-a">X ↗</a>
+                {SOCIALS.map((s) => (
+                  <SocialLink key={s.brand} brand={s.brand} href={s.url} className="hover:text-blob-a">
+                    {s.label} ↗
+                  </SocialLink>
+                ))}
               </div>
             </div>
           </motion.nav>

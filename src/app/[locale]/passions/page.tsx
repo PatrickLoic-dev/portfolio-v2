@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getFormatter, getTranslations, setRequestLocale } from "next-intl/server";
 import { Reveal } from "@/components/motion/reveal";
 import { SplitHeadline } from "@/components/motion/split-headline";
+import { BrandIcon, type Brand } from "@/components/brand-icon";
 import { GamesExplorer, type PublicGame } from "@/components/passions/games-explorer";
 import { SteamImage } from "@/components/passions/steam-image";
 import { steamArt } from "@/lib/steam-art";
@@ -21,8 +22,8 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/passions
 }
 
 const PROVIDERS = {
-  apple: { name: "Apple Music", bg: "#fa2d48", ink: "#ffffff" },
-  spotify: { name: "Spotify", bg: "#1ed760", ink: "#251e19" },
+  apple: { name: "Apple Music", bg: "#fa2d48", ink: "#ffffff", brand: "applemusic" },
+  spotify: { name: "Spotify", bg: "#1ed760", ink: "#251e19", brand: "spotify" },
 } as const;
 
 export default async function PassionsPage({ params }: PageProps<"/[locale]/passions">) {
@@ -68,7 +69,7 @@ export default async function PassionsPage({ params }: PageProps<"/[locale]/pass
   const profiles = [
     musicProfiles.appleProfile && { ...PROVIDERS.apple, url: musicProfiles.appleProfile },
     musicProfiles.spotifyProfile && { ...PROVIDERS.spotify, url: musicProfiles.spotifyProfile },
-  ].filter(Boolean) as { name: string; bg: string; ink: string; url: string }[];
+  ].filter(Boolean) as { name: string; bg: string; ink: string; brand: Brand; url: string }[];
 
   return (
     <>
@@ -106,8 +107,8 @@ export default async function PassionsPage({ params }: PageProps<"/[locale]/pass
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={steam.avatarUrl} alt="" className="size-[52px] rounded-[14px] object-cover" />
                 ) : (
-                  <span aria-hidden className="flex size-[52px] items-center justify-center rounded-[14px] bg-background text-[13px] font-extrabold text-[#1b2838]">
-                    STEAM
+                  <span aria-hidden className="flex size-[52px] items-center justify-center rounded-[14px] bg-background text-[#1b2838]">
+                    <BrandIcon brand="steam" size={30} />
                   </span>
                 )}
                 <div className="flex min-w-0 flex-col gap-0.5">
@@ -166,7 +167,9 @@ export default async function PassionsPage({ params }: PageProps<"/[locale]/pass
                 )}
                 <div className="flex flex-wrap gap-5 font-mono text-[13px] text-background/70">
                   <span>{t("hoursPlayed", { hours: Math.round(pinned.playtime / 60) })}</span>
-                  <span>Steam</span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <BrandIcon brand="steam" size={13} /> Steam
+                  </span>
                 </div>
               </div>
             </Reveal>
@@ -225,6 +228,7 @@ export default async function PassionsPage({ params }: PageProps<"/[locale]/pass
                         className="btn"
                         style={{ background: provider?.bg ?? "var(--card)", color: provider?.ink ?? "var(--foreground)" }}
                       >
+                        {provider && <BrandIcon brand={provider.brand} size={18} />}
                         {t("playOn", { provider: provider?.name ?? t("listen") })}
                       </a>
                     </div>
@@ -251,7 +255,7 @@ export default async function PassionsPage({ params }: PageProps<"/[locale]/pass
                     >
                       <span className="flex items-center gap-3.5">
                         <span className="flex size-12 items-center justify-center rounded-full text-sm font-bold" style={{ background: p.bg, color: p.ink }} aria-hidden>
-                          ♪
+                          <BrandIcon brand={p.brand} size={24} />
                         </span>
                         <span className="font-bold">{t("followOn", { provider: p.name })}</span>
                       </span>

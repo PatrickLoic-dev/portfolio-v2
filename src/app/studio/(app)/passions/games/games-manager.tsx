@@ -8,6 +8,7 @@ import { fmtDayTime } from "@/components/studio/status";
 import { Switch } from "@/components/studio/switch";
 import { useToast } from "@/components/studio/toast";
 import { cn } from "@/lib/cn";
+import { BrandIcon } from "@/components/brand-icon";
 import { SteamImage } from "@/components/passions/steam-image";
 import { steamArt } from "@/lib/steam-art";
 import { toneOf } from "@/lib/tones";
@@ -141,8 +142,8 @@ export function GamesManager({
       <section className="hairline flex flex-col gap-4 rounded-[20px] border bg-card p-[22px]">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <span className="flex size-11 items-center justify-center rounded-xl bg-[#1b2838] text-[10px] font-extrabold text-white" aria-hidden>
-              STEAM
+            <span className="flex size-11 items-center justify-center rounded-xl bg-[#1b2838] text-white" aria-hidden>
+              <BrandIcon brand="steam" size={24} />
             </span>
             <div className="flex flex-col">
               <span className="font-bold">Steam</span>

@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { EASE } from "@/components/motion/ease";
+import { BrandIcon } from "@/components/brand-icon";
 import { steamArt } from "@/lib/steam-art";
 import { toneOf } from "@/lib/tones";
 import { SteamImage } from "./steam-image";
@@ -81,7 +82,9 @@ export function GamesExplorer({ games }: { games: PublicGame[] }) {
                   </span>
                   {art && <SteamImage srcs={art.capsule} className="absolute inset-0 size-full object-cover" />}
                   <div className="relative flex items-center justify-between">
-                    <span className="inline-flex min-h-[26px] items-center rounded-full bg-[#1b2838] px-2.5 text-xs font-semibold text-white">Steam</span>
+                    <span className="inline-flex min-h-[26px] items-center gap-1.5 rounded-full bg-[#1b2838] px-2.5 text-xs font-semibold text-white">
+                      <BrandIcon brand="steam" size={12} /> Steam
+                    </span>
                     {full && (
                       <span className="inline-flex min-h-[26px] items-center rounded-full bg-ink px-2.5 text-xs font-semibold text-white">100 %</span>
                     )}

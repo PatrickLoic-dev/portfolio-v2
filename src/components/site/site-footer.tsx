@@ -4,15 +4,18 @@ import { site } from "@/content/site";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { navItems } from "./nav-items";
+import { SocialLink, SOCIALS } from "./social-link";
 
 function FooterLinks({ extra }: { extra?: ReactNode }) {
   return (
     <div className="flex flex-wrap gap-6">
       {extra}
       <a href={site.studio.url} className="hover:text-blob-a">{site.studio.name} ↗</a>
-      <a href={site.social.github.url} className="hover:text-blob-a">GitHub ↗</a>
-      <a href={site.social.linkedin.url} className="hover:text-blob-a">LinkedIn ↗</a>
-      <a href={site.social.x.url} className="hover:text-blob-a">X ↗</a>
+      {SOCIALS.map((s) => (
+        <SocialLink key={s.brand} brand={s.brand} href={s.url} className="hover:text-blob-a">
+          {s.label} ↗
+        </SocialLink>
+      ))}
     </div>
   );
 }
@@ -90,9 +93,11 @@ export function SitemapFooter() {
         <div className="flex flex-col gap-2.5">
           <span className="label mb-1.5 text-background/60">{t("elsewhere")}</span>
           <a href={site.studio.url}>{site.studio.name} ↗</a>
-          <a href={site.social.github.url}>GitHub ↗</a>
-          <a href={site.social.linkedin.url}>LinkedIn ↗</a>
-          <a href={site.social.x.url}>X / Twitter ↗</a>
+          {SOCIALS.map((s) => (
+            <SocialLink key={s.brand} brand={s.brand} href={s.url}>
+              {s.brand === "x" ? "X / Twitter" : s.label} ↗
+            </SocialLink>
+          ))}
         </div>
         <div className="flex flex-col gap-2.5">
           <span className="label mb-1.5 text-background/60">{t("basedIn")}</span>

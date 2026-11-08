@@ -1,6 +1,7 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Mail } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { BrandIcon } from "@/components/brand-icon";
 import { ContactForm } from "@/components/contact/contact-form";
 import { CopyButton } from "@/components/contact/copy-button";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
@@ -20,10 +21,10 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
   const t = await getTranslations("contact");
 
   const channels = [
-    { label: t("email"), value: site.email, href: `mailto:${site.email}` },
-    { label: "LinkedIn", value: site.social.linkedin.handle, href: site.social.linkedin.url },
-    { label: "GitHub", value: site.social.github.handle, href: site.social.github.url },
-    { label: "X / Twitter", value: site.social.x.handle, href: site.social.x.url },
+    { label: t("email"), value: site.email, href: `mailto:${site.email}`, icon: <Mail size={18} aria-hidden /> },
+    { label: "LinkedIn", value: site.social.linkedin.handle, href: site.social.linkedin.url, icon: <BrandIcon brand="linkedin" size={17} /> },
+    { label: "GitHub", value: site.social.github.handle, href: site.social.github.url, icon: <BrandIcon brand="github" size={18} /> },
+    { label: "X / Twitter", value: site.social.x.handle, href: site.social.x.url, icon: <BrandIcon brand="x" size={16} /> },
   ];
 
   return (
@@ -55,8 +56,14 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
                       href={c.href}
                       className="card-link hairline grid grid-cols-[minmax(0,1fr)_44px] items-center gap-4 border-t py-5 nav:grid-cols-[120px_minmax(0,1fr)_44px]"
                     >
-                      <span className="label hidden text-muted-foreground nav:block">{c.label}</span>
-                      <span className="card-title truncate font-semibold">{c.value}</span>
+                      <span className="label hidden items-center gap-2.5 text-muted-foreground nav:flex">
+                        <span className="text-foreground">{c.icon}</span>
+                        {c.label}
+                      </span>
+                      <span className="card-title flex min-w-0 items-center gap-2.5 font-semibold">
+                        <span className="flex-none nav:hidden">{c.icon}</span>
+                        <span className="truncate">{c.value}</span>
+                      </span>
                       <span className="card-arrow hairline inline-flex size-11 items-center justify-center rounded-full border">
                         <ArrowUpRight size={16} aria-hidden />
                       </span>

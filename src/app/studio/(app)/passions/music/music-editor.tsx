@@ -3,6 +3,7 @@
 import { Wand2 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState, useTransition } from "react";
+import { BrandIcon } from "@/components/brand-icon";
 import { EASE } from "@/components/motion/ease";
 import { fmtDayShort } from "@/components/studio/status";
 import { useToast } from "@/components/studio/toast";
@@ -190,11 +191,11 @@ export function MusicEditor({
           <p className="m-0 text-[13px] text-muted-foreground">Utilisés pour les boutons « Me suivre sur … » de la page Passions. Laissez vide pour masquer.</p>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-3">
             <div className="flex flex-col gap-1.5">
-              <label className="text-[13px] font-semibold" htmlFor="pa">Profil Apple Music</label>
+              <label className="flex items-center gap-2 text-[13px] font-semibold" htmlFor="pa"><BrandIcon brand="applemusic" size={15} className="text-[#fa243c]" /> Profil Apple Music</label>
               <input id="pa" type="url" className={field} placeholder="https://music.apple.com/profile/…" value={prof.appleProfile} onChange={(e) => setProf({ ...prof, appleProfile: e.target.value })} />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-[13px] font-semibold" htmlFor="sp">Profil Spotify</label>
+              <label className="flex items-center gap-2 text-[13px] font-semibold" htmlFor="sp"><BrandIcon brand="spotify" size={15} className="text-[#1ed760]" /> Profil Spotify</label>
               <input id="sp" type="url" className={field} placeholder="https://open.spotify.com/user/…" value={prof.spotifyProfile} onChange={(e) => setProf({ ...prof, spotifyProfile: e.target.value })} />
             </div>
           </div>
@@ -243,7 +244,12 @@ export function MusicEditor({
             </motion.div>
           </AnimatePresence>
           {note && <span className="text-sm text-background/85">“{note}”</span>}
-          {provider && <span className="label text-background/60">{lang === "fr" ? "Écouter sur" : "Play on"} {provider} ↗</span>}
+          {provider && (
+            <span className="label inline-flex items-center gap-2 text-background/60">
+              <BrandIcon brand={provider === "Spotify" ? "spotify" : "applemusic"} size={14} />
+              {lang === "fr" ? "Écouter sur" : "Play on"} {provider} ↗
+            </span>
+          )}
           <div className="flex flex-col gap-2 rounded-2xl p-4 text-ink" style={{ background: mood.bg }}>
             <span className="label">{lang === "fr" ? "Humeur du moment" : "Mood right now"}</span>
             <span className="display text-[32px]">{mood.label[lang]}</span>

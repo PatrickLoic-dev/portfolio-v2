@@ -1,0 +1,46 @@
+<h2 id="s1">The double-tap problem</h2>
+
+On a fibre connection, a payment request comes back in a few hundred milliseconds. On a congested mobile network abroad, it can hang for ten seconds — long enough for a worried user to tap "Send" again, or for the app to retry on its own.
+
+Without protection, both requests reach the API. Both look valid. Both move money.
+
+<h2 id="s2">Keys, not hope</h2>
+
+The fix is an `Idempotency-Key`: a unique id the client generates once per transfer intent and sends with every attempt. The server stores the first result under that key and simply replays it for any repeat.
+
+<CodeBlock
+  file="transfer.service.ts"
+  lang="TypeScript"
+  code={`
+const key = crypto.randomUUID();
+
+return this.http.post<TransferResult>(
+  '/transfers', payload,
+  { headers: { 'Idempotency-Key': key } }
+).pipe(retry({ count: 3, delay: backoff }));
+`}
+/>
+
+Because the key is created before the first attempt, every retry — automatic or human — carries the same identity.
+
+> A retry should never be a new decision. It's the same decision, asked again.
+
+<h2 id="s3">Typing the contract</h2>
+
+Sharing the request and response types between Angular and NestJS meant a renamed field failed the build instead of a transfer. It also made the states explicit:
+
+- **pending** — accepted, not settled yet
+- **completed** — money moved, show the receipt
+- **rejected** — nothing moved, safe to try again
+
+<h2 id="s4">What the user sees</h2>
+
+The button locks the moment it's tapped, and a slow response shows "Still sending — don't close this page" instead of a spinner that looks frozen.
+
+<Tip>Tip — log the idempotency key with every error report. Support can then answer "did it go through?" in seconds.</Tip>
+
+<h2 id="s5">Takeaways</h2>
+
+- Generate the key once per intent, before the first attempt.
+- Type the states you show users, not just the payloads.
+- Design the slow path: it's the one your users will remember.

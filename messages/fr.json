@@ -1,0 +1,332 @@
+{
+  "meta": {
+    "title": "Patrick Loic — Consultant digital & ingénieur frontend",
+    "description": "Consultant digital et ingénieur frontend basé au Cameroun. Fintech, e-commerce et web orienté design — fondateur de KreativEinfluss."
+  },
+  "nav": {
+    "home": "Accueil",
+    "work": "Projets",
+    "about": "À propos",
+    "process": "Méthode",
+    "passions": "Passions",
+    "blog": "Blog",
+    "contact": "Contact",
+    "main": "Principale",
+    "startProject": "Démarrer un projet",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "switchLanguage": "Passer le site en anglais",
+    "available": "Disponible",
+    "skip": "Aller au contenu"
+  },
+  "footer": {
+    "rights": "© {year} Kangue Kwelle Patrick Loic",
+    "location": "Cameroun",
+    "tagline": "Consultant digital & ingénieur frontend. Fondateur de KreativEinfluss.",
+    "sitemap": "Plan du site",
+    "elsewhere": "Ailleurs",
+    "basedIn": "Basé à",
+    "basedInValue": "Cameroun — avec des équipes du monde entier",
+    "built": "Conçu & développé au Cameroun"
+  },
+  "cta": {
+    "question": " ?",
+    "gotProject": "Un\nprojet",
+    "getInTouch": "Me contacter"
+  },
+  "home": {
+    "role": "Consultant digital & ingénieur frontend — Cameroun",
+    "bio": "Je suis consultant digital et ingénieur frontend, avec une expérience en fintech, e-commerce et web orienté design. Je suis aussi le fondateur de <studio>KreativEinfluss</studio>, un studio web qui conçoit des produits numériques soignés pour des équipes ambitieuses.",
+    "viewWork": "Voir les projets",
+    "getInTouch": "Me contacter",
+    "portraitAlt": "Portrait de Patrick Loic",
+    "scroll": "(Défiler)",
+    "localTime": "Douala · GMT+1",
+    "figures": "Chiffres clés",
+    "stats": {
+      "years": "Années d'expérience",
+      "projects": "Projets livrés",
+      "languages": "Langues",
+      "studio": "Studio fondé"
+    },
+    "toolkit": "Outils",
+    "selectedEyebrow": "(01) — Projets choisis",
+    "selectedTitle": "Projets\nchoisis",
+    "allProjects": "Tous les projets ({count})",
+    "doEyebrow": "(02) — Ce que je fais",
+    "doTitle": "Quatre ans\nde métier",
+    "doBody": "Des produits numériques épurés, pensés pour le mouvement, la typographie et la performance — des plateformes fintech aux vitrines éditoriales.",
+    "aboutMe": "À propos",
+    "howIWork": "Ma méthode",
+    "services": {
+      "web": {
+        "title": "Plateformes web",
+        "body": "Portails bancaires, marketplaces et sites vitrines en Angular et Next.js — rapides, accessibles, typés de bout en bout."
+      },
+      "mobile": {
+        "title": "Apps mobiles",
+        "body": "Des apps cross-platform qui remplacent les commandes par téléphone et WhatsApp par des catalogues, des paniers et un suivi en temps réel."
+      },
+      "api": {
+        "title": "APIs & conseil",
+        "body": "Services NestJS, parcours de paiement et conseil digital — la colonne vertébrale qui garde l'interface honnête."
+      }
+    },
+    "kindWords": "(03) — Ils en parlent",
+    "openTo": "Ouvert au freelance & CDI",
+    "talkTitle": "On en\nparle",
+    "talkBody": "Ouvert à quelques missions freelance et à des postes à temps plein. Basé au Cameroun, je travaille avec des équipes du monde entier."
+  },
+  "testimonial": {
+    "quote": "Patrick a apporté à notre frontend une clarté dont on ignorait avoir besoin. Il soigne les détails qui s'additionnent — performance, typage, mouvement.",
+    "name": "Aïcha M.",
+    "role": "Head of Product, Fintech"
+  },
+  "types": {
+    "all": "Tous",
+    "professional": "Professionnel",
+    "community": "Communauté"
+  },
+  "work": {
+    "eyebrow": "Projets — {count} sur {total}",
+    "title": "Quatre ans\nde métier",
+    "intro": "Plateformes bancaires, marketplaces, commande mobile et vitrines éditoriales — projets professionnels et communautaires, conçus de bout en bout.",
+    "filters": "Filtres",
+    "type": "Type",
+    "tech": "Tech",
+    "filterType": "Filtrer par type",
+    "filterTech": "Filtrer par technologie",
+    "layout": "Affichage",
+    "grid": "Vue grille",
+    "list": "Vue liste",
+    "emptyTitle": "Aucun résultat",
+    "emptyBody": "Aucun projet ne combine encore ces filtres.",
+    "reset": "Réinitialiser",
+    "appScreen": "Écran de l'app",
+    "screenshot": "Capture"
+  },
+  "project": {
+    "allProjects": "Tous les projets",
+    "breadcrumb": "Fil d'Ariane",
+    "client": "Client",
+    "platform": "Plateforme",
+    "stack": "Stack",
+    "type": "Type",
+    "web": "Web responsive",
+    "mobile": "App mobile",
+    "visit": "Voir le projet en ligne",
+    "onThisPage": "Sur cette page",
+    "problem": "Le problème",
+    "approach": "L'approche",
+    "outcome": "Le résultat",
+    "next": "Projet suivant — {n}",
+    "metaTitle": "{name} — Étude de cas"
+  },
+  "about": {
+    "eyebrow": "À propos & expérience",
+    "title": "Kangue Kwelle\nPatrick Loic",
+    "lead": "Je conçois et développe des expériences web et mobiles modernes et performantes — des plateformes bancaires aux vitrines d'architecture.",
+    "bio": "Je suis consultant digital et ingénieur frontend, avec une expérience en fintech, e-commerce et web orienté design. Je suis aussi le fondateur de KreativEinfluss, un studio web qui conçoit des produits numériques soignés pour des équipes ambitieuses.",
+    "portraitCaption": "Douala, Cameroun",
+    "role": "Rôle",
+    "roleValue": "Consultant digital & ingénieur frontend",
+    "basedIn": "Basé à",
+    "basedInValue": "Cameroun",
+    "status": "Statut",
+    "workWithMe": "Travailler ensemble",
+    "downloadCv": "Télécharger le CV",
+    "xpEyebrow": "(01) — Expérience",
+    "xpTitle": "Là où j'ai\ntravaillé",
+    "toolkitEyebrow": "(02) — Outils",
+    "toolkitTitle": "Avec quoi\nje construis",
+    "groups": {
+      "frontend": "Frontend",
+      "mobile": "Mobile & style",
+      "backend": "Backend & données",
+      "workflow": "Workflow"
+    },
+    "studioEyebrow": "(03) — Le studio",
+    "studioBody": "Un studio web qui conçoit des produits numériques soignés pour des équipes ambitieuses — fondé et dirigé par Patrick.",
+    "kindWords": "(04) — Ils en parlent",
+    "xpTypes": {
+      "fulltime": "Temps plein",
+      "internship": "Stage"
+    },
+    "months": "~{count} mois"
+  },
+  "process": {
+    "eyebrow": "Ma méthode",
+    "title": "De l'idée\nà la mise en ligne",
+    "intro": "Un processus reproductible et honnête, construit au fil des missions. Pas de surprise, pas de mise en scène — juste les étapes qui mènent d'une première conversation à un produit concret entre les mains des utilisateurs.",
+    "steps": "Étapes",
+    "whatYouGet": "Ce que vous obtenez",
+    "prev": "Étape précédente",
+    "next": "Étape suivante",
+    "wholeEyebrow": "Vue d'ensemble",
+    "wholeTitle": "Cinq étapes,\nun calendrier",
+    "ctaEyebrow": "L'étape 01 commence par une conversation",
+    "ctaTitle": "Construisons\nensemble",
+    "ctaButton": "Réserver un appel découverte",
+    "items": {
+      "discovery": {
+        "title": "Découverte",
+        "desc": "Avant le moindre pixel, on cartographie le vrai problème : pour qui, à quoi ressemble le succès, et ce qui existe déjà. Vous repartez avec un brief court sur lequel tout le monde est d'accord.",
+        "points": ["Entretiens parties prenantes & utilisateurs", "Audit de l'outillage existant", "Indicateurs de succès définis en amont", "Un brief écrit concis, pas un deck de 60 pages"]
+      },
+      "design": {
+        "title": "Design",
+        "desc": "Tokens, composants et mouvement sont définis tôt, puis éprouvés dans des prototypes interactifs — avec des boucles de retour courtes pour éviter les surprises.",
+        "points": ["Tokens & système de composants", "Prototypes interactifs", "Langage de mouvement défini tôt", "Boucles de retour serrées avec vous"]
+      },
+      "build": {
+        "title": "Build",
+        "desc": "Un frontend de qualité production, centré sur l'accessibilité, la performance et un code que votre équipe pourra faire évoluer longtemps après la livraison.",
+        "points": ["TypeScript de bout en bout", "Architecture de composants modulaire", "Performance budgétée, pas promise", "Déploiement continu dès le premier jour"]
+      },
+      "ship": {
+        "title": "Lancement",
+        "desc": "La mise en production est une fonctionnalité, pas un détail. QA, monitoring et plan de déploiement sont prêts avant le jour J.",
+        "points": ["QA & accessibilité avant lancement", "Analytics & suivi d'erreurs branchés", "Déploiements par feature flags", "Communication & documentation prêtes"]
+      },
+      "iterate": {
+        "title": "Itération",
+        "desc": "La première version est une donnée, pas une fin. On analyse l'usage réel et on continue d'améliorer — ou on passe la main proprement.",
+        "points": ["Revue & analytics post-lancement", "Priorisation du backlog avec vous", "Travail continu sur la performance", "Une passation qui transmet vraiment"]
+      }
+    }
+  },
+  "contact": {
+    "eyebrow": "Démarrer une conversation",
+    "title": "On en\nparle",
+    "intro": "Ouvert à quelques missions freelance et à des postes à temps plein. Basé au Cameroun, je travaille avec des équipes du monde entier.",
+    "copy": "Copier",
+    "copied": "Copié",
+    "channels": "Canaux",
+    "email": "Email",
+    "formEyebrow": "Ou envoyez un message",
+    "formTitle": "Parlez-moi de votre projet",
+    "need": "De quoi avez-vous besoin ?",
+    "kinds": {
+      "web": "Plateforme web",
+      "mobile": "App mobile",
+      "showcase": "Site vitrine",
+      "consulting": "Conseil",
+      "fulltime": "Poste à temps plein"
+    },
+    "name": "Votre nom",
+    "namePlaceholder": "Marie Dupont",
+    "yourEmail": "Votre email",
+    "emailPlaceholder": "marie@entreprise.com",
+    "message": "Racontez-moi",
+    "messagePlaceholder": "Objectifs, délais, liens — tout ce qui aide.",
+    "reply": "Je réponds personnellement à chaque message, par email.",
+    "send": "Envoyer",
+    "sending": "Envoi…",
+    "error": "Une erreur est survenue. Écrivez-moi directement par email.",
+    "sentTitle": "Message\nenvoyé",
+    "sentBody": "Merci — je vous réponds par email. En attendant, jetez un œil à quelques projets récents.",
+    "seeWork": "Voir les projets",
+    "again": "Envoyer un autre"
+  },
+  "blog": {
+    "eyebrow": "Journal — {count} articles",
+    "title": "Notes de\nchantier",
+    "intro": "Des articles sur l'ingénierie frontend, le produit et la vie d'un studio — écrits à partir de vraies missions au Cameroun et ailleurs.",
+    "search": "Rechercher un article",
+    "searchPlaceholder": "Rechercher…",
+    "subject": "Sujet",
+    "filterSubject": "Filtrer par sujet",
+    "featured": "À la une · 01",
+    "latest": "Récents",
+    "count": "{count, plural, one {# article} other {# articles}}",
+    "emptyTitle": "Rien pour l'instant",
+    "emptyBody": "Aucun article ne correspond à cette recherche ou à ce sujet.",
+    "clear": "Effacer les filtres",
+    "read": "Lire l'article",
+    "minRead": "{min} min de lecture",
+    "min": "{min} min",
+    "browse": "Parcourir par sujet",
+    "subjects": "Sujets",
+    "categories": {
+      "engineering": { "label": "Ingénierie", "desc": "Architecture, TypeScript, APIs et performance." },
+      "design": { "label": "Design", "desc": "Systèmes, typographie et mouvement." },
+      "product": { "label": "Produit", "desc": "Transformer de vrais usages en logiciel." },
+      "studio": { "label": "Studio", "desc": "La vie de freelance et KreativEinfluss." },
+      "community": { "label": "Communauté", "desc": "Projets perso et scène locale." }
+    },
+    "newsletter": "Newsletter",
+    "newsletterTitle": "Nouvelles notes,\nzéro bruit",
+    "newsletterBody": "Un email quand un nouvel article sort. Désinscription en un clic.",
+    "newsletterEmail": "Adresse email",
+    "subscribe": "S'abonner",
+    "subscribed": "C'est noté — vérifiez votre boîte mail pour confirmer.",
+    "author": "Ingénieur frontend"
+  },
+  "post": {
+    "journal": "Journal",
+    "share": "Partager",
+    "copyLink": "Copier le lien",
+    "linkCopied": "Lien copié",
+    "shareLinkedIn": "Partager sur LinkedIn",
+    "shareX": "Partager sur X",
+    "onThisPage": "Sur cette page",
+    "related": "Projet lié",
+    "relatedBody": "L'étude de cas derrière cet article.",
+    "writtenBy": "Écrit par",
+    "authorRole": "Consultant digital & ingénieur frontend",
+    "authorBio": "Consultant digital et ingénieur frontend, fondateur de KreativEinfluss. Je construis du web fintech, e-commerce et orienté design depuis le Cameroun.",
+    "workWithMe": "Travailler ensemble",
+    "about": "À propos",
+    "keepReading": "À lire\naussi",
+    "allArticles": "Tous les articles",
+    "enjoyed": "Ça vous a plu",
+    "subscribeCta": "S'abonner aux nouvelles notes",
+    "startProject": "Démarrer un projet",
+    "draftTitle": "Bientôt en ligne",
+    "draftBody": "Cet article est en cours d'écriture. Abonnez-vous à la newsletter pour le recevoir dès sa sortie."
+  },
+  "passions": {
+    "eyebrow": "Hors du bureau",
+    "title": "Passions",
+    "intro": "Quand je ne livre pas, j'enchaîne les matchs classés, je chasse les trophées ou je cherche le prochain morceau sur lequel coder.",
+    "gaming": "Jeux ↓",
+    "music": "Musique ↓",
+    "gamingEyebrow": "(01) — Jeux vidéo",
+    "gamingTitle": "Press\nstart",
+    "gamingBody": "Succès et trophées de mes profils Steam et PlayStation. Les jeux de combat, c'est la maison — je construis aussi des sites pour la communauté Tekken.",
+    "profile": "Profil ↗",
+    "games": "Jeux",
+    "avgCompletion": "Complétion moy.",
+    "perfect": "Jeux à 100 %",
+    "avgTrophies": "Trophées moy.",
+    "platinums": "Platines",
+    "currentlyPlaying": "En cours",
+    "currentBody": "Soirées classées et tournois communautaires avec Tekken Mboa. Le jeu auquel je reviens toujours.",
+    "trophies": "Trophées",
+    "achievements": "Succès",
+    "hoursPlayed": "{hours} h de jeu",
+    "platform": "Plateforme",
+    "allGames": "Tous les jeux",
+    "sort": "Trier",
+    "sortPct": "Complétion",
+    "sortHours": "Heures de jeu",
+    "sortRecent": "Joué récemment",
+    "unlocked": "{got} / {total} débloqués",
+    "last": "{days, plural, =0 {aujourd'hui} =1 {hier} other {il y a # jours}}",
+    "lastMonths": "il y a {months} mois",
+    "musicEyebrow": "(02) — Musique",
+    "musicTitle": "En\nboucle",
+    "musicBody": "Le morceau et l'humeur du moment — mis à jour quand l'ambiance change.",
+    "songOfMoment": "Le morceau du moment",
+    "coverAlt": "Pochette",
+    "playSpotify": "Écouter sur Spotify ↗",
+    "updated": "Mis à jour {when}",
+    "mood": "Humeur du moment",
+    "followSpotify": "Me suivre sur Spotify"
+  },
+  "notFound": {
+    "title": "Page\nintrouvable",
+    "body": "Cette page n'existe pas — ou elle a déménagé.",
+    "home": "Retour à l'accueil"
+  }
+}

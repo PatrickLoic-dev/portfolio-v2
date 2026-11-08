@@ -1,0 +1,263 @@
+[
+  {
+    "slug": "fly-banking",
+    "n": "01",
+    "name": "Fly Banking",
+    "type": "professional",
+    "tags": [
+      "Angular",
+      "NestJS"
+    ],
+    "tone": "peach",
+    "mobile": false,
+    "url": "https://flybanking.bicec.com/home",
+    "host": "flybanking.bicec.com",
+    "client": "BICEC",
+    "content": {
+      "en": {
+        "description": "Responsive web banking platform enabling users to manage accounts, perform transfers, and view transaction history abroad.",
+        "problem": "BICEC clients living abroad needed a secure, responsive way to manage their accounts, send international transfers, and consult their history without depending on a physical branch. The existing tools assumed a stable, in-country banking relationship — they broke down across uneven network conditions, mixed devices, and the strict KYC requirements of cross-border money movement. Customer support was drowning in calls for operations that should have been self-serve, and the diaspora was losing trust in a bank that felt out of reach the moment they boarded a plane.",
+        "approach": "I led the frontend architecture in Angular, building modular feature workspaces (accounts, transfers, KYC, history) backed by typed services and a centralised state layer that survives flaky connections. Every transactional flow is wrapped in a strict, multi-step validator with idempotent server calls on the NestJS side, so a dropped request never produces a duplicate transfer. I co-designed the UX with a focus on clarity over decoration — large amounts, explicit fees, confirmation screens that read like a receipt — and instrumented the whole funnel so the team can see exactly where users drop off and fix it.",
+        "outcome": "A production banking platform now serving the BICEC diaspora with a consistent experience across desktop and mobile, measurable drops in support-ticket volume for transfers and balance checks, and a frontend codebase the internal team can extend confidently for new products."
+      },
+      "fr": {
+        "description": "Plateforme bancaire web responsive permettant aux utilisateurs de gérer leurs comptes, effectuer des virements et consulter leur historique depuis l'étranger.",
+        "problem": "Les clients BICEC vivant à l'étranger avaient besoin d'un moyen sécurisé et responsive de gérer leurs comptes, d'envoyer des virements internationaux et de consulter leur historique sans dépendre d'une agence physique. Les outils existants supposaient une relation bancaire stable, dans le pays — ils s'effondraient face à des conditions réseau inégales, des appareils variés et les exigences KYC strictes des transferts transfrontaliers. Le support client croulait sous les appels pour des opérations qui auraient dû être en libre-service, et la diaspora perdait confiance en une banque qui devenait inaccessible dès l'embarquement.",
+        "approach": "J'ai dirigé l'architecture frontend en Angular, en construisant des espaces de travail modulaires (comptes, virements, KYC, historique) appuyés par des services typés et une couche d'état centralisée qui résiste aux connexions instables. Chaque flux transactionnel est encapsulé dans un validateur multi-étapes strict avec des appels serveur idempotents côté NestJS, afin qu'une requête perdue ne produise jamais de virement en double. J'ai co-conçu l'UX en privilégiant la clarté à la décoration — grands montants, frais explicites, écrans de confirmation lisibles comme un reçu — et instrumenté tout le tunnel pour que l'équipe voie exactement où les utilisateurs décrochent.",
+        "outcome": "Une plateforme bancaire en production servant la diaspora BICEC avec une expérience cohérente sur desktop et mobile, des baisses mesurables du volume de tickets support pour les virements et soldes, et une base de code frontend que l'équipe interne peut étendre sereinement."
+      }
+    }
+  },
+  {
+    "slug": "click-cadyst",
+    "n": "02",
+    "name": "Click Cadyst",
+    "type": "professional",
+    "tags": [
+      "Ionic",
+      "NestJS"
+    ],
+    "tone": "leaf",
+    "mobile": true,
+    "url": "https://play.google.com/store/apps/details?id=com.clickcadyst.mobile",
+    "host": "play.google.com",
+    "client": "Cadyst",
+    "content": {
+      "en": {
+        "description": "Mobile solution that digitizes the ordering process by letting users browse a catalog, select items, and choose a delivery location.",
+        "problem": "Cadyst's ordering pipeline relied almost entirely on phone calls, WhatsApp messages, and manual coordination between sales agents, warehouse staff, and delivery riders. Orders were lost in transcription, addresses were misheard, and customers had no visibility into their own order once it was placed. The friction capped how many orders the team could realistically process per day and made every promotion a logistical risk instead of a growth lever.",
+        "approach": "I designed and built an Ionic mobile app that turns the entire ordering journey into a few taps: a fast, searchable catalog, a persistent multi-item cart, a geolocated delivery picker with map-based confirmation, and a clear order timeline. The NestJS backend exposes a clean order API, fans out push notifications to customers and operators, and feeds an admin workflow that mirrors how the warehouse actually thinks about fulfilment. I worked closely with the operations team to map their real-world steps into the app so adoption didn't require retraining anyone.",
+        "outcome": "A published Play Store app that replaced phone-based ordering with a self-serve mobile experience, freed sales agents to focus on relationship work instead of order entry, and gave management a live view of demand they had never had before."
+      },
+      "fr": {
+        "description": "Solution mobile qui digitalise le processus de commande en permettant aux utilisateurs de parcourir un catalogue, sélectionner des articles et choisir un lieu de livraison.",
+        "problem": "Le pipeline de commande de Cadyst reposait presque entièrement sur des appels, des messages WhatsApp et une coordination manuelle entre commerciaux, entrepôt et livreurs. Les commandes se perdaient dans la transcription, les adresses étaient mal entendues, et les clients n'avaient aucune visibilité sur leur commande une fois passée. Cette friction plafonnait le volume traitable quotidiennement et transformait chaque promotion en risque logistique.",
+        "approach": "J'ai conçu et développé une app mobile Ionic qui transforme tout le parcours de commande en quelques taps : un catalogue rapide et cherchable, un panier multi-articles persistant, un sélecteur de livraison géolocalisé avec confirmation cartographique, et une timeline de commande claire. Le backend NestJS expose une API de commande propre, diffuse des notifications push aux clients et opérateurs, et alimente un workflow admin qui reflète la pensée réelle de l'entrepôt.",
+        "outcome": "Une app publiée sur le Play Store qui a remplacé la commande téléphonique par une expérience mobile en libre-service, libéré les commerciaux pour le travail relationnel, et donné à la direction une vue en temps réel de la demande."
+      }
+    }
+  },
+  {
+    "slug": "mon-panier",
+    "n": "03",
+    "name": "Mon Panier",
+    "type": "professional",
+    "tags": [
+      "Angular",
+      "NestJS"
+    ],
+    "tone": "sand",
+    "mobile": false,
+    "url": null,
+    "host": "monpanier",
+    "client": null,
+    "content": {
+      "en": {
+        "description": "Food marketplace allowing customers to browse, order, and pay for local products online with real-time order tracking.",
+        "problem": "Local producers had strong products but no unified channel to reach customers online. Each one was reinventing a WhatsApp catalog, juggling screenshots, manual price lists, and ad-hoc delivery arrangements. Customers, on the other side, had no reliable way to discover producers, compare offers, or trust that an order would actually arrive. The market was fragmented in a way that hurt both sides.",
+        "approach": "I built a two-sided marketplace: an Angular storefront tuned for slow mobile networks, and a NestJS API that handles catalogs, orders, real-time status updates, and payments calibrated to the local market (including operator-specific mobile money flows). Producers get a back-office to manage their catalog and stock; customers get a clean discovery experience with live order tracking from confirmation to delivery. Notifications are pushed to both sides at every state change so nobody has to chase anyone.",
+        "outcome": "A web and mobile marketplace that gives local producers a real digital storefront and gives customers a single, trustworthy place to buy from them."
+      },
+      "fr": {
+        "description": "Marketplace alimentaire permettant aux clients de parcourir, commander et payer des produits locaux en ligne avec un suivi de commande en temps réel.",
+        "problem": "Les producteurs locaux avaient de bons produits mais aucun canal unifié pour toucher leurs clients en ligne. Chacun réinventait un catalogue WhatsApp, jonglant avec des captures d'écran, des listes de prix manuelles et des arrangements de livraison ad-hoc. Les clients, de l'autre côté, n'avaient aucun moyen fiable de découvrir les producteurs, comparer les offres ou faire confiance à une commande.",
+        "approach": "J'ai construit une marketplace à deux faces : une vitrine Angular optimisée pour les réseaux mobiles lents, et une API NestJS qui gère catalogues, commandes, mises à jour en temps réel et paiements calibrés pour le marché local (incluant les flux mobile money spécifiques aux opérateurs). Les producteurs disposent d'un back-office pour gérer leur catalogue et stock ; les clients d'une découverte propre avec suivi en direct.",
+        "outcome": "Une marketplace web et mobile qui donne aux producteurs locaux une vraie vitrine digitale et aux clients un unique endroit fiable où acheter."
+      }
+    }
+  },
+  {
+    "slug": "asante-artsy",
+    "n": "04",
+    "name": "Asante Artsy",
+    "type": "professional",
+    "tags": [
+      "Next.js",
+      "Web Design"
+    ],
+    "tone": "sage",
+    "mobile": false,
+    "url": "https://asanteartsy.vercel.app",
+    "host": "asanteartsy.vercel.app",
+    "client": "Asante Artsy",
+    "content": {
+      "en": {
+        "description": "Front-end development of the showcase website for the architectural cabinet Asante Artsy.",
+        "problem": "Asante Artsy is an architecture cabinet whose work is quiet, considered, and image-first — and they had no digital presence that matched it. Their existing material lived in PDFs and social posts that flattened the scale and craft of the buildings. Prospective clients had no way to feel the practice before contacting them, and the studio was losing the upstream conversation about what kind of projects they wanted to take on.",
+        "approach": "I crafted a Next.js site built around a restrained typographic system and generous whitespace, with image-led project pages designed to let each piece of architecture breathe. Navigation is deliberately quiet — the work is the interface. Performance is treated as a design constraint: large imagery is served responsively with art-directed crops so the site feels heavyweight visually but loads light.",
+        "outcome": "An editorial digital presence that mirrors the studio's sensibility and frames every project at the scale it deserves."
+      },
+      "fr": {
+        "description": "Développement frontend du site vitrine du cabinet d'architecture Asante Artsy.",
+        "problem": "Asante Artsy est un cabinet d'architecture dont le travail est silencieux, réfléchi et visuel — et ils n'avaient aucune présence digitale à la hauteur. Leur matériel existant vivait dans des PDF et posts sociaux qui aplatissaient l'échelle et le savoir-faire des bâtiments. Les clients potentiels n'avaient aucun moyen de ressentir la pratique avant de les contacter.",
+        "approach": "J'ai conçu un site Next.js bâti autour d'un système typographique sobre et d'espaces blancs généreux, avec des pages projet menées par l'image pour laisser respirer chaque œuvre. La navigation est volontairement discrète — le travail est l'interface. La performance est traitée comme une contrainte de design.",
+        "outcome": "Une présence digitale éditoriale qui reflète la sensibilité du studio et présente chaque projet à l'échelle qu'il mérite."
+      }
+    }
+  },
+  {
+    "slug": "jaec-agro",
+    "n": "05",
+    "name": "Jaec Agro",
+    "type": "professional",
+    "tags": [
+      "Next.js",
+      "Web Design"
+    ],
+    "tone": "terracotta",
+    "mobile": false,
+    "url": "https://jaec-agro.vercel.app",
+    "host": "jaec-agro.vercel.app",
+    "client": "JAEC Group",
+    "content": {
+      "en": {
+        "description": "Catalogue website for the JAEC Agronomic Group showcasing their agricultural products and services.",
+        "problem": "JAEC was fielding the same product and pricing questions over and over by phone, and prospective clients had no way to browse the catalog before committing to a sales call. That asymmetry slowed every deal: serious buyers were treated the same as casual visitors, and the team had no qualifying step.",
+        "approach": "I built a fast Next.js catalogue with clear product categorisation, plain-language descriptions, and a navigation model tested for non-technical visitors. The structure mirrors how the sales team naturally pitches the catalog, so the website acts as a self-serve version of their best conversation. Contact CTAs are placed exactly where qualified buyers tend to surface, not as a blanket header banner.",
+        "outcome": "A credible online catalogue that lets prospects qualify themselves before the first call, shortening the sales cycle for the team."
+      },
+      "fr": {
+        "description": "Site catalogue pour le Groupe Agronomique JAEC présentant leurs produits et services agricoles.",
+        "problem": "JAEC recevait les mêmes questions produit et tarifs par téléphone, et les clients potentiels n'avaient aucun moyen de parcourir le catalogue avant de s'engager dans un appel commercial. Cette asymétrie ralentissait chaque deal : les acheteurs sérieux étaient traités comme les simples visiteurs.",
+        "approach": "J'ai construit un catalogue Next.js rapide avec une catégorisation claire, des descriptions en langage simple et un modèle de navigation testé pour des visiteurs non techniques. La structure reflète la manière dont l'équipe commerciale présente naturellement le catalogue.",
+        "outcome": "Un catalogue en ligne crédible qui permet aux prospects de se qualifier eux-mêmes avant le premier appel, raccourcissant le cycle de vente."
+      }
+    }
+  },
+  {
+    "slug": "ksa-glamour",
+    "n": "06",
+    "name": "KSA Glamour",
+    "type": "professional",
+    "tags": [
+      "Next.js",
+      "Web Design"
+    ],
+    "tone": "muted",
+    "mobile": false,
+    "url": "https://ksa-glamour.vercel.app",
+    "host": "ksa-glamour.vercel.app",
+    "client": "KSA Glamour",
+    "content": {
+      "en": {
+        "description": "Showcase website for KSA Glamour, specializing in luxury fashion and accessories.",
+        "problem": "KSA Glamour sells aspirational luxury fashion, but their online identity didn't yet carry the weight of the brand. Without an elevated digital story, the products had to do all the work of convincing — and a static product list isn't enough to sell luxury. The brand needed to feel as desirable online as it does in person.",
+        "approach": "I designed and built a Next.js showcase using editorial layouts, refined typography, and a strict product-first hierarchy that puts the collection at the centre. Motion is used sparingly and deliberately — entrance reveals, slow image transitions — to give the site the cadence of a printed lookbook. Every page is composed so the product is the hero and the chrome stays out of the way.",
+        "outcome": "A digital identity that finally feels as elevated as the products, and a content structure the team can grow with each season."
+      },
+      "fr": {
+        "description": "Site vitrine pour KSA Glamour, spécialisé dans la mode et les accessoires de luxe.",
+        "problem": "KSA Glamour vend une mode de luxe aspirationnelle, mais leur identité en ligne ne portait pas encore le poids de la marque. Sans récit digital élevé, les produits devaient faire tout le travail de conviction — et une liste statique ne suffit pas à vendre du luxe.",
+        "approach": "J'ai conçu une vitrine Next.js utilisant des mises en page éditoriales, une typographie raffinée et une hiérarchie strictement produit-first qui place la collection au centre. Le mouvement est utilisé avec parcimonie — révélations d'entrée, transitions d'image lentes — pour donner au site la cadence d'un lookbook imprimé.",
+        "outcome": "Une identité digitale enfin aussi élevée que les produits, et une structure de contenu que l'équipe peut faire grandir à chaque saison."
+      }
+    }
+  },
+  {
+    "slug": "tekken-mboa",
+    "n": "07",
+    "name": "Tekken Mboa",
+    "type": "community",
+    "tags": [
+      "Next.js",
+      "Web Design"
+    ],
+    "tone": "ink",
+    "mobile": false,
+    "url": "https://tekken-mboa.vercel.app",
+    "host": "tekken-mboa.vercel.app",
+    "client": null,
+    "content": {
+      "en": {
+        "description": "Community website for the Cameroonian Tekken community — tournaments, rankings, and player connections.",
+        "problem": "The Cameroonian Tekken scene was growing fast on Discord and WhatsApp, but everything — tournament announcements, brackets, rankings, player profiles — lived in scattered messages that disappeared from the feed after a day. New players had no on-ramp, organisers had no archive, and the community had no shared identity it could point newcomers to.",
+        "approach": "I built a Next.js community hub with tournament listings, persistent rankings, and player profiles that give the scene a permanent home. The design borrows from the energy of the game itself — sharp typography, high-contrast moments, decisive motion — so the site reads as competitive rather than corporate. The information architecture is built around the three things the community actually asks: 'when is the next tournament', 'who's playing', and 'where do I stand'.",
+        "outcome": "A central place for the Cameroonian Tekken community to follow tournaments, track rankings, and rally around a shared identity."
+      },
+      "fr": {
+        "description": "Site communautaire pour la communauté Tekken camerounaise — tournois, classements et connexions entre joueurs.",
+        "problem": "La scène Tekken camerounaise grandissait vite sur Discord et WhatsApp, mais tout — annonces de tournois, brackets, classements, profils — vivait dans des messages éparpillés qui disparaissaient du feed après une journée. Les nouveaux joueurs n'avaient aucun point d'entrée.",
+        "approach": "J'ai construit un hub communautaire Next.js avec listings de tournois, classements persistants et profils de joueurs qui donnent à la scène une maison permanente. Le design emprunte à l'énergie du jeu — typographie tranchante, moments à fort contraste, mouvement décisif.",
+        "outcome": "Un lieu central pour suivre les tournois, traquer les classements et fédérer la communauté Tekken camerounaise autour d'une identité partagée."
+      }
+    }
+  },
+  {
+    "slug": "tekken-wavedash",
+    "n": "08",
+    "name": "Tekken Wavedash",
+    "type": "community",
+    "tags": [
+      "Next.js",
+      "Web Design"
+    ],
+    "tone": "leaf",
+    "mobile": false,
+    "url": null,
+    "host": "tekken-wavedash",
+    "client": null,
+    "content": {
+      "en": {
+        "description": "Companion website for the Tekken Wavedash community — event coverage, match archives, and a home for the growing French-speaking scene.",
+        "problem": "The Wavedash crew was producing high-quality tournament content but had no central place to publish recaps, brackets, or player spotlights. Everything lived in social feeds that buried the work within hours.",
+        "approach": "I built a fast Next.js site with a bold editorial layout, dedicated event pages, and a clean archive so every tournament has a permanent URL. Motion is used to give recaps the energy of the matches themselves.",
+        "outcome": "A durable home for the Wavedash community where fans, players, and sponsors can follow the scene without scrolling endless social feeds."
+      },
+      "fr": {
+        "description": "Site compagnon de la communauté Tekken Wavedash — couverture d'événements, archives de matchs et un véritable foyer pour la scène francophone en pleine croissance.",
+        "problem": "L'équipe Wavedash produisait du contenu de tournoi de grande qualité mais n'avait aucun endroit central pour publier recaps, brackets et portraits de joueurs. Tout vivait dans les feeds sociaux qui enterraient le travail en quelques heures.",
+        "approach": "J'ai construit un site Next.js rapide avec une mise en page éditoriale assumée, des pages d'événement dédiées et une archive propre pour que chaque tournoi ait une URL permanente. Le mouvement donne aux recaps l'énergie des matchs eux-mêmes.",
+        "outcome": "Un foyer durable pour la communauté Wavedash où fans, joueurs et sponsors peuvent suivre la scène sans scroller des feeds sans fin."
+      }
+    }
+  },
+  {
+    "slug": "adele-shop",
+    "n": "09",
+    "name": "Adele Shop",
+    "type": "professional",
+    "tags": [
+      "Next.js",
+      "E-commerce"
+    ],
+    "tone": "sand",
+    "mobile": false,
+    "url": null,
+    "host": "adele-shop",
+    "client": "Adele Shop",
+    "content": {
+      "en": {
+        "description": "E-commerce storefront for Adele Shop — a curated fashion and accessories boutique with a refined, product-first browsing experience.",
+        "problem": "Adele Shop was running on a generic template that flattened the brand and made browsing the catalog feel like every other store. The product photography deserved an interface that matched it.",
+        "approach": "I designed and built a Next.js storefront with editorial product pages, a fast filterable catalog, and a checkout flow tuned to the local payment landscape. The visual system leans on whitespace and typography to let each piece breathe.",
+        "outcome": "A boutique e-commerce experience that finally reads as elevated, with conversion-friendly mechanics and a content structure the team can extend each season."
+      },
+      "fr": {
+        "description": "Vitrine e-commerce pour Adele Shop — une boutique de mode et d'accessoires curatée avec une expérience de navigation raffinée, centrée produit.",
+        "problem": "Adele Shop tournait sur un template générique qui aplatissait la marque et rendait la navigation banale. La photographie produit méritait une interface à sa hauteur.",
+        "approach": "J'ai conçu et développé une vitrine Next.js avec des pages produit éditoriales, un catalogue rapide et filtrable, et un parcours d'achat calibré pour le paysage de paiement local. Le système visuel s'appuie sur l'espace blanc et la typographie pour laisser respirer chaque pièce.",
+        "outcome": "Une expérience e-commerce boutique enfin à la hauteur, avec une mécanique propice à la conversion et une structure de contenu que l'équipe peut faire grandir à chaque saison."
+      }
+    }
+  }
+]

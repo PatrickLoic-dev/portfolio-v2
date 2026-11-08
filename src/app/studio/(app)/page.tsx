@@ -2,7 +2,8 @@ import { PenLine, Plus } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { StudioHeading, StudioTopBar } from "@/components/studio/page-header";
-import { fmtDay, fmtDayShort, StatusBadge, statusMeta, whenLabel } from "@/components/studio/status";
+import { fmtDay, fmtDayShort, fmtDayTime, StatusBadge, statusMeta, whenLabel } from "@/components/studio/status";
+import { socialCounts } from "@/lib/social-data";
 import { tones } from "@/lib/tones";
 import { studioCounts, studioIdeas, studioLastPublished, studioNextScheduled, studioRecentNotes, studioSubjects } from "@/lib/notes";
 import { QuickIdea } from "./quick-idea";
@@ -31,13 +32,14 @@ function StatCard({ href, label, value, dot, note }: { href?: string; label: str
 }
 
 export default async function DashboardPage() {
-  const [counts, next, recent, subjects, ideas, lastPublished] = await Promise.all([
+  const [counts, next, recent, subjects, ideas, lastPublished, social] = await Promise.all([
     studioCounts(),
     studioNextScheduled(),
     studioRecentNotes(5),
     studioSubjects(),
     studioIdeas(),
     studioLastPublished(),
+    socialCounts(),
   ]);
   const maxCount = Math.max(1, ...subjects.map((s) => s.count));
 
@@ -51,6 +53,8 @@ export default async function DashboardPage() {
     ...(lastPublished ? [{ href: `/studio/notes/${lastPublished}`, k: "Éditer", t: "Reprendre la dernière note publiée" }] : []),
     { href: "/studio/notes", k: "Gérer", t: "Trier, publier ou supprimer en lot" },
     { href: "/studio/subjects", k: "Organiser", t: "Ajouter ou renommer un sujet" },
+    { href: "/studio/social/compose", k: "Social", t: "Partager une note sur les réseaux" },
+    { href: "/studio/social/calendar", k: "Social", t: "Orchestrer la semaine" },
   ];
 
   return (
@@ -151,13 +155,27 @@ export default async function DashboardPage() {
             <span className="size-2.5 rounded-[3px] bg-success" />
             Réseaux sociaux
           </h2>
+          <Link href="/studio/social" className="text-sm font-semibold underline underline-offset-[3px]">
+            Vue d&apos;ensemble
+          </Link>
         </div>
-        <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-dashed border-ink/20 p-6">
-          <div className="flex flex-col gap-1.5">
-            <span className="label text-success-ink">Bientôt</span>
-            <span className="font-semibold">Composer, programmer et suivre vos posts LinkedIn, X, Instagram…</span>
-          </div>
-          <span className="text-sm text-muted-foreground">Arrive avec la phase « Réseaux sociaux ».</span>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3.5">
+          <StatCard
+            href="/studio/social/posts?statut=due"
+            label="À publier"
+            value={social.due}
+            dot={social.due ? "var(--accent)" : "var(--muted-foreground)"}
+            note={social.due ? "Un clic par réseau" : "Rien en attente"}
+          />
+          <StatCard
+            href="/studio/social/calendar"
+            label="Programmées · 7 jours"
+            value={social.scheduledWeek}
+            dot="var(--accent)"
+            note={social.next ? `Prochaine : ${fmtDayTime(social.next)}` : "Rien de prévu"}
+          />
+          <StatCard href="/studio/social/calendar" label="File d'attente" value={social.drafts} dot="var(--muted-foreground)" note="Brouillons à planifier" />
+          <StatCard href="/studio/social/posts?statut=published" label="Publiées · 30 j" value={social.publishedMonth} dot="var(--success)" note="Sur LinkedIn, Instagram, X" />
         </div>
 
         <section className="flex flex-col gap-3.5">
@@ -165,11 +183,11 @@ export default async function DashboardPage() {
           <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-3.5">
             {shortcuts.map((s) => (
               <Link
-                key={s.k}
+                key={s.href}
                 href={s.href}
                 className="flex flex-col gap-3 rounded-2xl border border-dashed border-ink/18 p-[18px] transition-colors hover:border-solid hover:border-ink"
               >
-                <span className="label text-accent-ink">{s.k}</span>
+                <span className={`label ${s.k === "Social" ? "text-success-ink" : "text-accent-ink"}`}>{s.k}</span>
                 <span className="font-semibold">{s.t}</span>
               </Link>
             ))}

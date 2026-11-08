@@ -45,6 +45,10 @@ The Studio lives at `/studio` (single admin: `ADMIN_EMAIL` / `ADMIN_PASSWORD` fr
   `vercel.json` schedules a nightly sync on `/api/cron/steam` (needs `CRON_SECRET`).
 - **Music** — paste an Apple Music link (title, artist, album and artwork filled via the iTunes
   Lookup API) or a Spotify link (title and artwork via oEmbed). No key needed.
+- **Social planner** (Studio → Réseaux sociaux) — compose for LinkedIn, Instagram and X with
+  per-network text, limits and previews, schedule on a weekly calendar, and publish with the
+  "À publier" assistant (copies the text and opens each network pre-filled). No platform API yet;
+  messages and statistics will come with the Instagram/LinkedIn/X APIs.
 - **Contact form** — sends through [Resend](https://resend.com) when `RESEND_API_KEY` is set;
   otherwise submissions are logged. The newsletter action is a stub.
 

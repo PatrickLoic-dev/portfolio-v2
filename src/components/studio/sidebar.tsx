@@ -7,7 +7,7 @@ import { useState, type ReactNode } from "react";
 import { signOut } from "@/app/studio/actions";
 import { cn } from "@/lib/cn";
 
-type Counts = { all: number; published: number; draft: number; scheduled: number; subjects: number; projects: number; games: number };
+type Counts = { all: number; published: number; draft: number; scheduled: number; subjects: number; projects: number; games: number; socialDue: number };
 
 function Item({
   href,
@@ -128,7 +128,27 @@ export function StudioSidebar({ counts, email }: { counts: Counts; email: string
             </Item>
           </Group>
           <Group icon={<Share2 size={14} aria-hidden />} label="Réseaux sociaux" color="var(--blob-b)">
-            <Soon>Composer &amp; programmer</Soon>
+            <Item href="/studio/social" active={pathname === "/studio/social"} onNavigate={close}>
+              Vue d&apos;ensemble
+            </Item>
+            <Item href="/studio/social/compose" active={pathname === "/studio/social/compose"} onNavigate={close}>
+              Composer
+            </Item>
+            <Item href="/studio/social/calendar" active={pathname === "/studio/social/calendar"} onNavigate={close}>
+              Calendrier
+            </Item>
+            <Item
+              href="/studio/social/posts"
+              active={pathname === "/studio/social/posts"}
+              count={counts.socialDue ? `${counts.socialDue} à publier` : undefined}
+              onNavigate={close}
+            >
+              Publications
+            </Item>
+            <Item href="/studio/social/accounts" active={pathname === "/studio/social/accounts"} onNavigate={close}>
+              Comptes
+            </Item>
+            <Soon>Messages &amp; stats</Soon>
           </Group>
           <Group icon={<Gamepad2 size={14} aria-hidden />} label="Passions" color="var(--secondary)">
             <Item href="/studio/passions/games" active={pathname === "/studio/passions/games"} count={counts.games} onNavigate={close}>

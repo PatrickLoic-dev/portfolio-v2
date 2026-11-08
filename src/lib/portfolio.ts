@@ -3,6 +3,7 @@ import { and, asc, desc, eq, inArray, isNull } from "drizzle-orm";
 import { db } from "@/db";
 import { games, projects, projectTranslations, settings, songs, type Game, type Project, type ProjectMetric, type ProjectTranslation, type Song } from "@/db/schema";
 import type { Locale } from "@/i18n/routing";
+import { DEFAULT_SOCIAL, type SocialSettings } from "./social";
 import type { Tone } from "./tones";
 
 /* ------------------------------------------------------------------ */
@@ -126,12 +127,14 @@ export type Settings = {
   steam: { steamId: string; profileUrl: string; personaName: string; avatarUrl: string; lastSyncAt: string | null; autoSync: boolean };
   games: { minPct: number };
   music: { spotifyProfile: string; appleProfile: string };
+  social: SocialSettings;
 };
 
 const DEFAULTS: Settings = {
   steam: { steamId: "", profileUrl: "", personaName: "", avatarUrl: "", lastSyncAt: null, autoSync: true },
   games: { minPct: 0 },
   music: { spotifyProfile: "", appleProfile: "" },
+  social: DEFAULT_SOCIAL,
 };
 
 export async function getSetting<K extends keyof Settings>(key: K): Promise<Settings[K]> {

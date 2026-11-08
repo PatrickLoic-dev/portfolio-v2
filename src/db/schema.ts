@@ -198,6 +198,42 @@ export const settings = pgTable("settings", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 }).enableRLS();
 
+/* ------------------------------------------------------------------ */
+/* Social planner                                                      */
+/* ------------------------------------------------------------------ */
+
+export const socialNetwork = pgEnum("social_network", ["linkedin", "instagram", "x"]);
+export const socialStatus = pgEnum("social_status", ["draft", "scheduled", "published"]);
+
+export type SocialNetwork = (typeof socialNetwork.enumValues)[number];
+/** Per-network text override (missing = the common text). */
+export type SocialCustomText = Partial<Record<SocialNetwork, string>>;
+/** When (and where) each network actually went out. */
+export type SocialPublished = Partial<Record<SocialNetwork, { at: string; url?: string }>>;
+
+export const socialPosts = pgTable(
+  "social_posts",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    networks: socialNetwork("networks").array().notNull().default(sql`'{}'`),
+    text: text("text").notNull().default(""),
+    custom: jsonb("custom").$type<SocialCustomText>().notNull().default({}),
+    link: text("link"),
+    firstComment: text("first_comment").notNull().default(""),
+    media: text("media").array().notNull().default(sql`'{}'::text[]`),
+    status: socialStatus("status").notNull().default("draft"),
+    scheduledAt: timestamp("scheduled_at", { withTimezone: true }),
+    published: jsonb("published").$type<SocialPublished>().notNull().default({}),
+    /** Blog note this post shares, if any. */
+    noteId: uuid("note_id").references(() => notes.id, { onDelete: "set null" }),
+    deletedAt: timestamp("deleted_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("social_posts_scheduled_idx").on(t.status, t.scheduledAt)],
+).enableRLS();
+
+export type SocialPost = typeof socialPosts.$inferSelect;
 export type Project = typeof projects.$inferSelect;
 export type ProjectTranslation = typeof projectTranslations.$inferSelect;
 export type Game = typeof games.$inferSelect;

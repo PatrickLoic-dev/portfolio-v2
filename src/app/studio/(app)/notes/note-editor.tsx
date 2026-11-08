@@ -123,8 +123,10 @@ export function NoteEditor({
         toast(res.error, { tone: "error" });
         return;
       }
-      const { id, slug, publishedAt } = res.data!;
-      setD((x) => ({ ...x, id, slug, status, publishedAt }));
+      // The server may turn "published + future date" into "scheduled".
+      const { id, slug, publishedAt, status: savedStatus } = res.data!;
+      status = savedStatus;
+      setD((x) => ({ ...x, id, slug, status: savedStatus, publishedAt }));
       setDirty(false);
       setSavedAt(new Date().toISOString());
       toast(
@@ -471,6 +473,9 @@ export function NoteEditor({
                   if (status === "scheduled" && (!d.publishedAt || new Date(d.publishedAt) <= new Date())) {
                     const tomorrow = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
                     upd({ status, publishedAt: fromLocalInput(`${tomorrow}T08:30`) });
+                  } else if (status === "published" && d.publishedAt && new Date(d.publishedAt) > new Date()) {
+                    // Publishing now: a future date would keep it hidden, so reset it to "now".
+                    upd({ status, publishedAt: null });
                   } else upd({ status });
                 }}
               >

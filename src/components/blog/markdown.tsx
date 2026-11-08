@@ -18,10 +18,8 @@ function textOf(node: ReactNode): string {
  * - `> [!TIP]` blockquotes render as the sage callout.
  */
 export function Markdown({ source }: { source: string }) {
-  const seen = new Map<string, number>();
-
   const components: Components = {
-    h2: ({ children }) => <h2 id={headingId(textOf(children), seen)}>{children}</h2>,
+    h2: ({ children }) => <h2 id={headingId(textOf(children).replace(/[*_`]/g, ""))}>{children}</h2>,
     pre: ({ children, node }) => {
       const code = (children as { props?: { className?: string; children?: ReactNode } })?.props;
       const lang = /language-(\w+)/.exec(code?.className ?? "")?.[1] ?? "";

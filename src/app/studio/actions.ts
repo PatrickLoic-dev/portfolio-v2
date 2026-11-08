@@ -84,6 +84,8 @@ export async function saveNote(raw: NoteInput): Promise<ActionResult<{ id: strin
 
   let publishedAt = input.publishedAt ? new Date(input.publishedAt) : null;
   if (input.status === "published" && !publishedAt) publishedAt = new Date();
+  // "Published" with a future date is really a scheduled note.
+  if (input.status === "published" && publishedAt && publishedAt > new Date()) input.status = "scheduled";
   if (input.status === "scheduled") {
     if (!publishedAt) return { ok: false, error: "Choisissez une date de publication." };
     if (publishedAt <= new Date()) return { ok: false, error: "La date programmée doit être dans le futur." };

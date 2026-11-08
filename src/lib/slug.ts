@@ -22,7 +22,6 @@ export function wordCount(markdown: string) {
 
 /** "## Title" lines → table of contents entries with the ids the renderer gives them. */
 export function extractToc(markdown: string) {
-  const seen = new Map<string, number>();
   const out: { id: string; label: string }[] = [];
   let inFence = false;
   for (const line of markdown.split("\n")) {
@@ -31,15 +30,15 @@ export function extractToc(markdown: string) {
     const m = /^##\s+(.+?)\s*#*$/.exec(line);
     if (!m) continue;
     const label = m[1].replace(/[*_`]/g, "");
-    out.push({ id: headingId(label, seen), label });
+    out.push({ id: headingId(label), label });
   }
   return out;
 }
 
-/** Stable, de-duplicated heading id (shared by the TOC and the renderer). */
-export function headingId(label: string, seen: Map<string, number>) {
-  const base = slugify(label) || "section";
-  const n = seen.get(base) ?? 0;
-  seen.set(base, n + 1);
-  return n ? `${base}-${n}` : base;
+/**
+ * Heading id shared by the TOC and the renderer. Pure (no counter), so React's
+ * double render in development can't shift it; keep ## titles unique per note.
+ */
+export function headingId(label: string) {
+  return slugify(label) || "section";
 }

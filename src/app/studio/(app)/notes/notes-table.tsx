@@ -219,7 +219,7 @@ export function NotesTable({
             />
             <div className="flex min-w-0 items-center gap-3.5">
               <span
-                className="size-11 flex-none rounded-[10px] border border-ink/8 bg-cover bg-center"
+                className="hidden size-11 flex-none rounded-[10px] border border-ink/8 bg-cover bg-center nav:block"
                 style={{ background: r.coverUrl ? `center/cover url(${r.coverUrl})` : tones[r.tone]?.bg }}
               />
               <div className="flex min-w-0 flex-col gap-1">

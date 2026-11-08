@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, type Variants } from "motion/react";
 import type { CSSProperties } from "react";
 import { cn } from "@/lib/cn";
 import { EASE } from "./ease";
@@ -19,9 +19,17 @@ type Props = {
   immediate?: boolean;
 };
 
+const line: Variants = {
+  hidden: { y: "110%" },
+  show: (delay: number) => ({ y: "0%", transition: { duration: 0.9, ease: EASE, delay } }),
+};
+
 /**
  * Display headline that reveals line by line — each line slides up out of a mask.
- * The mask is padded so uppercase accents (É, À) and descenders are never clipped.
+ *
+ * The in-view trigger sits on the heading itself: the lines start translated
+ * outside their overflow-hidden masks, so observing them directly would never
+ * fire. The mask is padded so uppercase accents (É, À) and descenders are never clipped.
  */
 export function SplitHeadline({
   text,
@@ -34,26 +42,26 @@ export function SplitHeadline({
   immediate = false,
 }: Props) {
   const lines = text.split("\n");
-  const Tag = as;
+  const Tag = motion[as] as typeof motion.h2;
   const trigger = immediate
-    ? { animate: { y: "0%" } }
-    : { whileInView: { y: "0%" }, viewport: { once: true, margin: "0px 0px -8% 0px" } };
+    ? { animate: "show" }
+    : { whileInView: "show", viewport: { once: true, amount: 0.2 } };
 
   return (
-    <Tag className={cn("display", className)} style={style}>
-      {lines.map((line, i) => (
+    <Tag
+      className={cn("display", className)}
+      style={style}
+      initial="hidden"
+      {...trigger}
+    >
+      {lines.map((text, i) => (
         <span
           key={i}
           className="block overflow-hidden"
           style={{ paddingTop: "0.14em", marginTop: "-0.14em", paddingBottom: "0.06em", marginBottom: "-0.06em" }}
         >
-          <motion.span
-            className="block"
-            initial={{ y: "110%" }}
-            transition={{ duration: 0.9, ease: EASE, delay: delay + i * 0.08 }}
-            {...trigger}
-          >
-            {line}
+          <motion.span className="block" variants={line} custom={delay + i * 0.08}>
+            {text}
             {accent && i === lines.length - 1 ? <span style={{ color: accentColor }}>{accent}</span> : null}
           </motion.span>
         </span>

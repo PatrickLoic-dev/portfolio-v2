@@ -36,6 +36,7 @@ export default async function GamesPage() {
             daysAgo: daysSince(g.lastPlayedAt),
             tone: g.tone,
             appId: g.steamAppId,
+            family: g.family,
             visible: g.visible,
             pinned: g.pinned,
           }))}

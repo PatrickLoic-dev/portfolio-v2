@@ -161,6 +161,11 @@ export const games = pgTable("games", {
   achievementsTotal: integer("achievements_total"),
   lastPlayedAt: timestamp("last_played_at", { withTimezone: true }),
   tone: text("tone").notNull().default("sand"),
+  /**
+   * Played through Steam Family Sharing: added by hand from a Store link.
+   * The sync refreshes its achievements but never its name or hours.
+   */
+  family: boolean("family").notNull().default(false),
   visible: boolean("visible").notNull().default(true),
   /** "Currently playing" on the Passions page (one at a time). */
   pinned: boolean("pinned").notNull().default(false),

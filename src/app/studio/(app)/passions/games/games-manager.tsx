@@ -1,8 +1,8 @@
 "use client";
 
-import { RefreshCw } from "lucide-react";
+import { Plus, RefreshCw, X } from "lucide-react";
 import { motion } from "motion/react";
-import { useOptimistic, useState, useTransition } from "react";
+import { useOptimistic, useState, useTransition, type FormEvent } from "react";
 import { EASE } from "@/components/motion/ease";
 import { fmtDayTime } from "@/components/studio/status";
 import { Switch } from "@/components/studio/switch";
@@ -11,7 +11,7 @@ import { cn } from "@/lib/cn";
 import { SteamImage } from "@/components/passions/steam-image";
 import { steamArt } from "@/lib/steam-art";
 import { toneOf } from "@/lib/tones";
-import { saveSteamOptions, setGameFlags, setMinPct, syncSteamNow } from "../../../portfolio-actions";
+import { addFamilyGameNow, removeFamilyGame, saveSteamOptions, setFamilyGameHours, setGameFlags, setMinPct, syncSteamNow } from "../../../portfolio-actions";
 
 type Row = {
   id: string;
@@ -21,9 +21,76 @@ type Row = {
   daysAgo: number | null;
   tone: string;
   appId: number | null;
+  family: boolean;
   visible: boolean;
   pinned: boolean;
 };
+
+/** Steam Family Sharing games don't come back from the API: add them from their Store link. */
+function FamilyForm({ disabled }: { disabled: boolean }) {
+  const toast = useToast();
+  const [link, setLink] = useState("");
+  const [hours, setHours] = useState("");
+  const [pending, start] = useTransition();
+
+  const submit = (e: FormEvent) => {
+    e.preventDefault();
+    start(async () => {
+      const res = await addFamilyGameNow(link, Number(hours) || 0);
+      if (!res.ok) return toast(res.error, { tone: "error" });
+      toast(res.data!.withAchievements ? `${res.data!.name} ajouté avec ses succès` : `${res.data!.name} ajouté (pas de succès lisibles)`);
+      setLink("");
+      setHours("");
+    });
+  };
+
+  return (
+    <form onSubmit={submit} className="hairline flex flex-col gap-3.5 rounded-[20px] border bg-card p-[22px]">
+      <div className="flex flex-col gap-1">
+        <h2 className="m-0 text-base font-bold">Jeux de la famille Steam</h2>
+        <p className="m-0 text-[13px] leading-relaxed text-muted-foreground">
+          Steam ne renvoie pas les jeux prêtés par le partage familial. Collez leur lien du Store : nom, jaquette et succès se remplissent,
+          les heures se saisissent ici.
+        </p>
+      </div>
+      <div className="flex flex-wrap items-end gap-3">
+        <div className="flex min-w-0 flex-[1_1_320px] flex-col gap-1.5">
+          <label className="text-[13px] font-semibold" htmlFor="fam-link">
+            Lien Steam Store
+          </label>
+          <input
+            id="fam-link"
+            className="field min-h-11 rounded-xl py-2 text-[15px]"
+            placeholder="https://store.steampowered.com/app/…"
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+            disabled={disabled}
+          />
+        </div>
+        <div className="flex w-[120px] flex-col gap-1.5">
+          <label className="text-[13px] font-semibold" htmlFor="fam-hours">
+            Heures jouées
+          </label>
+          <input
+            id="fam-hours"
+            type="number"
+            min={0}
+            className="field min-h-11 rounded-xl py-2 text-[15px]"
+            placeholder="0"
+            value={hours}
+            onChange={(e) => setHours(e.target.value)}
+            disabled={disabled}
+          />
+        </div>
+        <button type="submit" className="btn btn-primary min-h-11 text-sm disabled:opacity-60" disabled={disabled || pending || !link.trim()}>
+          <Plus size={16} aria-hidden />
+          {pending ? "Ajout…" : "Ajouter"}
+        </button>
+      </div>
+      {disabled && <span className="text-xs text-muted-foreground">Synchronisez d&apos;abord votre compte Steam.</span>}
+    </form>
+  );
+}
 
 const last = (d: number | null) =>
   d === null ? "—" : d === 0 ? "aujourd'hui" : d === 1 ? "hier" : d < 30 ? `il y a ${d} j` : `il y a ${Math.round(d / 30)} mois`;
@@ -140,8 +207,12 @@ export function GamesManager({
         </div>
       </section>
 
+      <FamilyForm disabled={!configured || !linked} />
+
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <span className="label text-muted-foreground">{list.length} jeux · les 40 plus joués</span>
+        <span className="label text-muted-foreground">
+          {list.length} jeux · les 40 plus joués{list.some((g) => g.family) ? " + famille" : ""}
+        </span>
         <div className="flex items-center gap-2.5">
           <label className="text-[13px] font-semibold" htmlFor="minp">
             Masquer sous
@@ -187,8 +258,15 @@ export function GamesManager({
                 {steamArt(g.appId) && <SteamImage srcs={steamArt(g.appId)!.header} className="absolute inset-0 size-full object-cover" />}
               </span>
               <div className="flex min-w-0 flex-col gap-0.5">
-                <span className="truncate text-[15px] font-semibold">{g.name}</span>
-                <span className="text-[13px] text-muted-foreground">Joué {last(g.daysAgo)}</span>
+                <span className="flex min-w-0 items-center gap-2">
+                  <span className="truncate text-[15px] font-semibold">{g.name}</span>
+                  {g.family && (
+                    <span className="flex-none rounded-full bg-secondary px-2 py-0.5 text-[11px] font-semibold" title="Joué via le partage familial Steam">
+                      Famille
+                    </span>
+                  )}
+                </span>
+                <span className="text-[13px] text-muted-foreground">{g.family ? "Ajouté depuis le Store" : `Joué ${last(g.daysAgo)}`}</span>
               </div>
               <div className="hidden items-center gap-3 nav:flex">
                 <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
@@ -196,7 +274,45 @@ export function GamesManager({
                 </div>
                 <b className="w-11 text-right text-sm">{g.pct === null ? "—" : `${g.pct} %`}</b>
               </div>
-              <span className="hidden font-mono text-xs text-muted-foreground nav:block">{g.hours} h</span>
+              {g.family ? (
+                <span className="hidden items-center gap-1 nav:flex">
+                  <label className="sr-only" htmlFor={`h-${g.id}`}>
+                    Heures jouées — {g.name}
+                  </label>
+                  <input
+                    id={`h-${g.id}`}
+                    type="number"
+                    min={0}
+                    defaultValue={g.hours}
+                    className="field h-8 min-h-0 w-14 rounded-lg px-1.5 py-0 text-center font-mono text-xs"
+                    onBlur={(e) => {
+                      const v = Number(e.target.value);
+                      if (Number.isFinite(v) && v !== g.hours)
+                        start(async () => {
+                          update({ id: g.id, hours: v });
+                          await setFamilyGameHours(g.id, v);
+                          toast(`${g.name} : ${v} h`);
+                        });
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="inline-flex size-7 items-center justify-center rounded-full text-muted-foreground hover:bg-danger hover:text-card"
+                    aria-label={`Retirer ${g.name}`}
+                    title="Retirer ce jeu"
+                    onClick={() =>
+                      start(async () => {
+                        await removeFamilyGame(g.id);
+                        toast(`${g.name} retiré`);
+                      })
+                    }
+                  >
+                    <X size={14} aria-hidden />
+                  </button>
+                </span>
+              ) : (
+                <span className="hidden font-mono text-xs text-muted-foreground nav:block">{g.hours} h</span>
+              )}
               <button
                 type="button"
                 aria-pressed={g.pinned}

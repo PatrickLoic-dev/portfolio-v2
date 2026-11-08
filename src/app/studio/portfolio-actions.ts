@@ -10,7 +10,7 @@ import { lookupTrack, providerOf, type TrackInfo } from "@/lib/music-lookup";
 import { MOOD_KEYS } from "@/lib/moods";
 import { setSetting } from "@/lib/portfolio";
 import { slugify } from "@/lib/slug";
-import { SteamError, syncSteam } from "@/lib/steam";
+import { addFamilyGame, SteamError, syncSteam } from "@/lib/steam";
 import { TONE_KEYS } from "@/lib/tones";
 import type { ActionResult } from "./actions";
 
@@ -189,6 +189,39 @@ export async function setGameFlags(id: string, flags: { visible?: boolean; pinne
     if (flags.pinned) await tx.update(games).set({ pinned: false }).where(eq(games.pinned, true));
     await tx.update(games).set(flags).where(eq(games.id, gameId));
   });
+  refresh();
+  return { ok: true };
+}
+
+/** Steam Family Sharing game, added from its Store link. */
+export async function addFamilyGameNow(link: string, hours: number): Promise<ActionResult<{ name: string; withAchievements: boolean }>> {
+  await requireAdmin();
+  const h = z.number().min(0).max(100000).safeParse(hours);
+  if (!h.success) return { ok: false, error: "Nombre d'heures invalide." };
+  try {
+    const res = await addFamilyGame(z.string().max(300).parse(link), h.data);
+    refresh();
+    return { ok: true, data: { name: res.name, withAchievements: !!res.achievements } };
+  } catch (e) {
+    return { ok: false, error: e instanceof SteamError ? e.message : "Steam ne répond pas. Réessayez plus tard." };
+  }
+}
+
+/** Hours are only editable for family games (owned games get theirs from Steam). */
+export async function setFamilyGameHours(id: string, hours: number): Promise<ActionResult> {
+  await requireAdmin();
+  const minutes = Math.round(z.number().min(0).max(100000).parse(hours) * 60);
+  await db
+    .update(games)
+    .set({ playtime: minutes, updatedAt: new Date() })
+    .where(and(eq(games.id, z.uuid().parse(id)), eq(games.family, true)));
+  refresh();
+  return { ok: true };
+}
+
+export async function removeFamilyGame(id: string): Promise<ActionResult> {
+  await requireAdmin();
+  await db.delete(games).where(and(eq(games.id, z.uuid().parse(id)), eq(games.family, true)));
   refresh();
   return { ok: true };
 }

@@ -1,7 +1,7 @@
 import "server-only";
-import { eq, isNull } from "drizzle-orm";
+import { and, eq, isNull, sql } from "drizzle-orm";
 import { db } from "@/db";
-import { games } from "@/db/schema";
+import { games, settings } from "@/db/schema";
 import { setSetting } from "./portfolio";
 import { TONE_KEYS } from "./tones";
 
@@ -25,10 +25,22 @@ function key() {
 
 export const steamConfigured = () => !!process.env.STEAM_API_KEY;
 
+/** fetch with retries: Steam (and some connections) drop the odd request. */
+async function steamFetch(url: string | URL, tries = 3): Promise<Response> {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(15000) });
+    } catch (e) {
+      if (attempt >= tries) throw new SteamError("Steam est injoignable pour le moment (réseau). Réessayez dans un instant.", { cause: e });
+      await new Promise((r) => setTimeout(r, 800 * attempt));
+    }
+  }
+}
+
 async function get<T>(path: string, params: Record<string, string | number>): Promise<T> {
   const url = new URL(`${API}/${path}`);
   Object.entries({ key: key(), format: "json", ...params }).forEach(([k, v]) => url.searchParams.set(k, String(v)));
-  const res = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(15000) });
+  const res = await steamFetch(url);
   if (res.status === 403) throw new SteamError("Clé Steam refusée — vérifiez STEAM_API_KEY.");
   if (!res.ok) throw new SteamError(`Steam a répondu ${res.status}.`);
   return res.json() as Promise<T>;
@@ -88,6 +100,7 @@ export async function syncSteam(input: string) {
       const a = ach.get(g.appid) ?? null;
       const values = {
         name: g.name,
+        family: false, // bought since? it's owned now
         playtime: g.playtime_forever,
         achievementsUnlocked: a?.unlocked ?? null,
         achievementsTotal: a?.total ?? null,
@@ -107,6 +120,8 @@ export async function syncSteam(input: string) {
     }
   });
 
+  await refreshFamilyAchievements(steamid);
+
   // Display name + avatar for the Passions page.
   const summary = await get<{ response: { players?: { personaname?: string; avatarfull?: string; profileurl?: string }[] } }>(
     "ISteamUser/GetPlayerSummaries/v2/",
@@ -122,4 +137,70 @@ export async function syncSteam(input: string) {
     lastSyncAt: new Date().toISOString(),
   });
   return top.length;
+}
+
+/* ------------------------------------------------------------------ */
+/* Steam Family Sharing                                                */
+/* ------------------------------------------------------------------ */
+/*
+ * Shared games never appear in GetOwnedGames, so they're added by hand from
+ * a Store link. Achievements belong to the player, so they stay readable;
+ * playtime isn't exposed for borrowed games and is entered manually.
+ */
+
+/** "https://store.steampowered.com/app/1778820/TEKKEN_8/" → 1778820 (also accepts a bare id). */
+export function parseAppId(input: string) {
+  const raw = input.trim();
+  const id = /\/app\/(\d+)/.exec(raw)?.[1] ?? /^(\d{2,9})$/.exec(raw)?.[1];
+  return id ? Number(id) : null;
+}
+
+/** Game name from the public Store API (no key). */
+async function storeName(appid: number) {
+  const res = await steamFetch(`https://store.steampowered.com/api/appdetails?appids=${appid}&filters=basic&l=english`);
+  if (!res.ok) throw new SteamError("Le Steam Store ne répond pas. Réessayez plus tard.");
+  const data = (await res.json()) as Record<string, { success: boolean; data?: { name?: string } }>;
+  const name = data[appid]?.success ? data[appid].data?.name : null;
+  if (!name) throw new SteamError("Jeu introuvable sur le Steam Store — vérifiez le lien.");
+  return name;
+}
+
+async function linkedSteamId() {
+  const [row] = await db.select().from(settings).where(eq(settings.key, "steam")).limit(1);
+  const value = (row?.value ?? {}) as { steamId?: string; profileUrl?: string };
+  const input = value.profileUrl || value.steamId;
+  if (!input) throw new SteamError("Liez d'abord votre compte Steam (synchronisation).");
+  return resolveSteamId(input);
+}
+
+export async function addFamilyGame(link: string, hours: number) {
+  const appid = parseAppId(link);
+  if (!appid) throw new SteamError("Collez un lien du Steam Store (store.steampowered.com/app/…).");
+  const [existing] = await db.select({ family: games.family }).from(games).where(eq(games.steamAppId, appid)).limit(1);
+  if (existing) throw new SteamError(existing.family ? "Ce jeu est déjà dans la liste." : "Ce jeu est déjà synchronisé depuis votre bibliothèque.");
+
+  const steamid = await linkedSteamId();
+  const [name, ach] = await Promise.all([storeName(appid), achievements(steamid, appid)]);
+  const [{ n }] = await db.select({ n: sql<number>`count(*)::int` }).from(games);
+
+  await db.insert(games).values({
+    steamAppId: appid,
+    name,
+    family: true,
+    playtime: Math.max(0, Math.round(hours * 60)),
+    achievementsUnlocked: ach?.unlocked ?? null,
+    achievementsTotal: ach?.total ?? null,
+    tone: TONE_KEYS[n % 6],
+  });
+  return { name, achievements: ach };
+}
+
+/** Called by every sync: shared games keep their manual hours, only achievements move. */
+async function refreshFamilyAchievements(steamid: string) {
+  const list = await db.select({ id: games.id, appid: games.steamAppId }).from(games).where(and(eq(games.family, true)));
+  for (const g of list) {
+    if (!g.appid) continue;
+    const a = await achievements(steamid, g.appid);
+    if (a) await db.update(games).set({ achievementsUnlocked: a.unlocked, achievementsTotal: a.total, updatedAt: new Date() }).where(eq(games.id, g.id));
+  }
 }

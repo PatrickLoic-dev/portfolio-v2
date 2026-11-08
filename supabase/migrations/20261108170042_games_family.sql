@@ -1,0 +1,1 @@
+ALTER TABLE "games" ADD COLUMN "family" boolean DEFAULT false NOT NULL;

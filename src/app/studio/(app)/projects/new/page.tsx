@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { studioProjectTags } from "@/lib/portfolio";
 import { ProjectEditor } from "../project-editor";
 
 export const metadata: Metadata = { title: "Nouveau projet" };
@@ -16,8 +17,10 @@ const emptyText = {
 
 export default async function NewProjectPage({ searchParams }: PageProps<"/studio/projects/new">) {
   const personal = (await searchParams).type === "personal";
+  const usedTags = await studioProjectTags();
   return (
     <ProjectEditor
+      usedTags={usedTags}
       initial={{
         id: null,
         slug: "",

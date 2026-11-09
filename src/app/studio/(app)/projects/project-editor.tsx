@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight, ImageUp, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState, useTransition, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useRef, useState, useTransition, type ChangeEvent } from "react";
 import { EASE } from "@/components/motion/ease";
 import { ProjectMedia } from "@/components/project/project-media";
 import { StudioTopBar } from "@/components/studio/page-header";
@@ -15,6 +15,7 @@ import { slugify } from "@/lib/slug";
 import { tones, type Tone } from "@/lib/tones";
 import { uploadImage } from "../../actions";
 import { saveProject, type ProjectInput } from "../../portfolio-actions";
+import { StackInput } from "./stack-input";
 
 type Lang = "fr" | "en";
 type Text = ProjectInput["translations"]["fr"];
@@ -39,14 +40,13 @@ const SECTIONS = [
 const field = "field min-h-11 rounded-xl py-2 text-[15px]";
 const area = "field min-h-[110px] resize-y rounded-xl py-2.5 text-[15px] leading-relaxed";
 
-export function ProjectEditor({ initial }: { initial: EditorProject }) {
+export function ProjectEditor({ initial, usedTags }: { initial: EditorProject; usedTags: string[] }) {
   const router = useRouter();
   const toast = useToast();
   const [p, setP] = useState(initial);
   const [lang, setLang] = useState<Lang>("fr");
   const [dirty, setDirty] = useState(false);
   const [savedAt, setSavedAt] = useState(initial.updatedAt);
-  const [newTag, setNewTag] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [saving, startSave] = useTransition();
   const [uploading, startUpload] = useTransition();
@@ -105,14 +105,6 @@ export function ProjectEditor({ initial }: { initial: EditorProject }) {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
-
-  const addTag = (e: FormEvent) => {
-    e.preventDefault();
-    const tag = newTag.trim();
-    if (!tag || p.tags.includes(tag)) return;
-    upd({ tags: [...p.tags, tag] });
-    setNewTag("");
-  };
 
   function onUpload(e: ChangeEvent<HTMLInputElement>) {
     const files = [...(e.target.files ?? [])];
@@ -213,43 +205,7 @@ export function ProjectEditor({ initial }: { initial: EditorProject }) {
                 <input id="pl" type="url" className={field} placeholder="https://…" value={p.liveUrl} onChange={(e) => upd({ liveUrl: e.target.value })} />
               </div>
             </div>
-            <div className="flex flex-col gap-1.5">
-              <span className="text-[13px] font-semibold">Stack</span>
-              <div className="flex flex-wrap items-center gap-1.5">
-                <AnimatePresence initial={false}>
-                  {p.tags.map((tag) => (
-                    <motion.span
-                      key={tag}
-                      layout
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      className="inline-flex min-h-8 items-center gap-1.5 rounded-full border border-ink/14 bg-background pl-3 pr-1 font-mono text-xs"
-                    >
-                      {tag}
-                      <button
-                        type="button"
-                        aria-label={`Retirer ${tag}`}
-                        className="inline-flex size-6 items-center justify-center rounded-full hover:bg-muted"
-                        onClick={() => upd({ tags: p.tags.filter((x) => x !== tag) })}
-                      >
-                        <X size={12} aria-hidden />
-                      </button>
-                    </motion.span>
-                  ))}
-                </AnimatePresence>
-                <form onSubmit={addTag} className="flex">
-                  <label htmlFor="nt" className="sr-only">Ajouter une technologie</label>
-                  <input
-                    id="nt"
-                    className="field min-h-9 w-[180px] rounded-full px-3 py-1.5 text-sm"
-                    placeholder="+ Ajouter (Entrée)"
-                    value={newTag}
-                    onChange={(e) => setNewTag(e.target.value)}
-                  />
-                </form>
-              </div>
-            </div>
+            <StackInput value={p.tags} used={usedTags} onChange={(tags) => upd({ tags })} />
           </section>
 
           {/* Personal projects: source code */}

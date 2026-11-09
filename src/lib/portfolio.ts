@@ -128,6 +128,14 @@ export async function studioGetProject(id: string) {
   };
 }
 
+/** Tags already used on projects, most used first (Stack autocompletion). */
+export async function studioProjectTags(): Promise<string[]> {
+  const rows = await db.select({ tags: projects.tags }).from(projects).where(isNull(projects.deletedAt));
+  const count = new Map<string, number>();
+  rows.forEach((r) => r.tags.forEach((t) => count.set(t, (count.get(t) ?? 0) + 1)));
+  return [...count.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([t]) => t);
+}
+
 export async function projectNames() {
   return db.select({ slug: projects.slug, name: projects.name }).from(projects).where(isPublic()).orderBy(asc(projects.position));
 }

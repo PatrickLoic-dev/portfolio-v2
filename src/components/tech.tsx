@@ -93,3 +93,16 @@ export function TechList({ names, focusable = false, className }: { names: reado
     </span>
   );
 }
+
+/** Every known technology name once, in display form (for autocompletion). */
+export const TECH_LABELS: string[] = [...new Set(Object.values(TECHS).map((t) => t.label))];
+
+/** The display form of a tag: "nextjs" → "Next.js"; unknown tags are just trimmed. */
+export function canonicalTag(name: string): string {
+  return techOf(name)?.label ?? name.trim().replace(/\s+/g, " ");
+}
+
+/** Same tag, whatever the case or punctuation ("Next.js" = "nextjs"). */
+export function sameTag(a: string, b: string): boolean {
+  return key(a) === key(b);
+}

@@ -393,6 +393,369 @@
   animation: eq 1.1s ease-in-out infinite;
 }
 
+/* Testimonials: autoplay progress under the active name */
+@keyframes testimonial-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Home → What I do (bento)                                            */
+/* ------------------------------------------------------------------ */
+.wd-bento {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr));
+  gap: 20px;
+  align-items: start;
+}
+.wd-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+.wd-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid rgb(37 30 25 / 0.08);
+  border-radius: 28px;
+  padding: 30px 30px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow:
+    0 1px 0 rgb(37 30 25 / 0.04),
+    0 28px 56px -40px rgb(37 30 25 / 0.35);
+  transition:
+    transform 0.45s var(--ease-out-soft),
+    box-shadow 0.45s;
+}
+.wd-card:hover {
+  transform: translateY(-6px) rotate(-0.4deg);
+  box-shadow:
+    0 1px 0 rgb(37 30 25 / 0.04),
+    0 40px 70px -36px rgb(37 30 25 / 0.45);
+}
+.wd-col:nth-child(2) .wd-card:hover {
+  transform: translateY(-6px) rotate(0.4deg);
+}
+.wd-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.wd-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(24px, 2.2vw, 30px);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  max-width: 420px;
+}
+.wd-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6px;
+}
+.wd-glow {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(38px);
+  animation: wd-breathe 5s ease-in-out infinite;
+}
+.wd-prompt {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(100%, 420px);
+  padding: 8px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow:
+    0 0 0 1px rgb(37 30 25 / 0.06),
+    0 18px 40px -16px rgb(196 105 73 / 0.5);
+}
+.wd-prompt-btn {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wd-caret {
+  display: inline-block;
+  width: 2px;
+  height: 18px;
+  margin-left: 2px;
+  vertical-align: -3px;
+  background: var(--accent);
+  animation: wd-blink 1s steps(1) infinite;
+}
+.wd-grid-h {
+  position: absolute;
+  inset: 22px 0;
+  border-block: 1px dashed rgb(37 30 25 / 0.2);
+}
+.wd-grid-v {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 200px;
+  translate: -50% 0;
+  border-inline: 1px dashed rgb(37 30 25 / 0.2);
+}
+.wd-phone {
+  position: relative;
+  z-index: 2;
+  width: 156px;
+  height: 208px;
+  border: 6px solid var(--foreground);
+  background: var(--surface);
+  box-shadow: 0 22px 40px -18px rgb(37 30 25 / 0.6);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 14px 10px 10px;
+  transition: border-radius 0.4s var(--ease-out-soft);
+}
+.wd-notif {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 16px -10px rgb(37 30 25 / 0.5);
+  animation: wd-notif 3.6s var(--ease-out-soft) infinite;
+}
+.wd-seg {
+  display: flex;
+  align-self: center;
+  padding: 4px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow:
+    0 0 0 1px rgb(37 30 25 / 0.06),
+    0 10px 24px -14px rgb(37 30 25 / 0.4);
+}
+.wd-seg button {
+  min-height: 44px;
+  padding: 0 28px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    background-color 0.25s,
+    color 0.25s;
+}
+.wd-seg button[aria-pressed="true"] {
+  background: var(--accent-ink);
+  color: var(--card);
+}
+.wd-pay {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 440px;
+  min-height: 62px;
+  padding: 0 16px 0 18px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid rgb(37 30 25 / 0.12);
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+  transition: box-shadow 0.25s;
+}
+.wd-pay[aria-checked="true"] {
+  box-shadow:
+    0 0 0 2px var(--success),
+    0 14px 28px -14px rgb(37 30 25 / 0.4);
+}
+.wd-radio {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  border-radius: 999px;
+  border: 2px solid rgb(37 30 25 / 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wd-pay[aria-checked="true"] .wd-radio {
+  border-color: var(--success);
+}
+.wd-badge {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.wd-pending-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--accent-ink);
+  animation: wd-blink 1.2s ease-in-out infinite;
+}
+.wd-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 999px;
+  translate: -50% -50%;
+}
+.wd-core {
+  position: relative;
+  z-index: 2;
+  width: 84px;
+  height: 84px;
+  border-radius: 26px;
+  background: var(--card);
+  box-shadow: 0 14px 30px -12px rgb(196 105 73 / 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: -0.04em;
+}
+.wd-tech {
+  position: absolute;
+  z-index: 3;
+  width: 56px;
+  height: 56px;
+  border-radius: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 14px 24px -10px rgb(37 30 25 / 0.5),
+    inset 0 -3px 0 rgb(0 0 0 / 0.15);
+  animation: wd-float 4.5s ease-in-out infinite;
+}
+.wd-tile {
+  position: absolute;
+  border-radius: 18px;
+  box-shadow: 0 18px 32px -16px rgb(37 30 25 / 0.6);
+  overflow: hidden;
+  animation: wd-float 6s ease-in-out infinite;
+}
+.wd-switch {
+  position: relative;
+  width: 124px;
+  height: 58px;
+  flex: none;
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: inset 0 2px 6px rgb(37 30 25 / 0.12);
+}
+.wd-knob {
+  position: absolute;
+  top: 5px;
+  width: 56px;
+  height: 48px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 8px 18px -8px rgb(196 105 73 / 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: left 0.35s var(--ease-out-soft);
+}
+.wd-knob svg {
+  animation: wd-spin 6s linear infinite;
+}
+@media (max-width: 860px) {
+  .wd-card {
+    border-radius: 24px;
+    padding: 24px 22px 22px;
+  }
+}
+@keyframes wd-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.8;
+  }
+}
+@keyframes wd-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes wd-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -8px;
+  }
+}
+@keyframes wd-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 0.7;
+  }
+}
+@keyframes wd-notif {
+  0% {
+    transform: translateY(-24px);
+    opacity: 0;
+  }
+  12%,
+  80% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
+@keyframes wd-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
 /* Lenis */
 html.lenis,
 html.lenis body {
@@ -406,8 +769,19 @@ html.lenis body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .eq span {
-    animation: none;
+  .eq span,
+  .wd-glow,
+  .wd-caret,
+  .wd-tech,
+  .wd-tile,
+  .wd-notif,
+  .wd-pending-dot,
+  .wd-knob svg,
+  .wd-ring {
+    animation: none !important;
+  }
+  .wd-card:hover {
+    transform: none;
   }
   *,
   *::before,

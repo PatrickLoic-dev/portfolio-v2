@@ -54,33 +54,71 @@
     "selectedTitle": "Selected\nwork",
     "allProjects": "All projects ({count})",
     "doEyebrow": "(02) What I do",
-    "doTitle": "Four years\nof craft",
     "doBody": "Crafting minimalist digital products with a focus on motion, typography and performance, from fintech platforms to editorial showcases.",
     "aboutMe": "About me",
     "howIWork": "How I work",
-    "services": {
-      "web": {
-        "title": "Web platforms",
-        "body": "Banking portals, marketplaces and showcase sites built with Angular and Next.js: fast, accessible, typed end-to-end."
-      },
-      "mobile": {
-        "title": "Mobile apps",
-        "body": "Cross-platform apps that replace phone-and-WhatsApp workflows with catalogues, carts and real-time order tracking."
-      },
-      "api": {
-        "title": "APIs & consulting",
-        "body": "NestJS services, payment flows and digital consulting: the backbone that keeps the interface honest."
-      }
-    },
     "kindWords": "(03) Kind words",
     "openTo": "Open to freelance & full-time",
     "talkTitle": "Let’s\ntalk",
-    "talkBody": "Currently open to select freelance projects and full-time opportunities. Based in Cameroon, working with teams worldwide."
+    "talkBody": "Currently open to select freelance projects and full-time opportunities. Based in Cameroon, working with teams worldwide.",
+    "wd": {
+      "titleLead": "Four years of ",
+      "titleAccent": "craft",
+      "web": {
+        "label": "Web platforms",
+        "title": "Banking portals, marketplaces and showcase sites",
+        "brief": "Brief: {phrase}",
+        "phrases": [
+          "Build a banking portal",
+          "Launch a food marketplace",
+          "Design an architect’s showcase",
+          "Ship a product catalogue"
+        ]
+      },
+      "mobile": {
+        "label": "Mobile apps",
+        "title": "Apps that replace phone-and-WhatsApp ordering",
+        "preview": "Mobile app preview on {os}",
+        "platform": "Platform preview",
+        "newOrder": "New order",
+        "booked": "Delivery booked",
+        "track": "Track order"
+      },
+      "api": {
+        "label": "APIs & payments",
+        "title": "APIs that never send money twice",
+        "method": "Payment method",
+        "momo": "Mobile money",
+        "bank": "Bank transfer",
+        "confirmed": "Confirmed",
+        "pending": "Pending",
+        "key": "Idempotency-Key · 7f3a…e21c · retried 2× · sent once"
+      },
+      "stack": {
+        "label": "Stack",
+        "title": "Plugs into the tools your team already runs",
+        "aria": "Tech stack: Angular, React, Next.js, NestJS, Ionic and Docker"
+      },
+      "design": {
+        "label": "Design systems",
+        "title": "Interfaces that stay on-brand, everywhere",
+        "aria": "Collage of design tokens: colours, type and components",
+        "tokens": "Tokens",
+        "cta": "Get in touch"
+      },
+      "modes": {
+        "label": "Ways to work",
+        "title": "Freelance projects or full-time roles",
+        "project": "Project",
+        "team": "Team",
+        "switch": "Switch between project and team mode",
+        "projectText": "A scoped project on a fixed timeline: I lead it end-to-end, from discovery to launch.",
+        "teamText": "Embedded in your team: shipping features, reviews and design systems alongside you."
+      }
+    }
   },
   "testimonial": {
-    "quote": "Patrick brought a level of clarity to our frontend that we didn't know we were missing. He cares about the details that compound: performance, types, motion.",
-    "name": "Aïcha M.",
-    "role": "Head of Product, Fintech"
+    "choose": "Choose a testimonial"
   },
   "types": {
     "all": "All",

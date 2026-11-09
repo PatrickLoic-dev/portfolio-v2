@@ -54,33 +54,71 @@
     "selectedTitle": "Projets\nchoisis",
     "allProjects": "Tous les projets ({count})",
     "doEyebrow": "(02) Ce que je fais",
-    "doTitle": "Quatre ans\nde métier",
     "doBody": "Des produits numériques épurés, pensés pour le mouvement, la typographie et la performance, des plateformes fintech aux vitrines éditoriales.",
     "aboutMe": "À propos",
     "howIWork": "Ma méthode",
-    "services": {
-      "web": {
-        "title": "Plateformes web",
-        "body": "Portails bancaires, marketplaces et sites vitrines en Angular et Next.js : rapides, accessibles, typés de bout en bout."
-      },
-      "mobile": {
-        "title": "Apps mobiles",
-        "body": "Des apps cross-platform qui remplacent les commandes par téléphone et WhatsApp par des catalogues, des paniers et un suivi en temps réel."
-      },
-      "api": {
-        "title": "APIs & conseil",
-        "body": "Services NestJS, parcours de paiement et conseil digital : la colonne vertébrale qui garde l'interface honnête."
-      }
-    },
     "kindWords": "(03) Ils en parlent",
     "openTo": "Ouvert au freelance & CDI",
     "talkTitle": "On en\nparle",
-    "talkBody": "Ouvert à quelques missions freelance et à des postes à temps plein. Basé au Cameroun, je travaille avec des équipes du monde entier."
+    "talkBody": "Ouvert à quelques missions freelance et à des postes à temps plein. Basé au Cameroun, je travaille avec des équipes du monde entier.",
+    "wd": {
+      "titleLead": "Quatre ans de ",
+      "titleAccent": "métier",
+      "web": {
+        "label": "Plateformes web",
+        "title": "Portails bancaires, marketplaces et sites vitrines",
+        "brief": "Brief : {phrase}",
+        "phrases": [
+          "Créer un portail bancaire",
+          "Lancer une marketplace alimentaire",
+          "Concevoir la vitrine d’un architecte",
+          "Livrer un catalogue produit"
+        ]
+      },
+      "mobile": {
+        "label": "Apps mobiles",
+        "title": "Des apps qui remplacent les commandes par téléphone et WhatsApp",
+        "preview": "Aperçu de l’app mobile sur {os}",
+        "platform": "Aperçu par plateforme",
+        "newOrder": "Nouvelle commande",
+        "booked": "Livraison réservée",
+        "track": "Suivre la commande"
+      },
+      "api": {
+        "label": "APIs & paiements",
+        "title": "Des APIs qui n’envoient jamais l’argent deux fois",
+        "method": "Moyen de paiement",
+        "momo": "Mobile money",
+        "bank": "Virement bancaire",
+        "confirmed": "Confirmé",
+        "pending": "En attente",
+        "key": "Idempotency-Key · 7f3a…e21c · 2 relances · envoyé une fois"
+      },
+      "stack": {
+        "label": "Stack",
+        "title": "S’intègre aux outils que votre équipe utilise déjà",
+        "aria": "Stack technique : Angular, React, Next.js, NestJS, Ionic et Docker"
+      },
+      "design": {
+        "label": "Design systems",
+        "title": "Des interfaces fidèles à la marque, partout",
+        "aria": "Collage de tokens de design : couleurs, typographie et composants",
+        "tokens": "Tokens",
+        "cta": "Me contacter"
+      },
+      "modes": {
+        "label": "Façons de travailler",
+        "title": "Missions freelance ou postes à temps plein",
+        "project": "Projet",
+        "team": "Équipe",
+        "switch": "Basculer entre le mode projet et le mode équipe",
+        "projectText": "Un projet cadré, un calendrier fixe : je le mène de bout en bout, de la découverte au lancement.",
+        "teamText": "Intégré à votre équipe : je livre des fonctionnalités, des revues et des design systems à vos côtés."
+      }
+    }
   },
   "testimonial": {
-    "quote": "Patrick a apporté à notre frontend une clarté dont on ignorait avoir besoin. Il soigne les détails qui s'additionnent : performance, typage, mouvement.",
-    "name": "Aïcha M.",
-    "role": "Head of Product, Fintech"
+    "choose": "Choisir un témoignage"
   },
   "types": {
     "all": "Tous",

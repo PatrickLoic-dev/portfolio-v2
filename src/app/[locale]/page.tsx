@@ -1,9 +1,10 @@
-import { ArrowRight, ArrowUpRight, Code2, Monitor, Smartphone } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { SplitHeadline } from "@/components/motion/split-headline";
 import { ProjectFeature, ProjectTile } from "@/components/project/project-card";
+import { WhatIDo } from "@/components/home/what-i-do";
 import { SitemapFooter } from "@/components/site/site-footer";
 import { Testimonial } from "@/components/site/testimonial";
 import { site, stats, toolkit } from "@/content/site";
@@ -12,12 +13,6 @@ import type { Locale } from "@/i18n/routing";
 import { getPublicProjects } from "@/lib/portfolio";
 
 export const dynamic = "force-dynamic";
-
-const services = [
-  { key: "web", icon: Monitor, tone: "bg-blob-a", stack: "Angular · Next.js · React" },
-  { key: "mobile", icon: Smartphone, tone: "bg-blob-b", stack: "React Native · Ionic · Angular" },
-  { key: "api", icon: Code2, tone: "bg-blob-c", stack: "NestJS · Node.js · PostgreSQL" },
-] as const;
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
@@ -137,35 +132,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </div>
       </section>
 
-      {/* What I do */}
-      <section className="wrap py-24">
-        <div className="hairline flex flex-wrap gap-12 border-t pt-12">
-          <div className="flex flex-[1_1_320px] flex-col gap-4">
-            <span className="label text-accent-ink">{t("doEyebrow")}</span>
-            <SplitHeadline text={t("doTitle")} className="text-[clamp(40px,5vw,72px)]" />
-            <p className="m-0 max-w-[420px] text-[17px] leading-relaxed text-muted-foreground">{t("doBody")}</p>
-            <div className="mt-2 flex flex-wrap gap-3">
-              <Link href="/about" className="btn btn-ghost">{t("aboutMe")}</Link>
-              <Link href="/process" className="btn btn-ghost">{t("howIWork")}</Link>
-            </div>
-          </div>
-          <Stagger className="grid min-w-0 flex-[999_1_560px] grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-4">
-            {services.map(({ key, icon: Icon, tone, stack }) => (
-              <StaggerItem
-                key={key}
-                className="hairline flex min-h-[280px] flex-col gap-4 rounded-[20px] border bg-card p-7"
-              >
-                <span className={`flex size-12 items-center justify-center rounded-[14px] ${tone}`}>
-                  <Icon size={22} strokeWidth={1.8} aria-hidden />
-                </span>
-                <h3 className="m-0 text-[22px] font-bold tracking-[-0.01em]">{t(`services.${key}.title`)}</h3>
-                <p className="m-0 text-[15px] leading-relaxed text-muted-foreground">{t(`services.${key}.body`)}</p>
-                <span className="label mt-auto text-muted-foreground">{stack}</span>
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </div>
-      </section>
+      <WhatIDo />
 
       <Testimonial eyebrow={t("kindWords")} />
 

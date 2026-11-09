@@ -151,7 +151,8 @@
     "openSource": "Open source",
     "closedSource": "Closed source",
     "viewCode": "View code",
-    "sideEmpty": "No side project in this category yet."
+    "sideEmpty": "No side project in this category yet.",
+    "techFilter": "{tech}, {count, plural, one {# project} other {# projects}}"
   },
   "project": {
     "allProjects": "All projects",

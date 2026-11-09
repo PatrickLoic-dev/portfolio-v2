@@ -151,7 +151,8 @@
     "openSource": "Open source",
     "closedSource": "Code privé",
     "viewCode": "Voir le code",
-    "sideEmpty": "Pas encore de projet perso dans cette catégorie."
+    "sideEmpty": "Pas encore de projet perso dans cette catégorie.",
+    "techFilter": "{tech}, {count, plural, one {# projet} other {# projets}}"
   },
   "project": {
     "allProjects": "Tous les projets",

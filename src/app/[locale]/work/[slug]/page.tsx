@@ -1,10 +1,12 @@
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { SplitHeadline } from "@/components/motion/split-headline";
 import { RepoIcon } from "@/components/project/project-card";
+import { TechList } from "@/components/tech";
 import { ProjectMedia } from "@/components/project/project-media";
 import { CtaFooter } from "@/components/site/site-footer";
 import { Toc } from "@/components/site/toc";
@@ -38,9 +40,9 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/work/
     !project.personal && project.client && { label: t("client"), value: project.client },
     project.personal && { label: t("source"), value: project.openSource ? t("openSource") : t("closedSource") },
     { label: t("platform"), value: project.mobile ? t("mobile") : t("web") },
-    project.tags.length > 0 && { label: t("stack"), value: project.tags.join(" · ") },
+    project.tags.length > 0 && { label: t("stack"), value: <TechList names={project.tags} focusable /> },
     project.role ? { label: t("role"), value: project.role } : { label: t("type"), value: types(project.type) },
-  ].filter(Boolean) as { label: string; value: string }[];
+  ].filter(Boolean) as { label: string; value: ReactNode }[];
 
   return (
     <>
@@ -181,9 +183,8 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/work/
                 <ArrowRight size={32} strokeWidth={1.8} aria-hidden />
               </span>
             </div>
-            <p className="mb-0 mt-6 max-w-[520px] text-[17px] leading-[1.55] text-background/70">
-              {next.tags.join(" · ")} · {next.description}
-            </p>
+            {next.tags.length > 0 && <TechList names={next.tags} className="mt-6" />}
+            <p className="mb-0 mt-4 max-w-[520px] text-[17px] leading-[1.55] text-background/70">{next.description}</p>
           </Link>
         ) : (
           <Link href="/work" className="btn btn-light">

@@ -7,6 +7,7 @@ import { useEffect, useState, type CSSProperties } from "react";
 import { BrandIcon, type Brand } from "@/components/brand-icon";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { SplitHeadline } from "@/components/motion/split-headline";
+import { TechList } from "@/components/tech";
 import { Link } from "@/i18n/navigation";
 
 /* ------------------------------------------------------------------ */
@@ -73,15 +74,7 @@ function Card({ label, title, children, className, style }: { label: string; tit
   );
 }
 
-const Chips = ({ items }: { items: string[] }) => (
-  <div className="flex flex-wrap gap-1.5">
-    {items.map((x) => (
-      <span key={x} className="chip">
-        {x}
-      </span>
-    ))}
-  </div>
-);
+const Chips = ({ items }: { items: string[] }) => <TechList names={items} focusable />;
 
 /* Web: a brief that types itself, over two soft glows. ----------------- */
 

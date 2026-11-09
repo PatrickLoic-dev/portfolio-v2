@@ -3,11 +3,12 @@
 import { LayoutGrid, List } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
 import { EASE } from "@/components/motion/ease";
 import { Reveal } from "@/components/motion/reveal";
 import { SplitHeadline } from "@/components/motion/split-headline";
 import { ProjectCard, ProjectRow } from "@/components/project/project-card";
+import { TechGlyph, techOf } from "@/components/tech";
 import type { PublicProject as Project } from "@/lib/portfolio";
 
 type TypeFilter = "all" | Project["type"];
@@ -75,12 +76,35 @@ export function WorkExplorer({ projects }: { projects: Project[] }) {
         </div>
         <div className={rowCls} role="group" aria-label={t("filterTech")}>
           <span className="label w-14 flex-none text-muted-foreground max-nav:hidden">{t("tech")}</span>
-          {["all", ...technologies].map((v) => (
-            <button key={v} type="button" className="pill" aria-pressed={tech === v} onClick={() => setTech(v)}>
-              {v === "all" ? types("all") : v}{" "}
-              <span className="count">{projects.filter((p) => okType(p, type) && okTech(p, v)).length}</span>
-            </button>
-          ))}
+          {["all", ...technologies].map((v) => {
+            const known = v === "all" ? null : techOf(v);
+            const count = projects.filter((p) => okType(p, type) && okTech(p, v)).length;
+            return (
+              <button
+                key={v}
+                type="button"
+                className={known ? "pill tech" : "pill"}
+                style={known ? ({ "--tech": known.color } as CSSProperties) : undefined}
+                aria-pressed={tech === v}
+                aria-label={known ? t("techFilter", { tech: known.label, count }) : undefined}
+                onClick={() => setTech(v)}
+              >
+                {known ? (
+                  <>
+                    <TechGlyph name={v} size={18} />
+                    <span className="tech-tip" aria-hidden>
+                      {known.label}
+                    </span>
+                  </>
+                ) : v === "all" ? (
+                  types("all")
+                ) : (
+                  v
+                )}{" "}
+                <span className="count">{count}</span>
+              </button>
+            );
+          })}
         </div>
       </section>
 

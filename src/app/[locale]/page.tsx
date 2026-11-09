@@ -5,6 +5,7 @@ import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { SplitHeadline } from "@/components/motion/split-headline";
 import { ProjectFeature, ProjectTile } from "@/components/project/project-card";
 import { WhatIDo } from "@/components/home/what-i-do";
+import { TechChip } from "@/components/tech";
 import { SitemapFooter } from "@/components/site/site-footer";
 import { Testimonial } from "@/components/site/testimonial";
 import { site, stats, toolkit } from "@/content/site";
@@ -98,9 +99,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       <section className="wrap flex flex-wrap items-center gap-2 py-10" aria-label={t("toolkit")}>
         <span className="label mr-3 text-muted-foreground">{t("toolkit")}</span>
         {toolkit.map((tool) => (
-          <span key={tool} className="chip">
-            {tool}
-          </span>
+          <TechChip key={tool} name={tool} focusable size={18} className="min-h-10 w-10" />
         ))}
       </section>
 

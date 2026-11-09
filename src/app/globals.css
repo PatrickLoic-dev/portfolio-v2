@@ -188,6 +188,65 @@
     border-color: var(--foreground);
   }
 
+  /* Technology logo chip (components/tech.tsx): ink glyph, brand colour on hover. */
+  .tech-chip {
+    justify-content: center;
+    width: 32px;
+    padding: 0;
+  }
+  .tech-glyph {
+    flex: none;
+    transition: color 0.2s;
+  }
+  .tech {
+    position: relative;
+  }
+  .tech:hover .tech-glyph,
+  .tech:focus-visible .tech-glyph {
+    color: var(--tech, currentColor);
+  }
+  .tech:focus-visible {
+    outline: 2px solid var(--foreground);
+    outline-offset: 2px;
+  }
+  /* Tooltip: above the logo, shown on hover and keyboard focus. */
+  .tech-tip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    z-index: 30;
+    translate: -50% 4px;
+    padding: 5px 9px;
+    border-radius: 8px;
+    background: var(--foreground);
+    color: var(--card);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition:
+      opacity 0.15s,
+      translate 0.15s;
+  }
+  .tech-tip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    translate: -50% 0;
+    border: 5px solid transparent;
+    border-top-color: var(--foreground);
+  }
+  .tech:hover .tech-tip,
+  .tech:focus-visible .tech-tip,
+  .tech:focus .tech-tip {
+    opacity: 1;
+    translate: -50% 0;
+  }
+
   /* Filter pill */
   .pill {
     display: inline-flex;

@@ -5,6 +5,7 @@ import { getFormatter, getTranslations, setRequestLocale } from "next-intl/serve
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { SplitHeadline } from "@/components/motion/split-headline";
 import { CtaFooter } from "@/components/site/site-footer";
+import { TechList } from "@/components/tech";
 import { Testimonial } from "@/components/site/testimonial";
 import { experiences, site, toolkitGroups } from "@/content/site";
 import { Link } from "@/i18n/navigation";
@@ -125,11 +126,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
           {toolkitGroups.map((g) => (
             <StaggerItem key={g.key} className="hairline flex flex-col gap-5 rounded-[20px] border bg-card p-7">
               <span className="label text-accent-ink">{t(`groups.${g.key}`)}</span>
-              <div className="flex flex-wrap gap-1.5">
-                {g.items.map((item) => (
-                  <span key={item} className="chip">{item}</span>
-                ))}
-              </div>
+              <TechList names={g.items} focusable className="gap-2" />
             </StaggerItem>
           ))}
         </Stagger>

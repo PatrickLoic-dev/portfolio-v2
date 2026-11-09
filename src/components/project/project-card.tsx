@@ -1,6 +1,7 @@
 import { ArrowUpRight, Code2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { BrandIcon } from "@/components/brand-icon";
+import { TechChip, TechList } from "@/components/tech";
 import type { PublicProject as Project } from "@/lib/portfolio";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
@@ -37,7 +38,7 @@ export function ProjectFeature({ project }: { project: Project }) {
         </p>
         <div className="flex items-center gap-2">
           {project.tags.map((tag) => (
-            <span key={tag} className="chip">{tag}</span>
+            <TechChip key={tag} name={tag} />
           ))}
           <Arrow filled size={44} />
         </div>
@@ -60,8 +61,9 @@ export function ProjectTile({ project }: { project: Project }) {
             <span className="label text-muted-foreground">{project.n}</span>
             <span className="card-title display text-[28px] tracking-[-0.03em]">{project.name}</span>
           </div>
-          <span className="text-[15px] text-muted-foreground">
-            {t(project.type)} · {project.tags.join(" / ")}
+          <span className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[15px] text-muted-foreground">
+            {t(project.type)}
+            <TechList names={project.tags} />
           </span>
         </div>
         <Arrow size={44} />
@@ -90,7 +92,7 @@ export function ProjectCard({ project }: { project: Project }) {
         <div className="mt-1 flex flex-wrap gap-1.5">
           <span className="chip chip-ink">{t(project.type)}</span>
           {project.tags.map((tag) => (
-            <span key={tag} className="chip">{tag}</span>
+            <TechChip key={tag} name={tag} />
           ))}
         </div>
       </div>
@@ -122,7 +124,7 @@ export function SideProjectCard({ project }: { project: Project }) {
           <div className="mt-1 flex flex-wrap gap-1.5">
             <span className={cn("chip", project.openSource && "chip-ink")}>{project.openSource ? t("openSource") : t("closedSource")}</span>
             {project.tags.map((tag) => (
-              <span key={tag} className="chip">{tag}</span>
+              <TechChip key={tag} name={tag} />
             ))}
           </div>
         </div>

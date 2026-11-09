@@ -149,6 +149,25 @@ export async function moveProject(id: string, dir: -1 | 1): Promise<ActionResult
   return { ok: true };
 }
 
+/**
+ * Saves a full Work order (drag and drop in the Studio). Projects missing from
+ * `ids` (e.g. created meanwhile in another tab) keep their relative order after.
+ */
+export async function reorderProjects(ids: string[]): Promise<ActionResult> {
+  await requireAdmin();
+  const parsed = z.array(z.uuid()).max(500).safeParse(ids);
+  if (!parsed.success) return { ok: false, error: "Ordre invalide." };
+  const list = await db.select({ id: projects.id }).from(projects).where(isNull(projects.deletedAt)).orderBy(asc(projects.position), asc(projects.createdAt));
+  const known = new Set(list.map((p) => p.id));
+  const wanted = [...new Set(parsed.data)].filter((id) => known.has(id));
+  const order = [...wanted, ...list.map((p) => p.id).filter((id) => !wanted.includes(id))];
+  await db.transaction(async (tx) => {
+    for (const [k, id] of order.entries()) await tx.update(projects).set({ position: k }).where(eq(projects.id, id));
+  });
+  refresh();
+  return { ok: true };
+}
+
 export async function deleteProject(id: string): Promise<ActionResult> {
   await requireAdmin();
   await db.update(projects).set({ deletedAt: new Date(), featured: false }).where(eq(projects.id, z.uuid().parse(id)));

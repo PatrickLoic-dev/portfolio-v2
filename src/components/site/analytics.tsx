@@ -4,7 +4,10 @@ import { useLocale } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
-/** Sends one anonymous page view per route change. Respects Do Not Track. */
+/**
+ * Sends one anonymous page view per route change. Respects Do Not Track.
+ * The endpoint has a deliberately bland name: ad blockers drop anything called "track", "collect" or "analytics".
+ */
 export function Analytics() {
   const pathname = usePathname();
   const locale = useLocale();
@@ -16,8 +19,8 @@ export function Analytics() {
     const referrer = first.current ? document.referrer : undefined;
     first.current = false;
     const payload = JSON.stringify({ path: pathname, locale, referrer });
-    if (!navigator.sendBeacon?.("/api/track", new Blob([payload], { type: "application/json" }))) {
-      fetch("/api/track", { method: "POST", body: payload, keepalive: true }).catch(() => {});
+    if (!navigator.sendBeacon?.("/api/s", new Blob([payload], { type: "application/json" }))) {
+      fetch("/api/s", { method: "POST", body: payload, keepalive: true }).catch(() => {});
     }
   }, [pathname, locale]);
 

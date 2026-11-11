@@ -557,7 +557,7 @@ export function Composer({
                       <span className="flex size-10 items-center justify-center rounded-full bg-blob-b text-sm font-bold text-ink">PL</span>
                       <div className="flex flex-col">
                         <span className="text-sm font-bold">Patrick Loic</span>
-                        <span className="text-xs text-[#536471]">{pv === "x" ? "@patrickloic · maintenant" : pv === "linkedin" ? "Digital Consultant · maintenant" : "patrickloic"}</span>
+                        <span className="text-xs text-[#536471]">{pv === "x" ? "@KewellLoic · maintenant" : pv === "linkedin" ? "Digital Consultant · maintenant" : "patrickloic"}</span>
                       </div>
                     </div>
                     {pv === "instagram" && d.media[0] && (

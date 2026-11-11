@@ -6,16 +6,15 @@ export const site = {
   fullName: "Kangue Kwelle Patrick Loic",
   initials: "PL",
   email: "kangue.patrick21@gmail.com",
-  url: "https://patrickloic.dev",
+  url: "https://kangueloic.vercel.app",
   studio: {
     name: "KreativEinfluss",
     url: "https://kreativeinfluss-digital-canvas.kangue-patrick21.workers.dev",
   },
-  // TODO: replace with your real profile URLs and handles.
   social: {
-    github: { url: "https://github.com", handle: "github.com/patrickloic" },
-    linkedin: { url: "https://linkedin.com", handle: "linkedin.com/in/patrickloic" },
-    x: { url: "https://x.com", handle: "@patrickloic" },
+    github: { url: "https://github.com/PatrickLoic-dev", handle: "github.com/PatrickLoic-dev" },
+    linkedin: { url: "https://www.linkedin.com/in/patrick-loic-kangue-kwelle/", handle: "linkedin.com/in/patrick-loic-kangue-kwelle" },
+    x: { url: "https://x.com/KewellLoic", handle: "@KewellLoic" },
   },
   cv: {
     en: "/cv/patrick-loic-cv-en.pdf",

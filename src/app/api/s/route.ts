@@ -13,7 +13,7 @@ const body = z.object({
 });
 
 /**
- * Page view beacon (see components/site/analytics.tsx).
+ * Page view beacon (see components/site/analytics.tsx). Short neutral path on purpose: blockers filter "/track".
  * No cookie, no IP stored: a visitor is a hash of IP + browser + day + a server secret,
  * so the same person counts once a day and can't be followed across days.
  */

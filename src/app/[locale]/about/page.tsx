@@ -145,7 +145,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
           >
             <div className="flex max-w-[720px] flex-col gap-5">
               <span className="label">{t("studioEyebrow")}</span>
-              <span className="display text-[clamp(44px,6.5vw,96px)]">{site.studio.name}</span>
+              <span className="display text-[clamp(26px,6.5vw,96px)]">{site.studio.name}</span>
               <p className="m-0 text-lg leading-relaxed">{t("studioBody")}</p>
             </div>
             <span className="inline-flex size-[72px] items-center justify-center rounded-full bg-ink text-card transition-transform duration-250 group-hover:-translate-y-1 group-hover:translate-x-1">
@@ -159,7 +159,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
 
       <CtaFooter>
         <div className="flex flex-wrap items-end justify-between gap-8">
-          <SplitHeadline text={process("ctaTitle")} accent="." className="text-[clamp(56px,9vw,136px)] text-background" />
+          <SplitHeadline text={process("ctaTitle")} accent="." className="text-[clamp(32px,9vw,136px)] text-background" />
           <Link href="/contact" className="btn btn-light">
             {cta("getInTouch")}
             <ArrowUpRight size={16} aria-hidden />

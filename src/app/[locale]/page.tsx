@@ -154,7 +154,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             as="h2"
             text={t("talkTitle")}
             accent="."
-            className="mt-7 text-[clamp(72px,13vw,200px)] text-background"
+            className="mt-7 text-[clamp(50px,13vw,200px)] text-background"
           />
           <div className="mt-12 flex flex-wrap items-end justify-between gap-8">
             <p className="m-0 max-w-[460px] text-lg leading-[1.55] text-background/70">{t("talkBody")}</p>

@@ -59,7 +59,7 @@ export function ProcessSteps() {
               />
             )}
             <span className="label">{`0${k + 1}`} / 05</span>
-            <span className="display text-[26px] leading-none tracking-[-0.03em]">{t(`items.${s.key}.title`)}</span>
+            <span className="display text-[clamp(16px,4.6vw,26px)] leading-none tracking-[-0.03em]">{t(`items.${s.key}.title`)}</span>
           </button>
         ))}
       </div>

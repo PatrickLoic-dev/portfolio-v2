@@ -81,7 +81,7 @@ export default async function ProjectPage({ params, searchParams }: PageProps<"/
               {project.personal && <span className="chip">{project.openSource ? t("openSource") : t("closedSource")}</span>}
               {project.sector && <span className="chip">{project.sector}</span>}
             </div>
-            <SplitHeadline as="h1" immediate text={project.name.replace(" ", "\n")} accent="." className="text-[clamp(64px,12vw,184px)]" />
+            <SplitHeadline as="h1" immediate text={project.name.replace(" ", "\n")} accent="." className="text-[clamp(40px,12vw,184px)]" />
           </div>
           {project.description && (
             <Reveal delay={0.2} as="p" className="m-0 max-w-[440px] flex-[1_1_320px] text-[19px] leading-[1.55]">
@@ -119,7 +119,7 @@ export default async function ProjectPage({ params, searchParams }: PageProps<"/
 
       <section className="wrap pb-24">
         <Reveal className="overflow-hidden rounded-[28px]">
-          <ProjectMedia project={project} size="hero" className="aspect-[16/8] min-h-[340px]" />
+          <ProjectMedia project={project} size="hero" className="min-h-[260px] sm:aspect-[16/8] sm:min-h-[340px]" />
         </Reveal>
       </section>
 
@@ -188,7 +188,7 @@ export default async function ProjectPage({ params, searchParams }: PageProps<"/
           <Link href={`/work/${next.slug}`} className="group block text-background">
             <span className="label text-background/60">{t("next", { n: next.n })}</span>
             <div className="mt-6 flex flex-wrap items-end justify-between gap-6">
-              <span className="display text-[clamp(64px,11vw,168px)] transition-colors duration-200 group-hover:text-blob-a">
+              <span className="display text-[clamp(40px,11vw,168px)] transition-colors duration-200 group-hover:text-blob-a">
                 {next.name.split(" ").map((w, i) => (
                   <span key={i} className="block">
                     {w}

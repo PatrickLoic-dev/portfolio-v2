@@ -26,7 +26,7 @@ export function ProjectFeature({ project }: { project: Project }) {
   return (
     <Link href={`/work/${project.slug}`} className="card-link block">
       <div className="overflow-hidden rounded-[28px]">
-        <ProjectMedia project={project} size="hero" className="aspect-[16/8] min-h-[320px]" />
+        <ProjectMedia project={project} size="hero" className="min-h-[260px] sm:aspect-[16/8] sm:min-h-[320px]" />
       </div>
       <div className="flex flex-wrap items-start justify-between gap-6 pt-6">
         <div className="flex flex-wrap items-baseline gap-6">

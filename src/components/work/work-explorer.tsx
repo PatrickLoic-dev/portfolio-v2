@@ -119,7 +119,7 @@ export function WorkExplorer({ projects }: { projects: Project[] }) {
               exit={{ opacity: 0 }}
               className="flex flex-col items-center gap-4 rounded-3xl border border-dashed border-ink/20 px-6 py-24 text-center"
             >
-              <span className="display text-[40px]">{t("emptyTitle")}</span>
+              <span className="display text-[clamp(30px,9vw,40px)]">{t("emptyTitle")}</span>
               <p className="m-0 text-muted-foreground">{t("emptyBody")}</p>
               <button type="button" className="btn btn-ghost" onClick={() => { setType("all"); setTech("all"); }}>
                 {t("reset")}

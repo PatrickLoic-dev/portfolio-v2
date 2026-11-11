@@ -49,7 +49,7 @@ export default async function ProcessPage({ params }: PageProps<"/[locale]/proce
             >
               <div className="flex items-baseline gap-5">
                 <span className="label text-accent-ink">0{i + 1}</span>
-                <span className="display text-[40px]">{t(`items.${s.key}.title`)}</span>
+                <span className="display text-[clamp(30px,9vw,40px)]">{t(`items.${s.key}.title`)}</span>
               </div>
               <p className="m-0 text-base leading-[1.65] text-muted-foreground">{t(`items.${s.key}.desc`)}</p>
               <div className="flex flex-wrap content-start gap-1.5">
@@ -68,7 +68,7 @@ export default async function ProcessPage({ params }: PageProps<"/[locale]/proce
         <div className="flex flex-wrap items-end justify-between gap-8">
           <div className="flex flex-col gap-5">
             <span className="label text-blob-a">{t("ctaEyebrow")}</span>
-            <SplitHeadline text={t("ctaTitle")} accent="." className="text-[clamp(56px,9vw,136px)] text-background" />
+            <SplitHeadline text={t("ctaTitle")} accent="." className="text-[clamp(32px,9vw,136px)] text-background" />
           </div>
           <Link href="/contact" className="btn btn-light">
             {t("ctaButton")}

@@ -45,7 +45,7 @@ export function BlogExplorer({ posts, subjects }: { posts: PublicPost[]; subject
         <div className="flex flex-wrap items-end justify-between gap-10">
           <div className="flex flex-col gap-6">
             <span className="label text-accent-ink">{t("eyebrow", { count: posts.length })}</span>
-            <SplitHeadline as="h1" immediate text={t("title")} accent="." className="text-[clamp(64px,11vw,168px)]" />
+            <SplitHeadline as="h1" immediate text={t("title")} accent="." className="text-[clamp(46px,11vw,168px)]" />
           </div>
           <Reveal delay={0.2} className="flex w-full max-w-[440px] flex-col gap-5">
             <p className="m-0 text-lg leading-relaxed text-muted-foreground">{t("intro")}</p>
@@ -143,7 +143,7 @@ export function BlogExplorer({ posts, subjects }: { posts: PublicPost[]; subject
 
         {shown.length === 0 ? (
           <div className="flex flex-col items-center gap-4 rounded-3xl border border-dashed border-ink/20 px-6 py-20 text-center">
-            <span className="display text-[40px]">{t("emptyTitle")}</span>
+            <span className="display text-[clamp(30px,9vw,40px)]">{t("emptyTitle")}</span>
             <p className="m-0 text-muted-foreground">{t("emptyBody")}</p>
             <button type="button" className="btn btn-ghost" onClick={reset}>
               {t("clear")}

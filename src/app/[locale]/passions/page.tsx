@@ -77,7 +77,7 @@ export default async function PassionsPage({ params }: PageProps<"/[locale]/pass
         <div className="flex flex-wrap items-end justify-between gap-10">
           <div className="flex flex-col gap-6">
             <span className="label text-accent-ink">{t("eyebrow")}</span>
-            <SplitHeadline as="h1" immediate text={t("title")} accent="." className="text-[clamp(72px,13vw,200px)]" />
+            <SplitHeadline as="h1" immediate text={t("title")} accent="." className="text-[clamp(50px,13vw,200px)]" />
           </div>
           <Reveal delay={0.2} className="flex max-w-[420px] flex-col gap-5">
             <p className="m-0 text-lg leading-relaxed text-muted-foreground">{t("intro")}</p>
@@ -271,7 +271,7 @@ export default async function PassionsPage({ params }: PageProps<"/[locale]/pass
 
       <CtaFooter>
         <div className="flex flex-wrap items-end justify-between gap-8">
-          <SplitHeadline text={process("ctaTitle")} accent="." className="text-[clamp(56px,9vw,136px)] text-background" />
+          <SplitHeadline text={process("ctaTitle")} accent="." className="text-[clamp(32px,9vw,136px)] text-background" />
           <Link href="/contact" className="btn btn-light">
             {cta("getInTouch")}
             <ArrowUpRight size={16} aria-hidden />

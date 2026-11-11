@@ -30,7 +30,7 @@ export default async function BlogPage({ params }: PageProps<"/[locale]/blog">) 
         <div className="flex flex-wrap items-end justify-between gap-12">
           <div className="flex max-w-[640px] flex-col gap-5">
             <span className="label text-blob-a">{t("newsletter")}</span>
-            <SplitHeadline text={t("newsletterTitle")} accent="." className="text-[clamp(52px,8vw,120px)] text-background" />
+            <SplitHeadline text={t("newsletterTitle")} accent="." className="text-[clamp(36px,8vw,120px)] text-background" />
             <p className="m-0 text-[17px] leading-relaxed text-background/70">{t("newsletterBody")}</p>
           </div>
           <NewsletterForm />

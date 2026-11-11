@@ -21,9 +21,9 @@ export function useFeedback() {
 }
 
 /** A check mark that draws itself. */
-function DrawnCheck() {
+export function DrawnCheck({ size = 16 }: { size?: number }) {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden className="flex-none">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden className="flex-none">
       <motion.circle
         cx="12"
         cy="12"

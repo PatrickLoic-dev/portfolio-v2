@@ -120,7 +120,7 @@ export default async function PostPage({ params, searchParams }: PageProps<"/[lo
 
         <div className="wrap pb-[72px]">
           <Reveal
-            className="relative flex aspect-[16/7] min-h-[300px] flex-col justify-between overflow-hidden rounded-[28px] p-[clamp(28px,4vw,56px)]"
+            className="relative flex min-h-[300px] flex-col sm:aspect-[16/7] justify-between overflow-hidden rounded-[28px] p-[clamp(28px,4vw,56px)]"
             style={{ background: tone.bg, color: tone.ink }}
           >
             {post.coverUrl && (
@@ -129,7 +129,7 @@ export default async function PostPage({ params, searchParams }: PageProps<"/[lo
             )}
             <span className="label relative">{post.subject.label}</span>
             {!post.coverUrl && (
-              <span className="display relative whitespace-pre-line text-[clamp(64px,10vw,160px)] leading-[0.85]">
+              <span className="display relative whitespace-pre-line text-[clamp(44px,10vw,160px)] leading-[0.85]">
                 {post.hook}
                 <span className="text-card">.</span>
               </span>
@@ -161,7 +161,7 @@ export default async function PostPage({ params, searchParams }: PageProps<"/[lo
                 </div>
               ) : (
                 <div className="flex flex-col items-start gap-4 rounded-3xl border border-dashed border-ink/20 p-10">
-                  <span className="display text-[40px]">{t("draftTitle")}</span>
+                  <span className="display text-[clamp(30px,9vw,40px)]">{t("draftTitle")}</span>
                   <p className="m-0 text-lg leading-relaxed text-muted-foreground">{t("draftBody")}</p>
                   <Link href="/blog" className="btn btn-ghost">{t("allArticles")}</Link>
                 </div>

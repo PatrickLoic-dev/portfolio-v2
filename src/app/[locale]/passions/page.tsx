@@ -242,7 +242,7 @@ export default async function PassionsPage({ params }: PageProps<"/[locale]/pass
               <div className="flex flex-[1_1_300px] flex-col gap-5">
                 <Reveal delay={0.1} className="flex flex-1 flex-col justify-between gap-5 rounded-3xl p-7" style={{ background: mood.bg }}>
                   <span className="label">{t("mood")}</span>
-                  <span className="display text-[64px]">{mood.label[locale]}</span>
+                  <span className="display text-[clamp(30px,9.5vw,64px)]">{mood.label[locale]}</span>
                   {moodText && <span className="text-[15px] leading-normal">{moodText}</span>}
                 </Reveal>
                 {profiles.map((p, i) => (

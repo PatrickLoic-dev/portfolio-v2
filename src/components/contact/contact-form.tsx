@@ -62,7 +62,7 @@ function ContactPanel({ onReset }: { onReset: () => void }) {
           >
             <Check size={28} aria-hidden />
           </motion.span>
-          <SplitHeadline as="h2" immediate text={t("sentTitle")} accent="." className="text-[64px]" />
+          <SplitHeadline as="h2" immediate text={t("sentTitle")} accent="." className="text-[clamp(44px,12vw,64px)]" />
           <p className="m-0 max-w-[420px] text-[17px] leading-relaxed text-muted-foreground">{t("sentBody")}</p>
           <div className="flex flex-wrap gap-2.5">
             <Link href="/work" className="btn btn-primary">

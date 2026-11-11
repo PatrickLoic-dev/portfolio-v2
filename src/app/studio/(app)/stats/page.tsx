@@ -4,6 +4,7 @@ import { StudioHeading, StudioTopBar } from "@/components/studio/page-header";
 import { cn } from "@/lib/cn";
 import { audience, RANGES, type Range } from "@/lib/stats";
 import { DailyChart } from "./daily-chart";
+import { WorldMap } from "./world-map";
 
 export const metadata: Metadata = { title: "Statistiques" };
 
@@ -116,6 +117,8 @@ export default async function StatsPage({ searchParams }: PageProps<"/studio/sta
         <section className="hairline rounded-[20px] border bg-card p-6">
           <DailyChart days={a.days} />
         </section>
+
+        <WorldMap rows={a.countries} />
 
         <div className="flex flex-wrap items-start gap-5">
           <Ranking

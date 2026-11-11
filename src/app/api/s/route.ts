@@ -43,6 +43,10 @@ export async function POST(req: NextRequest) {
     } catch {}
   }
 
+  // Country from the edge (Vercel sets it on every request); unknown locally.
+  const geo = req.headers.get("x-vercel-ip-country")?.toUpperCase() ?? "";
+  const country = /^[A-Z]{2}$/.test(geo) && geo !== "XX" ? geo : null;
+
   // Normalise: /fr/blog/x → /blog/x (the locale has its own column).
   const path = data.path.replace(/^\/fr(?=\/|$)/, "") || "/";
 
@@ -52,6 +56,7 @@ export async function POST(req: NextRequest) {
     referrer,
     visitor,
     device: /mobi|android|iphone|ipad/i.test(ua) ? "mobile" : "desktop",
+    country,
   });
   return new NextResponse(null, { status: 204 });
 }

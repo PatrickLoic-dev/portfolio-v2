@@ -25,7 +25,7 @@ export async function audience(days: Range) {
   const from = since(days);
   const where = gte(pageViews.createdAt, from);
 
-  const [now, before, daily, pages, sources, locales] = await Promise.all([
+  const [now, before, daily, pages, sources, locales, countries] = await Promise.all([
     totals(from),
     totals(since(days * 2), from),
     db
@@ -57,6 +57,16 @@ export async function audience(days: Range) {
       .from(pageViews)
       .where(where)
       .groupBy(pageViews.locale),
+    db
+      .select({
+        country: pageViews.country,
+        views: sql<number>`count(*)::int`,
+        visitors: sql<number>`count(distinct (${pageViews.visitor}, date_trunc('day', ${pageViews.createdAt})))::int`,
+      })
+      .from(pageViews)
+      .where(where)
+      .groupBy(pageViews.country)
+      .orderBy(desc(sql`2`)),
   ]);
 
   // Every day of the window, zero-filled.
@@ -102,6 +112,7 @@ export async function audience(days: Range) {
     sources,
     direct: now.views - sources.reduce((n, s) => n + s.views, 0),
     locales,
+    countries,
   };
 }
 

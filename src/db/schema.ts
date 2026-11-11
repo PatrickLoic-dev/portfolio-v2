@@ -328,6 +328,8 @@ export const pageViews = pgTable(
     referrer: text("referrer"),
     visitor: text("visitor").notNull(),
     device: text("device").notNull().default("desktop"),
+    /** ISO 3166-1 alpha-2 code from the host geolocation (Vercel), null when unknown. */
+    country: text("country"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => [index("page_views_created_idx").on(t.createdAt), index("page_views_path_idx").on(t.path)],

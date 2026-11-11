@@ -53,7 +53,7 @@ export function WorkExplorer({ projects }: { projects: Project[] }) {
       </section>
 
       <section
-        className="wrap hairline flex flex-col gap-2.5 border-y bg-background py-3 max-nav:sticky max-nav:top-[73px] max-nav:z-20 nav:gap-4 nav:py-6"
+        className="wrap hairline flex flex-col gap-2.5 border-y bg-background py-3 nav:gap-4 nav:py-6"
         aria-label={t("filters")}
       >
         <div className="flex flex-wrap items-center justify-between gap-4">

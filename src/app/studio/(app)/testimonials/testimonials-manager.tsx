@@ -6,6 +6,7 @@ import { useRef, useState, useTransition } from "react";
 import { EASE } from "@/components/motion/ease";
 import { SortableItem } from "@/components/studio/sortable";
 import { Switch } from "@/components/studio/switch";
+import { ActionButton, useFeedback } from "@/components/action-button";
 import { useToast } from "@/components/studio/toast";
 import { TranslateButton } from "@/components/studio/translate-button";
 import { cn } from "@/lib/cn";
@@ -51,6 +52,7 @@ function Form({ value, onCancel, onSaved }: { value: TestimonialInput; onCancel:
   const [v, setV] = useState(value);
   const [error, setError] = useState("");
   const [pending, start] = useTransition();
+  const fb = useFeedback();
   const upd = (patch: Partial<TestimonialInput>) => setV((x) => ({ ...x, ...patch }));
   const id = v.id ?? "new";
 
@@ -58,8 +60,14 @@ function Form({ value, onCancel, onSaved }: { value: TestimonialInput; onCancel:
     start(async () => {
       const next = { ...v, initials: v.initials || auto(v.name) };
       const res = await saveTestimonial(next);
-      if (!res.ok) return setError(res.error);
+      if (!res.ok) {
+        fb.fail();
+        return setError(res.error);
+      }
       setError("");
+      fb.ok();
+      // Let the check mark play before the form closes.
+      await new Promise((r) => setTimeout(r, 750));
       onSaved({ ...next, id: res.data!.id });
       toast(v.id ? "Témoignage mis à jour" : "Témoignage ajouté");
     });
@@ -141,9 +149,15 @@ function Form({ value, onCancel, onSaved }: { value: TestimonialInput; onCancel:
           <button type="button" className="btn btn-ghost min-h-11 px-4 text-sm" onClick={onCancel}>
             Annuler
           </button>
-          <button type="submit" className="btn btn-primary min-h-11 px-5 text-sm" disabled={pending}>
-            {pending ? "Enregistrement…" : "Enregistrer"}
-          </button>
+          <ActionButton
+            type="submit"
+            className="btn btn-primary min-h-11 px-5 text-sm"
+            pending={pending && !fb.done}
+            done={fb.done}
+            failed={fb.failed}
+          >
+            Enregistrer
+          </ActionButton>
         </div>
       </div>
       {error && (

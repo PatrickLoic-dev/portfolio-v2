@@ -5,7 +5,7 @@ import { getTranslations } from "next-intl/server";
 export async function PreviewBanner() {
   const t = await getTranslations("preview");
   return (
-    <div role="note" className="sticky top-0 z-30 bg-ink text-background">
+    <div role="note" className="bg-ink text-background">
       <div className="wrap flex min-h-11 flex-wrap items-center gap-x-3 gap-y-1 py-2 text-sm">
         <EyeOff size={16} aria-hidden className="text-blob-b" />
         <strong className="font-semibold">{t("title")}</strong>

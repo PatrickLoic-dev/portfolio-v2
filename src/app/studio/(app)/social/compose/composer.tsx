@@ -10,6 +10,7 @@ import { NetBadge } from "@/components/studio/net-badge";
 import { useFeatures } from "@/components/studio/features";
 import { StudioTopBar } from "@/components/studio/page-header";
 import { fmtDayTime, toLocalInput } from "@/components/studio/status";
+import { ActionButton, useFeedback } from "@/components/action-button";
 import { useToast } from "@/components/studio/toast";
 import { cn } from "@/lib/cn";
 import {
@@ -66,6 +67,9 @@ export function Composer({
   const [when, setWhen] = useState(toLocalInput(initialAt)); // "YYYY-MM-DDTHH:mm" in Douala time
   const [done, setDone] = useState<{ kind: "schedule" | "queue" | "draft"; at: string | null } | null>(null);
   const [saving, start] = useTransition();
+  const mainFb = useFeedback();
+  const draftFb = useFeedback();
+  const [savingKind, setSavingKind] = useState<"main" | "draft">("main");
   const [uploading, startUpload] = useTransition();
   const [drafting, startDraft] = useTransition();
   const { ai } = useFeatures();
@@ -131,6 +135,8 @@ export function Composer({
   }
 
   function submit(kind: Mode | "draft") {
+    const fb = kind === "draft" ? draftFb : mainFb;
+    setSavingKind(kind === "draft" ? "draft" : "main");
     start(async () => {
       const res = await saveSocialPost({
         id: post?.id ?? null,
@@ -144,12 +150,18 @@ export function Composer({
         mode: kind,
         scheduledAt: kind === "schedule" && when ? new Date(`${when}:00+01:00`).toISOString() : null,
       });
-      if (!res.ok) return toast(res.error, { tone: "error" });
-      if (kind === "now") {
-        router.push(`/studio/social/posts?statut=due&open=${res.data!.id}`);
-        return;
+      if (!res.ok) {
+        fb.fail();
+        return toast(res.error, { tone: "error" });
       }
-      setDone({ kind, at: res.data!.scheduledAt });
+      fb.ok();
+      // Let the check mark play before moving on.
+      const id = res.data!.id;
+      const at = res.data!.scheduledAt;
+      window.setTimeout(() => {
+        if (kind === "now") router.push(`/studio/social/posts?statut=due&open=${id}`);
+        else setDone({ kind, at });
+      }, 900);
     });
   }
 
@@ -577,22 +589,35 @@ export function Composer({
             </section>
 
             <div className="flex flex-col gap-2">
-              <button
+              <ActionButton
                 type="button"
                 className="btn btn-primary min-h-12 disabled:opacity-50"
                 disabled={saving || errors.length > 0 || !d.networks.length}
+                pending={saving && savingKind === "main"}
+                done={mainFb.done}
+                failed={mainFb.failed}
+                doneLabel={mode === "now" ? "Prêt à publier" : mode === "queue" ? "Ajouté à la file" : "Programmé"}
                 onClick={() => submit(mode)}
               >
-                {saving ? "Enregistrement…" : mode === "now" ? "Publier maintenant" : mode === "queue" ? "Ajouter au prochain créneau" : "Programmer"}
-              </button>
+                {mode === "now" ? "Publier maintenant" : mode === "queue" ? "Ajouter au prochain créneau" : "Programmer"}
+              </ActionButton>
               {errors.length > 0 && (
                 <span role="alert" className="text-center text-xs font-medium text-danger">
                   Corrigez les points en rouge pour programmer.
                 </span>
               )}
-              <button type="button" className="btn btn-ghost min-h-11 text-sm" disabled={saving} onClick={() => submit("draft")}>
+              <ActionButton
+                type="button"
+                className="btn btn-ghost min-h-11 text-sm"
+                disabled={saving}
+                pending={saving && savingKind === "draft"}
+                done={draftFb.done}
+                failed={draftFb.failed}
+                doneLabel="Brouillon enregistré"
+                onClick={() => submit("draft")}
+              >
                 Enregistrer en brouillon
-              </button>
+              </ActionButton>
             </div>
           </aside>
         </div>

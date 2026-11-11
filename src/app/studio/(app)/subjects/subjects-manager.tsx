@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useState, useTransition, type FormEvent } from "react";
 import { EASE } from "@/components/motion/ease";
+import { ActionButton, useFeedback } from "@/components/action-button";
 import { useToast } from "@/components/studio/toast";
 import { tones, type Tone } from "@/lib/tones";
 import { cn } from "@/lib/cn";
@@ -75,6 +76,8 @@ function Fields({ value, onChange, idPrefix }: { value: SubjectInput; onChange: 
 export function SubjectsManager({ subjects }: { subjects: Subject[] }) {
   const toast = useToast();
   const [pending, start] = useTransition();
+  const addFb = useFeedback();
+  const editFb = useFeedback();
   const [draft, setDraft] = useState<SubjectInput>(blank);
   const [error, setError] = useState("");
   const [editing, setEditing] = useState<string | null>(null);
@@ -84,7 +87,11 @@ export function SubjectsManager({ subjects }: { subjects: Subject[] }) {
     e.preventDefault();
     start(async () => {
       const res = await createSubject(draft);
-      if (!res.ok) return setError(res.error);
+      if (!res.ok) {
+        addFb.fail();
+        return setError(res.error);
+      }
+      addFb.ok();
       toast(`Sujet « ${draft.nameFr.trim()} » ajouté`);
       setDraft(blank);
       setError("");
@@ -94,8 +101,14 @@ export function SubjectsManager({ subjects }: { subjects: Subject[] }) {
   const commit = (id: string) =>
     start(async () => {
       const res = await updateSubject(id, edit);
-      if (!res.ok) return toast(res.error, { tone: "error" });
+      if (!res.ok) {
+        editFb.fail();
+        return toast(res.error, { tone: "error" });
+      }
+      editFb.ok();
       toast(`Sujet « ${edit.nameFr.trim()} » enregistré`);
+      // Let the check mark play before the row closes.
+      await new Promise((r) => setTimeout(r, 750));
       setEditing(null);
     });
 
@@ -122,9 +135,17 @@ export function SubjectsManager({ subjects }: { subjects: Subject[] }) {
             <span className="text-[13px] font-semibold">Couleur</span>
             <Swatches value={draft.tone} onChange={(tone) => setDraft({ ...draft, tone })} label="Couleur du nouveau sujet" />
           </div>
-          <button type="submit" className="btn btn-primary min-h-11 text-sm" disabled={pending}>
+          <ActionButton
+            type="submit"
+            className="btn btn-primary min-h-11 text-sm"
+            pending={pending && !addFb.done}
+            pendingLabel="Ajout…"
+            doneLabel="Sujet ajouté"
+            done={addFb.done}
+            failed={addFb.failed}
+          >
             Ajouter le sujet
-          </button>
+          </ActionButton>
         </div>
         {error && (
           <span role="alert" className="text-[13px] font-medium text-danger">
@@ -229,9 +250,9 @@ export function SubjectsManager({ subjects }: { subjects: Subject[] }) {
                             <button type="button" className="btn btn-ghost min-h-10 text-sm" onClick={() => setEditing(null)}>
                               Annuler
                             </button>
-                            <button type="submit" className="btn btn-primary min-h-10 text-sm" disabled={pending}>
+                            <ActionButton type="submit" className="btn btn-primary min-h-10 text-sm" pending={pending} done={editFb.done} failed={editFb.failed}>
                               Enregistrer
-                            </button>
+                            </ActionButton>
                           </div>
                         </div>
                       </div>

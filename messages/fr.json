@@ -308,7 +308,8 @@
     "sentTitle": "Message\nenvoyé",
     "sentBody": "Merci, je vous réponds par email. En attendant, jetez un œil à quelques projets récents.",
     "seeWork": "Voir les projets",
-    "again": "Envoyer un autre"
+    "again": "Envoyer un autre",
+    "sentShort": "Envoyé"
   },
   "blog": {
     "eyebrow": "Journal · {count} articles",
@@ -381,7 +382,9 @@
     "subscribeCta": "S'abonner aux nouvelles notes",
     "startProject": "Démarrer un projet",
     "draftTitle": "Bientôt en ligne",
-    "draftBody": "Cet article est en cours d'écriture. Abonnez-vous à la newsletter pour le recevoir dès sa sortie."
+    "draftBody": "Cet article est en cours d'écriture. Abonnez-vous à la newsletter pour le recevoir dès sa sortie.",
+    "zoomIn": "Agrandir l'image",
+    "zoomOut": "Fermer"
   },
   "passions": {
     "eyebrow": "Hors du bureau",

@@ -9,6 +9,7 @@ import { EASE } from "@/components/motion/ease";
 import { ProjectMedia } from "@/components/project/project-media";
 import { StudioTopBar } from "@/components/studio/page-header";
 import { Switch } from "@/components/studio/switch";
+import { ActionButton, useFeedback } from "@/components/action-button";
 import { useToast } from "@/components/studio/toast";
 import { cn } from "@/lib/cn";
 import { slugify } from "@/lib/slug";
@@ -53,6 +54,7 @@ export function ProjectEditor({ initial, usedTags }: { initial: EditorProject; u
   const [savedAt, setSavedAt] = useState(initial.updatedAt);
   const [error, setError] = useState<string | null>(null);
   const [saving, startSave] = useTransition();
+  const fb = useFeedback();
   const [uploading, startUpload] = useTransition();
   const fileInput = useRef<HTMLInputElement>(null);
   const isNew = p.id === null;
@@ -86,8 +88,10 @@ export function ProjectEditor({ initial, usedTags }: { initial: EditorProject; u
       if (!res.ok) {
         setError(res.error);
         toast(res.error, { tone: "error" });
+        fb.fail();
         return;
       }
+      fb.ok();
       setP((x) => ({ ...x, id: res.data!.id, slug: res.data!.slug }));
       setDirty(false);
       setSavedAt(new Date().toISOString());
@@ -474,9 +478,17 @@ export function ProjectEditor({ initial, usedTags }: { initial: EditorProject; u
                 {error}
               </p>
             )}
-            <button type="button" className="btn btn-primary min-h-11 text-sm disabled:opacity-60" disabled={saving} onClick={save}>
+            <ActionButton
+              type="button"
+              className="btn btn-primary min-h-11 text-sm disabled:opacity-60"
+              pending={saving}
+              done={fb.done}
+              failed={fb.failed}
+              doneLabel={p.status === "published" ? "Publié" : "Enregistré"}
+              onClick={save}
+            >
               Enregistrer
-            </button>
+            </ActionButton>
             {!isNew && p.status === "published" && (
               <a href={`/work/${p.slug}`} target="_blank" className="btn btn-ghost min-h-11 text-sm">
                 Voir l&apos;étude de cas ↗

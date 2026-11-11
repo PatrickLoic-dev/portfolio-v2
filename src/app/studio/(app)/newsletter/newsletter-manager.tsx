@@ -4,6 +4,7 @@ import { Send, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
 import { useFeatures } from "@/components/studio/features";
+import { ActionButton, useFeedback } from "@/components/action-button";
 import { useToast } from "@/components/studio/toast";
 import { cn } from "@/lib/cn";
 import { deleteSubscriber, sendNoteToSubscribers } from "../../newsletter-actions";
@@ -35,6 +36,7 @@ export function NewsletterManager({
   const router = useRouter();
   const [pending, start] = useTransition();
   const { mail } = useFeatures();
+  const sendFb = useFeedback();
   const [filter, setFilter] = useState<"all" | Sub["status"]>("all");
   const sentIds = useMemo(() => new Set(sends.map((s) => s.noteId)), [sends]);
   const firstUnsent = notes.find((n) => !sentIds.has(n.id));
@@ -48,7 +50,11 @@ export function NewsletterManager({
     if (!window.confirm(`Envoyer « ${chosen.title} » à ${counts.active} abonné${counts.active > 1 ? "s" : ""} ?${again}`)) return;
     start(async () => {
       const res = await sendNoteToSubscribers(chosen.id);
-      if (!res.ok) return toast(res.error, { tone: "error" });
+      if (!res.ok) {
+        sendFb.fail();
+        return toast(res.error, { tone: "error" });
+      }
+      sendFb.ok();
       toast(`Note envoyée à ${res.data!.recipients} abonné${res.data!.recipients > 1 ? "s" : ""}`);
       router.refresh();
     });
@@ -97,7 +103,12 @@ export function NewsletterManager({
                 <label htmlFor="nl-note" className="text-[13px] font-semibold">
                   Note publiée
                 </label>
-                <select id="nl-note" className="field min-h-11 rounded-xl py-2 text-[15px]" value={noteId} onChange={(e) => setNoteId(e.target.value)}>
+                <select
+                  id="nl-note"
+                  className="field min-h-11 rounded-xl py-2 text-[15px]"
+                  value={noteId}
+                  onChange={(e) => setNoteId(e.target.value)}
+                >
                   {notes.map((n) => (
                     <option key={n.id} value={n.id}>
                       {n.title}
@@ -110,10 +121,24 @@ export function NewsletterManager({
                 L&apos;email reprend le titre, le chapeau et la couverture, avec un bouton vers la note. Les abonnés anglophones reçoivent la version
                 anglaise quand elle existe.
               </p>
-              <button type="button" className="btn btn-primary min-h-11 self-start text-sm" onClick={send} disabled={pending || !mail || !counts.active || !chosen}>
+              <ActionButton
+                type="button"
+                className="btn btn-primary min-h-11 self-start text-sm"
+                onClick={send}
+                disabled={!mail || !counts.active || !chosen}
+                pending={pending}
+                pendingLabel="Envoi…"
+                doneLabel="Envoyée"
+                done={sendFb.done}
+                failed={sendFb.failed}
+              >
                 <Send size={16} aria-hidden />
-                {pending ? "Envoi…" : !mail ? "Envoi indisponible (domaine non vérifié)" : counts.active ? `Envoyer à ${counts.active} abonné${counts.active > 1 ? "s" : ""}` : "Aucun abonné confirmé"}
-              </button>
+                {!mail
+                  ? "Envoi indisponible (domaine non vérifié)"
+                  : counts.active
+                    ? `Envoyer à ${counts.active} abonné${counts.active > 1 ? "s" : ""}`
+                    : "Aucun abonné confirmé"}
+              </ActionButton>
             </>
           )}
 
@@ -134,7 +159,10 @@ export function NewsletterManager({
           )}
         </section>
 
-        <section className="hairline flex min-w-0 flex-[999_1_480px] flex-col overflow-hidden rounded-[20px] border bg-card" aria-labelledby="subs-title">
+        <section
+          className="hairline flex min-w-0 flex-[999_1_480px] flex-col overflow-hidden rounded-[20px] border bg-card"
+          aria-labelledby="subs-title"
+        >
           <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-5">
             <h2 id="subs-title" className="m-0 text-lg font-bold">
               Abonnés
@@ -157,7 +185,9 @@ export function NewsletterManager({
               ))}
             </div>
           </div>
-          {shown.length === 0 && <p className="hairline m-0 border-t px-6 py-10 text-center text-sm text-muted-foreground">Personne ici pour l&apos;instant.</p>}
+          {shown.length === 0 && (
+            <p className="hairline m-0 border-t px-6 py-10 text-center text-sm text-muted-foreground">Personne ici pour l&apos;instant.</p>
+          )}
           <ul className="m-0 list-none p-0">
             {shown.map((s) => (
               <li key={s.id} className="hairline flex items-center gap-4 border-t px-6 py-3">
@@ -166,7 +196,14 @@ export function NewsletterManager({
                 <span className="label hidden text-muted-foreground sm:inline">{s.locale}</span>
                 <span className="hidden w-24 text-[13px] text-muted-foreground sm:inline">{STATUS[s.status].label}</span>
                 <span className="hidden font-mono text-xs text-muted-foreground md:inline">{day(s.createdAt)}</span>
-                <button type="button" className="icon-btn size-10" aria-label={`Supprimer ${s.email}`} title="Supprimer" onClick={() => remove(s)} disabled={pending}>
+                <button
+                  type="button"
+                  className="icon-btn size-10"
+                  aria-label={`Supprimer ${s.email}`}
+                  title="Supprimer"
+                  onClick={() => remove(s)}
+                  disabled={pending}
+                >
                   <Trash2 size={16} aria-hidden />
                 </button>
               </li>

@@ -3,6 +3,7 @@
 import { X } from "lucide-react";
 import Link from "next/link";
 import { useOptimistic, useState, useTransition } from "react";
+import { ActionButton, useFeedback } from "@/components/action-button";
 import { useToast } from "@/components/studio/toast";
 import { addIdea, deleteIdea } from "../actions";
 
@@ -14,6 +15,7 @@ export function QuickIdea({ ideas }: { ideas: Idea[] }) {
   const [pending, start] = useTransition();
   const [list, setList] = useOptimistic(ideas);
   const toast = useToast();
+  const fb = useFeedback();
 
   const save = () => {
     const title = value.trim();
@@ -21,8 +23,13 @@ export function QuickIdea({ ideas }: { ideas: Idea[] }) {
     start(async () => {
       setList((l) => [{ id: `tmp-${Date.now()}`, title }, ...l]);
       const res = await addIdea(title);
-      if (res.ok) setValue("");
-      else toast(res.error, { tone: "error" });
+      if (res.ok) {
+        setValue("");
+        fb.ok();
+      } else {
+        fb.fail();
+        toast(res.error, { tone: "error" });
+      }
     });
   };
 
@@ -53,9 +60,18 @@ export function QuickIdea({ ideas }: { ideas: Idea[] }) {
           onChange={(e) => setValue(e.target.value)}
         />
         {list.length === 0 && <span className="text-[13px] text-muted-foreground">Notez une idée maintenant, rédigez-la plus tard.</span>}
-        <button type="submit" className="btn btn-ghost min-h-11 text-sm" disabled={pending || !value.trim()}>
+        <ActionButton
+          type="submit"
+          className="btn btn-ghost min-h-11 text-sm"
+          disabled={!value.trim() && !fb.done}
+          pending={pending}
+          pendingLabel="Ajout…"
+          doneLabel="Idée gardée"
+          done={fb.done}
+          failed={fb.failed}
+        >
           Garder l&apos;idée
-        </button>
+        </ActionButton>
       </form>
       {list.map((i) => (
         <div key={i.id} className="hairline flex items-center justify-between gap-2.5 border-t pt-2.5">

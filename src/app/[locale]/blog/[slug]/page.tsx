@@ -157,7 +157,7 @@ export default async function PostPage({ params, searchParams }: PageProps<"/[lo
             <div className="min-w-0 max-w-[700px] flex-[1_1_620px]">
               {hasBody ? (
                 <div className="prose [&_h2]:scroll-mt-24">
-                  <Markdown source={post.body} />
+                  <Markdown source={post.body} zoom={{ open: t("zoomIn"), close: t("zoomOut") }} />
                 </div>
               ) : (
                 <div className="flex flex-col items-start gap-4 rounded-3xl border border-dashed border-ink/20 p-10">

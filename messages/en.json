@@ -308,7 +308,8 @@
     "sentTitle": "Message\nsent",
     "sentBody": "Thanks! I'll get back to you by email. In the meantime, have a look at some recent work.",
     "seeWork": "See the work",
-    "again": "Send another"
+    "again": "Send another",
+    "sentShort": "Sent"
   },
   "blog": {
     "eyebrow": "Journal · {count} articles",
@@ -381,7 +382,9 @@
     "subscribeCta": "Subscribe to new notes",
     "startProject": "Start a project",
     "draftTitle": "Coming soon",
-    "draftBody": "This article is still being written. Subscribe to the newsletter to get it when it goes live."
+    "draftBody": "This article is still being written. Subscribe to the newsletter to get it when it goes live.",
+    "zoomIn": "Enlarge image",
+    "zoomOut": "Close"
   },
   "passions": {
     "eyebrow": "Off the clock",

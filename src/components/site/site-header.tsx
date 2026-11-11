@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowUpRight, Menu, X } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState, useTransition } from "react";
 import { useLenis } from "@/components/motion/smooth-scroll";
@@ -48,6 +48,19 @@ export function SiteHeader() {
   const open = openOn === pathname;
   const setOpen = (next: boolean) => setOpenOn(next ? pathname : null);
 
+  // Hides while reading down the page, comes back as soon as the visitor scrolls up.
+  const { scrollY } = useScroll();
+  const [hidden, setHidden] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  useMotionValueEvent(scrollY, "change", (y) => {
+    const prev = scrollY.getPrevious() ?? 0;
+    setScrolled(y > 8);
+    if (y < 96) setHidden(false);
+    else if (y > prev + 6) setHidden(true);
+    else if (y < prev - 6) setHidden(false);
+  });
+  const tucked = hidden && !open;
+
   // Freeze page scroll while the mobile menu is open.
   useEffect(() => {
     if (!open) return;
@@ -71,7 +84,17 @@ export function SiteHeader() {
       >
         {t("skip")}
       </a>
-      <header className="sticky top-0 z-40 border-b hairline bg-background/95 backdrop-blur-sm nav:static nav:border-b-0 nav:bg-background nav:backdrop-blur-none">
+      <motion.header
+        className={cn(
+          "sticky top-0 z-40 border-b transition-[background-color,border-color,box-shadow] duration-300",
+          scrolled || open ? "hairline bg-background/90 backdrop-blur-md" : "border-transparent bg-background",
+        )}
+        initial={false}
+        animate={{ y: tucked ? "-100%" : "0%" }}
+        transition={{ duration: 0.35, ease: EASE }}
+        // Keyboard users tabbing into the header always see it.
+        onFocusCapture={() => setHidden(false)}
+      >
         <div className="wrap flex items-center justify-between gap-6 py-3.5 nav:py-5">
           <Link href="/" className="display text-[18px] leading-none tracking-[-0.02em] nav:text-[20px]">
             {site.name}
@@ -125,7 +148,7 @@ export function SiteHeader() {
             </button>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       <AnimatePresence>
         {open && (

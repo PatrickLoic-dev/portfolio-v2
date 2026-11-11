@@ -6,6 +6,7 @@ import { useState, useTransition } from "react";
 import { BrandIcon } from "@/components/brand-icon";
 import { EASE } from "@/components/motion/ease";
 import { fmtDayShort } from "@/components/studio/status";
+import { ActionButton, useFeedback } from "@/components/action-button";
 import { useToast } from "@/components/studio/toast";
 import { cn } from "@/lib/cn";
 import { MOOD_KEYS, MOODS, type Mood } from "@/lib/moods";
@@ -57,10 +58,16 @@ export function MusicEditor({
       toast(info.provider === "spotify" && !info.artist ? "Titre et pochette récupérés, complétez l'artiste" : "Infos récupérées");
     });
 
+  const publishFb = useFeedback();
+  const profilesFb = useFeedback();
   const publish = () =>
     startPublish(async () => {
       const res = await publishSong(d);
-      if (!res.ok) return toast(res.error, { tone: "error" });
+      if (!res.ok) {
+        publishFb.fail();
+        return toast(res.error, { tone: "error" });
+      }
+      publishFb.ok();
       toast("Page Passions mise à jour");
     });
 
@@ -200,19 +207,24 @@ export function MusicEditor({
             </div>
           </div>
           <div>
-            <button
+            <ActionButton
               type="button"
               className="btn btn-ghost min-h-10 text-sm"
-              disabled={savingProfiles}
+              pending={savingProfiles}
+              done={profilesFb.done}
+              failed={profilesFb.failed}
+              doneLabel="Profils enregistrés"
               onClick={() =>
                 startProfiles(async () => {
                   const res = await saveMusicProfiles(prof);
+                  if (res.ok) profilesFb.ok();
+                  else profilesFb.fail();
                   toast(res.ok ? "Profils enregistrés" : res.error, { tone: res.ok ? "ok" : "error" });
                 })
               }
             >
               Enregistrer les profils
-            </button>
+            </ActionButton>
           </div>
         </section>
       </div>
@@ -256,9 +268,18 @@ export function MusicEditor({
             {moodText && <span className="text-sm">{moodText}</span>}
           </div>
         </section>
-        <button type="button" className="btn btn-primary min-h-12 disabled:opacity-60" disabled={publishing} onClick={publish}>
-          {publishing ? "Mise à jour…" : "Mettre à jour le site"}
-        </button>
+        <ActionButton
+          type="button"
+          className="btn btn-primary min-h-12 disabled:opacity-60"
+          pending={publishing}
+          pendingLabel="Mise à jour…"
+          doneLabel="Site mis à jour"
+          done={publishFb.done}
+          failed={publishFb.failed}
+          onClick={publish}
+        >
+          Mettre à jour le site
+        </ActionButton>
 
         <section className="hairline flex flex-col gap-1 rounded-[20px] border bg-card p-[22px]">
           <h2 className="m-0 mb-2 text-base font-bold">Historique</h2>

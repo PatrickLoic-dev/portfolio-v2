@@ -6,6 +6,7 @@ import { useRef, useState, useTransition } from "react";
 import { EASE } from "@/components/motion/ease";
 import { SortableItem } from "@/components/studio/sortable";
 import { Switch } from "@/components/studio/switch";
+import { ActionButton, useFeedback } from "@/components/action-button";
 import { useToast } from "@/components/studio/toast";
 import { cn } from "@/lib/cn";
 import { uploadImage } from "../../actions";
@@ -34,6 +35,7 @@ function Form({ value, onCancel, onSaved }: { value: ClientInput; onCancel: () =
   const [v, setV] = useState(value);
   const [error, setError] = useState("");
   const [pending, start] = useTransition();
+  const fb = useFeedback();
   const [uploading, startUpload] = useTransition();
   const file = useRef<HTMLInputElement>(null);
   const upd = (patch: Partial<ClientInput>) => setV((x) => ({ ...x, ...patch }));
@@ -54,8 +56,14 @@ function Form({ value, onCancel, onSaved }: { value: ClientInput; onCancel: () =
       const url = v.url?.trim() ? (/^https?:\/\//.test(v.url.trim()) ? v.url.trim() : `https://${v.url.trim()}`) : null;
       const next = { ...v, url };
       const res = await saveClient(next);
-      if (!res.ok) return setError(res.error);
+      if (!res.ok) {
+        fb.fail();
+        return setError(res.error);
+      }
       setError("");
+      fb.ok();
+      // Let the check mark play before the form closes.
+      await new Promise((r) => setTimeout(r, 750));
       onSaved({ ...next, id: res.data!.id });
       toast(v.id ? "Entreprise mise à jour" : "Entreprise ajoutée");
     });
@@ -126,9 +134,16 @@ function Form({ value, onCancel, onSaved }: { value: ClientInput; onCancel: () =
           <button type="button" className="btn btn-ghost min-h-11 px-4 text-sm" onClick={onCancel}>
             Annuler
           </button>
-          <button type="submit" className="btn btn-primary min-h-11 px-5 text-sm" disabled={pending || uploading}>
-            {pending ? "Enregistrement…" : "Enregistrer"}
-          </button>
+          <ActionButton
+            type="submit"
+            className="btn btn-primary min-h-11 px-5 text-sm"
+            disabled={uploading}
+            pending={pending && !fb.done}
+            done={fb.done}
+            failed={fb.failed}
+          >
+            Enregistrer
+          </ActionButton>
         </div>
       </div>
       {error && (

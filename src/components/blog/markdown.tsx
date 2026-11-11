@@ -3,6 +3,7 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { headingId } from "@/lib/slug";
 import { CodeBlock, Tip } from "./mdx-parts";
+import { ZoomableImage, type ZoomLabels } from "./zoomable-image";
 
 function textOf(node: ReactNode): string {
   if (typeof node === "string" || typeof node === "number") return String(node);
@@ -16,8 +17,9 @@ function textOf(node: ReactNode): string {
  * - `## Heading` gets the same id as the table of contents.
  * - Fenced code renders in the dark code card.
  * - `> [!TIP]` blockquotes render as the sage callout.
+ * - Images open larger on click.
  */
-export function Markdown({ source }: { source: string }) {
+export function Markdown({ source, zoom = { open: "Agrandir l'image", close: "Fermer" } }: { source: string; zoom?: ZoomLabels }) {
   const components: Components = {
     h2: ({ children }) => <h2 id={headingId(textOf(children).replace(/[*_`]/g, ""))}>{children}</h2>,
     pre: ({ children, node }) => {
@@ -44,8 +46,8 @@ export function Markdown({ source }: { source: string }) {
         </a>
       );
     },
-    // eslint-disable-next-line @next/next/no-img-element
-    img: ({ src, alt }) => <img src={typeof src === "string" ? src : undefined} alt={alt ?? ""} className="my-8 w-full rounded-[18px]" loading="lazy" />,
+    // Click to enlarge (twice the size, over a dark backdrop).
+    img: ({ src, alt }) => (typeof src === "string" ? <ZoomableImage src={src} alt={alt ?? ""} labels={zoom} /> : null),
   };
 
   return (

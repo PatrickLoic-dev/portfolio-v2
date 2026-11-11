@@ -8,6 +8,7 @@ import { EASE } from "@/components/motion/ease";
 import { cn } from "@/lib/cn";
 import { composeUrl, finalText, NETWORKS, type SocialNetwork } from "@/lib/social";
 import type { PostView } from "@/lib/social-data";
+import { ActionButton, useFeedback } from "@/components/action-button";
 import { NetBadge } from "./net-badge";
 import { fmtDayTime } from "./status";
 import { useToast } from "./toast";
@@ -17,6 +18,8 @@ function NetworkStep({ post, network, connected }: { post: PostView; network: So
   const [url, setUrl] = useState("");
   const [copied, setCopied] = useState<"text" | "comment" | null>(null);
   const [pending, start] = useTransition();
+  const [which, setWhich] = useState<"api" | "mark">("mark");
+  const fb = useFeedback();
   const done = post.published[network];
   const text = finalText({ ...post, link: post.link ?? "" }, network);
 
@@ -53,25 +56,34 @@ function NetworkStep({ post, network, connected }: { post: PostView; network: So
 
       {!done && (
         <>
-          <pre className="m-0 max-h-40 overflow-auto whitespace-pre-wrap rounded-xl bg-background p-3 font-sans text-[13px] leading-relaxed">{text}</pre>
+          <pre className="m-0 max-h-40 overflow-auto whitespace-pre-wrap rounded-xl bg-background p-3 font-sans text-[13px] leading-relaxed">
+            {text}
+          </pre>
           {connected && network !== "instagram" && (
             <div className="flex flex-wrap items-center gap-3 rounded-xl bg-secondary/60 p-3">
-              <button
+              <ActionButton
                 type="button"
                 className="btn btn-primary min-h-10 px-4 text-sm"
-                disabled={pending}
+                disabled={pending && which !== "api"}
+                pending={pending && which === "api"}
+                pendingLabel="Publication…"
+                failed={which === "api" ? fb.failed : null}
                 onClick={() => {
+                  setWhich("api");
                   if (!window.confirm(`Publier ce texte maintenant sur ${NETWORKS[network].name} (${connected}) ?`)) return;
                   start(async () => {
                     const res = await publishNow(post.id, network);
-                    if (!res.ok) return toast(res.error, { tone: "error" });
+                    if (!res.ok) {
+                      fb.fail();
+                      return toast(res.error, { tone: "error" });
+                    }
                     toast(res.data!.done ? "Publication terminée sur tous les réseaux" : `Publié sur ${NETWORKS[network].name}`);
                   });
                 }}
               >
                 <Send size={15} aria-hidden />
-                {pending ? "Publication…" : "Publier maintenant"}
-              </button>
+                Publier maintenant
+              </ActionButton>
               <span className="text-xs text-muted-foreground">
                 Via l&apos;API, en tant que {connected}.{post.media.length > 0 && " Texte seul : les images restent à ajouter à la main."}
               </span>
@@ -95,11 +107,15 @@ function NetworkStep({ post, network, connected }: { post: PostView; network: So
           </div>
           {post.media.length > 0 && (
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs text-muted-foreground">
-                {network === "instagram" ? "Images à ajouter depuis l'app :" : "Images :"}
-              </span>
+              <span className="text-xs text-muted-foreground">{network === "instagram" ? "Images à ajouter depuis l'app :" : "Images :"}</span>
               {post.media.map((src, i) => (
-                <a key={src} href={src} target="_blank" rel="noreferrer" className="inline-flex min-h-8 items-center gap-1.5 rounded-full border border-ink/18 px-3 text-xs font-semibold hover:border-ink">
+                <a
+                  key={src}
+                  href={src}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex min-h-8 items-center gap-1.5 rounded-full border border-ink/18 px-3 text-xs font-semibold hover:border-ink"
+                >
                   <ImageDown size={13} aria-hidden /> Image {i + 1}
                 </a>
               ))}
@@ -112,9 +128,13 @@ function NetworkStep({ post, network, connected }: { post: PostView; network: So
             className="flex flex-wrap items-end gap-2"
             onSubmit={(e) => {
               e.preventDefault();
+              setWhich("mark");
               start(async () => {
                 const res = await markPublished(post.id, network, url);
-                if (!res.ok) return toast(res.error, { tone: "error" });
+                if (!res.ok) {
+                  fb.fail();
+                  return toast(res.error, { tone: "error" });
+                }
                 toast(res.data!.done ? "Publication terminée sur tous les réseaux" : `${NETWORKS[network].name} marqué comme publié`);
               });
             }}
@@ -132,10 +152,16 @@ function NetworkStep({ post, network, connected }: { post: PostView; network: So
                 onChange={(e) => setUrl(e.target.value)}
               />
             </div>
-            <button type="submit" className="btn min-h-10 bg-success px-4 text-sm text-white hover:bg-success-ink" disabled={pending}>
+            <ActionButton
+              type="submit"
+              className="btn min-h-10 bg-success px-4 text-sm text-white hover:bg-success-ink"
+              disabled={pending && which !== "mark"}
+              pending={pending && which === "mark"}
+              failed={which === "mark" ? fb.failed : null}
+            >
               <Check size={15} aria-hidden />
               Marquer comme publié
-            </button>
+            </ActionButton>
           </form>
         </>
       )}
@@ -151,9 +177,7 @@ export function PublishDialog({ post, onClose }: { post: PostView | null; onClos
   // Which networks can be published straight from here (connected in Comptes).
   useEffect(() => {
     if (!post) return;
-    apiConnections().then((c) =>
-      setLinked({ linkedin: c.linkedin.connected ? c.linkedin.name : null, x: c.x.connected ? c.x.name : null }),
-    );
+    apiConnections().then((c) => setLinked({ linkedin: c.linkedin.connected ? c.linkedin.name : null, x: c.x.connected ? c.x.name : null }));
   }, [post]);
 
   useEffect(() => {

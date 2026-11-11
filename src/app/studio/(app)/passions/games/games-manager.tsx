@@ -6,6 +6,7 @@ import { useOptimistic, useState, useTransition, type FormEvent } from "react";
 import { EASE } from "@/components/motion/ease";
 import { fmtDayTime } from "@/components/studio/status";
 import { Switch } from "@/components/studio/switch";
+import { ActionButton, useFeedback } from "@/components/action-button";
 import { useToast } from "@/components/studio/toast";
 import { cn } from "@/lib/cn";
 import { BrandIcon } from "@/components/brand-icon";
@@ -33,12 +34,17 @@ function FamilyForm({ disabled }: { disabled: boolean }) {
   const [link, setLink] = useState("");
   const [hours, setHours] = useState("");
   const [pending, start] = useTransition();
+  const fb = useFeedback();
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
     start(async () => {
       const res = await addFamilyGameNow(link, Number(hours) || 0);
-      if (!res.ok) return toast(res.error, { tone: "error" });
+      if (!res.ok) {
+        fb.fail();
+        return toast(res.error, { tone: "error" });
+      }
+      fb.ok();
       toast(res.data!.withAchievements ? `${res.data!.name} ajouté avec ses succès` : `${res.data!.name} ajouté (pas de succès lisibles)`);
       setLink("");
       setHours("");
@@ -83,10 +89,19 @@ function FamilyForm({ disabled }: { disabled: boolean }) {
             disabled={disabled}
           />
         </div>
-        <button type="submit" className="btn btn-primary min-h-11 text-sm disabled:opacity-60" disabled={disabled || pending || !link.trim()}>
+        <ActionButton
+          type="submit"
+          className="btn btn-primary min-h-11 text-sm disabled:opacity-60"
+          disabled={disabled || (!link.trim() && !fb.done)}
+          pending={pending}
+          pendingLabel="Ajout…"
+          doneLabel="Ajouté"
+          done={fb.done}
+          failed={fb.failed}
+        >
           <Plus size={16} aria-hidden />
-          {pending ? "Ajout…" : "Ajouter"}
-        </button>
+          Ajouter
+        </ActionButton>
       </div>
       {disabled && <span className="text-xs text-muted-foreground">Synchronisez d&apos;abord votre compte Steam.</span>}
     </form>
@@ -115,6 +130,7 @@ export function GamesManager({
   const [steamId, setSteamId] = useState(steam.steamId);
   const [autoSync, setAutoSync] = useState(steam.autoSync);
   const [syncing, startSync] = useTransition();
+  const syncFb = useFeedback();
   const [pending, start] = useTransition();
   const [list, update] = useOptimistic(games, (rows: Row[], patch: { id: string } & Partial<Row>) =>
     rows.map((r) => (r.id === patch.id ? { ...r, ...patch } : patch.pinned ? { ...r, pinned: false } : r)),
@@ -125,7 +141,11 @@ export function GamesManager({
   const sync = () =>
     startSync(async () => {
       const res = await syncSteamNow(steamId);
-      if (!res.ok) return toast(res.error, { tone: "error" });
+      if (!res.ok) {
+        syncFb.fail();
+        return toast(res.error, { tone: "error" });
+      }
+      syncFb.ok();
       toast(`Steam synchronisé : ${res.data!.count} jeux`);
     });
 
@@ -184,10 +204,20 @@ export function GamesManager({
               onChange={(e) => setSteamId(e.target.value)}
             />
           </div>
-          <button type="button" className="btn btn-primary min-h-11 text-sm disabled:opacity-60" disabled={!configured || syncing || !steamId.trim()} onClick={sync}>
-            <RefreshCw size={16} className={syncing ? "animate-spin" : ""} aria-hidden />
-            {syncing ? "Synchronisation…" : linked ? "Synchroniser maintenant" : "Lier et synchroniser"}
-          </button>
+          <ActionButton
+            type="button"
+            className="btn btn-primary min-h-11 text-sm disabled:opacity-60"
+            disabled={!configured || !steamId.trim()}
+            pending={syncing}
+            pendingLabel="Synchronisation…"
+            doneLabel="Synchronisé"
+            done={syncFb.done}
+            failed={syncFb.failed}
+            onClick={sync}
+          >
+            <RefreshCw size={16} aria-hidden />
+            {linked ? "Synchroniser maintenant" : "Lier et synchroniser"}
+          </ActionButton>
         </div>
         <div className="flex flex-wrap items-center justify-between gap-3 text-[13px] text-muted-foreground">
           <label className="flex min-h-11 cursor-pointer items-center gap-2.5 font-medium text-foreground">

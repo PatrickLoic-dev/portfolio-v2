@@ -4,6 +4,7 @@ import { Plus, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState, useTransition } from "react";
 import { NetBadge } from "@/components/studio/net-badge";
+import { ActionButton, useFeedback } from "@/components/action-button";
 import { useToast } from "@/components/studio/toast";
 import { DAY_SHORT, NETWORK_KEYS, NETWORKS, type SocialNetwork, type SocialSettings } from "@/lib/social";
 import { saveSocialSettings } from "../../../social-actions";
@@ -20,6 +21,7 @@ export function AccountsForm({ initial }: { initial: SocialSettings }) {
   const [s, setS] = useState(initial);
   const [dirty, setDirty] = useState(false);
   const [pending, start] = useTransition();
+  const fb = useFeedback();
 
   const setAccount = (n: SocialNetwork, patch: Partial<SocialSettings["accounts"][SocialNetwork]>) => {
     setS((x) => ({ ...x, accounts: { ...x.accounts, [n]: { ...x.accounts[n], ...patch } } }));
@@ -89,21 +91,28 @@ export function AccountsForm({ initial }: { initial: SocialSettings }) {
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
-        <button
+        <ActionButton
           type="button"
           className="btn btn-primary min-h-11 text-sm disabled:opacity-60"
-          disabled={pending || !dirty}
+          disabled={!dirty}
+          pending={pending}
+          done={fb.done}
+          failed={fb.failed}
           onClick={() =>
             start(async () => {
               const res = await saveSocialSettings(s);
-              if (!res.ok) return toast(res.error, { tone: "error" });
+              if (!res.ok) {
+                fb.fail();
+                return toast(res.error, { tone: "error" });
+              }
+              fb.ok();
               setDirty(false);
               toast("Comptes et créneaux enregistrés");
             })
           }
         >
           Enregistrer
-        </button>
+        </ActionButton>
         {dirty && <span className="text-[13px] text-muted-foreground">Modifications non enregistrées</span>}
       </div>
 

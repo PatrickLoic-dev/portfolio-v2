@@ -11,6 +11,7 @@ import { HistoryButton } from "@/components/studio/history-button";
 import { PreviewButton } from "@/components/studio/preview-button";
 import { StudioTopBar } from "@/components/studio/page-header";
 import { fmtDay, fromLocalInput, statusMeta, toLocalInput } from "@/components/studio/status";
+import { ActionButton, useFeedback } from "@/components/action-button";
 import { useToast } from "@/components/studio/toast";
 import { TranslateButton } from "@/components/studio/translate-button";
 import { useFeatures } from "@/components/studio/features";
@@ -85,6 +86,9 @@ export function NoteEditor({
   const [deleted, setDeleted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saving, startSave] = useTransition();
+  const primaryFb = useFeedback();
+  const draftFb = useFeedback();
+  const [savingKind, setSavingKind] = useState<"primary" | "draft">("primary");
   const [uploading, startUpload] = useTransition();
   const body = useRef<HTMLTextAreaElement>(null);
   const isNew = d.id === null;
@@ -110,6 +114,8 @@ export function NoteEditor({
 
   function save(status: NoteStatus) {
     setError(null);
+    const fb = status === "draft" ? draftFb : primaryFb;
+    setSavingKind(status === "draft" ? "draft" : "primary");
     startSave(async () => {
       const res = await saveNote({
         id: d.id,
@@ -127,8 +133,10 @@ export function NoteEditor({
       if (!res.ok) {
         setError(res.error);
         toast(res.error, { tone: "error" });
+        fb.fail();
         return;
       }
+      fb.ok();
       // The server may turn "published + future date" into "scheduled".
       const { id, slug, publishedAt, status: savedStatus } = res.data!;
       status = savedStatus;
@@ -549,17 +557,31 @@ export function NoteEditor({
               </p>
             )}
             <div className="mt-1 flex flex-col gap-2">
-              <button
+              <ActionButton
                 type="button"
                 className="btn btn-primary min-h-11 text-sm disabled:opacity-60"
                 disabled={saving}
+                pending={saving && savingKind === "primary"}
+                pendingLabel={primaryStatus === "scheduled" ? "Programmation…" : "Publication…"}
+                doneLabel={primaryStatus === "scheduled" ? "Programmée" : "En ligne"}
+                done={primaryFb.done}
+                failed={primaryFb.failed}
                 onClick={() => save(primaryStatus)}
               >
                 {primaryLabel}
-              </button>
-              <button type="button" className="btn btn-ghost min-h-11 text-sm" disabled={saving} onClick={() => save("draft")}>
+              </ActionButton>
+              <ActionButton
+                type="button"
+                className="btn btn-ghost min-h-11 text-sm"
+                disabled={saving}
+                pending={saving && savingKind === "draft"}
+                doneLabel="Brouillon enregistré"
+                done={draftFb.done}
+                failed={draftFb.failed}
+                onClick={() => save("draft")}
+              >
                 Enregistrer en brouillon
-              </button>
+              </ActionButton>
               {!isNew && d.status === "published" && (
                 <a href={`/blog/${d.slug}`} target="_blank" className="text-center text-[13px] font-semibold underline underline-offset-[3px]">
                   Voir sur le blog ↗

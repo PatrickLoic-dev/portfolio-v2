@@ -4,6 +4,7 @@ import { Check, Copy, ExternalLink, Link2, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { createPreviewLink, getPreviewLink, revokePreviewLink, type PreviewLink } from "@/app/studio/preview-actions";
+import { ActionButton } from "@/components/action-button";
 import { EASE } from "@/components/motion/ease";
 import { useToast } from "@/components/studio/toast";
 
@@ -114,9 +115,9 @@ export function PreviewButton({ entity, id, savedAt }: { entity: "note" | "proje
                 </div>
               </>
             ) : (
-              <button type="button" className="btn btn-primary min-h-11 text-sm" onClick={create} disabled={pending}>
-                {pending ? "Création…" : "Créer un lien (14 jours)"}
-              </button>
+              <ActionButton type="button" className="btn btn-primary min-h-11 text-sm" onClick={create} pending={pending} pendingLabel="Création…">
+                Créer un lien (14 jours)
+              </ActionButton>
             )}
           </motion.div>
         )}

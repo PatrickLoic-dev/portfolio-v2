@@ -115,7 +115,8 @@
         "projectText": "Un projet cadré, un calendrier fixe : je le mène de bout en bout, de la découverte au lancement.",
         "teamText": "Intégré à votre équipe : je livre des fonctionnalités, des revues et des design systems à vos côtés."
       }
-    }
+    },
+    "trustedBy": "Ils me font confiance"
   },
   "testimonial": {
     "choose": "Choisir un témoignage"
@@ -356,7 +357,8 @@
     "newsletterEmail": "Adresse email",
     "subscribe": "S'abonner",
     "subscribed": "C'est noté, vérifiez votre boîte mail pour confirmer.",
-    "author": "Ingénieur frontend"
+    "author": "Ingénieur frontend",
+    "subscribeError": "Ça n'a pas fonctionné. Vérifiez l'adresse et réessayez."
   },
   "post": {
     "journal": "Journal",
@@ -421,5 +423,16 @@
     "title": "Page\nintrouvable",
     "body": "Cette page n'existe pas, ou elle a déménagé.",
     "home": "Retour à l'accueil"
+  },
+  "preview": {
+    "title": "Aperçu privé",
+    "body": "Cette page n'est pas encore publiée. Merci de ne pas partager le lien."
+  },
+  "newsletter": {
+    "title": "Newsletter",
+    "confirmed": "Abonnement confirmé. La prochaine note arrivera dans votre boîte mail",
+    "unsubscribed": "Vous êtes désinscrit·e. Plus aucun email de ma part, promis",
+    "invalid": "Ce lien a expiré ou a déjà été utilisé",
+    "back": "Retour aux notes"
   }
 }

@@ -88,45 +88,6 @@ export const experiences: Experience[] = [
   },
 ];
 
-export type Testimonial = {
-  id: string;
-  name: string;
-  initials: string;
-  /** Tailwind background for the initials badge. */
-  tone: string;
-  role: { en: string; fr: string };
-  company: string;
-  quote: { en: string; fr: string };
-};
-
-/** "Kind words" on Home and About, shown in this order. */
-export const testimonials: Testimonial[] = [
-  {
-    id: "leandre",
-    name: "Leandre Thydian Mandessi Kwelle",
-    initials: "LK",
-    tone: "bg-blob-b",
-    role: { en: "Principal Architect & Co-founder", fr: "Architecte principal et co-fondateur" },
-    company: "Asante Artsy",
-    quote: {
-      en: "Our work is about restraint, light and space, and Patrick understood that from the very first conversation. The site he built lets every project breathe: clients now discover our architecture the way we meant it to be seen.",
-      fr: "Notre travail parle de retenue, de lumière et d'espace, et Patrick l'a compris dès la première conversation. Le site qu'il a construit laisse respirer chaque projet : nos clients découvrent enfin notre architecture telle que nous voulions qu'elle soit vue.",
-    },
-  },
-  {
-    id: "ignace",
-    name: "Ignace Cabrel Elouga",
-    initials: "IE",
-    tone: "bg-blob-a",
-    role: { en: "Managing Partner", fr: "Associé gérant" },
-    company: "Think Tech Solutions",
-    quote: {
-      en: "Patrick pairs a sharp technical eye with a real sense of product. He asks the right questions early, ships clean and reliable interfaces, and keeps everyone aligned. He's exactly the partner you want on a project that matters.",
-      fr: "Patrick allie un vrai regard technique et un sens aigu du produit. Il pose les bonnes questions tôt, livre des interfaces propres et fiables, et garde tout le monde aligné. C'est exactement le partenaire qu'on veut sur un projet qui compte.",
-    },
-  },
-];
-
 export const stats = [
   { value: "4+", key: "years" },
   { value: "9", key: "projects" },

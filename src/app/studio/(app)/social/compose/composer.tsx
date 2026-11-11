@@ -1,12 +1,13 @@
 "use client";
 
-import { Check, ImageUp, Info, X } from "lucide-react";
+import { Check, ImageUp, Info, Sparkles, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState, useTransition, type ChangeEvent } from "react";
 import { EASE } from "@/components/motion/ease";
 import { NetBadge } from "@/components/studio/net-badge";
+import { useFeatures } from "@/components/studio/features";
 import { StudioTopBar } from "@/components/studio/page-header";
 import { fmtDayTime, toLocalInput } from "@/components/studio/status";
 import { useToast } from "@/components/studio/toast";
@@ -26,6 +27,7 @@ import {
 } from "@/lib/social";
 import type { PostView } from "@/lib/social-data";
 import { uploadImage } from "../../../actions";
+import { draftSocialPostsFromNote } from "../../../ai-actions";
 import { saveSocialPost } from "../../../social-actions";
 
 type Mode = "schedule" | "queue" | "now";
@@ -65,6 +67,8 @@ export function Composer({
   const [done, setDone] = useState<{ kind: "schedule" | "queue" | "draft"; at: string | null } | null>(null);
   const [saving, start] = useTransition();
   const [uploading, startUpload] = useTransition();
+  const [drafting, startDraft] = useTransition();
+  const { ai } = useFeatures();
   const fileInput = useRef<HTMLInputElement>(null);
 
   const set = (patch: Partial<typeof d>) => setD((x) => ({ ...x, ...patch }));
@@ -95,6 +99,19 @@ export function Composer({
     const n = notes.find((x) => x.id === id);
     if (!n) return set({ noteId: null });
     set({ noteId: n.id, text: n.text, link: n.link, custom: {}, media: n.cover && !d.media.length ? [n.cover] : d.media });
+  };
+
+  /** Claude writes one version per network from the chosen note. */
+  const draftWithClaude = (lang: "fr" | "en") => {
+    if (!d.noteId) return;
+    if ((d.text.trim() || Object.keys(d.custom).length) && !window.confirm("Remplacer le texte actuel par les propositions de Claude ?")) return;
+    startDraft(async () => {
+      const res = await draftSocialPostsFromNote(d.noteId!, lang);
+      if (!res.ok) return toast(res.error, { tone: "error" });
+      const link = lang === "fr" ? d.link : d.link.replace("/fr/blog/", "/blog/");
+      set({ text: res.data!.linkedin, custom: { x: res.data!.x, instagram: res.data!.instagram }, link });
+      toast("Brouillons rédigés : un texte par réseau, à relire");
+    });
   };
 
   function onUpload(e: ChangeEvent<HTMLInputElement>) {
@@ -225,6 +242,19 @@ export function Composer({
                 </option>
               ))}
             </select>
+            {ai && d.noteId && (
+              <div className="flex flex-wrap items-center gap-2 pt-1" aria-busy={drafting}>
+                <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-muted-foreground">
+                  <Sparkles size={14} aria-hidden />
+                  Rédiger avec Claude
+                </span>
+                {(["fr", "en"] as const).map((l) => (
+                  <button key={l} type="button" className="btn btn-ghost min-h-10 px-3.5 text-[13px]" disabled={drafting} onClick={() => draftWithClaude(l)}>
+                    {drafting ? "Rédaction…" : l === "fr" ? "En français" : "In English"}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 

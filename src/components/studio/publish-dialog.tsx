@@ -1,9 +1,9 @@
 "use client";
 
-import { Check, Copy, ExternalLink, ImageDown, X } from "lucide-react";
+import { Check, Copy, ExternalLink, ImageDown, Send, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState, useTransition } from "react";
-import { markPublished } from "@/app/studio/social-actions";
+import { apiConnections, markPublished, publishNow } from "@/app/studio/social-actions";
 import { EASE } from "@/components/motion/ease";
 import { cn } from "@/lib/cn";
 import { composeUrl, finalText, NETWORKS, type SocialNetwork } from "@/lib/social";
@@ -12,7 +12,7 @@ import { NetBadge } from "./net-badge";
 import { fmtDayTime } from "./status";
 import { useToast } from "./toast";
 
-function NetworkStep({ post, network }: { post: PostView; network: SocialNetwork }) {
+function NetworkStep({ post, network, connected }: { post: PostView; network: SocialNetwork; connected: string | null }) {
   const toast = useToast();
   const [url, setUrl] = useState("");
   const [copied, setCopied] = useState<"text" | "comment" | null>(null);
@@ -54,6 +54,29 @@ function NetworkStep({ post, network }: { post: PostView; network: SocialNetwork
       {!done && (
         <>
           <pre className="m-0 max-h-40 overflow-auto whitespace-pre-wrap rounded-xl bg-background p-3 font-sans text-[13px] leading-relaxed">{text}</pre>
+          {connected && network !== "instagram" && (
+            <div className="flex flex-wrap items-center gap-3 rounded-xl bg-secondary/60 p-3">
+              <button
+                type="button"
+                className="btn btn-primary min-h-10 px-4 text-sm"
+                disabled={pending}
+                onClick={() => {
+                  if (!window.confirm(`Publier ce texte maintenant sur ${NETWORKS[network].name} (${connected}) ?`)) return;
+                  start(async () => {
+                    const res = await publishNow(post.id, network);
+                    if (!res.ok) return toast(res.error, { tone: "error" });
+                    toast(res.data!.done ? "Publication terminée sur tous les réseaux" : `Publié sur ${NETWORKS[network].name}`);
+                  });
+                }}
+              >
+                <Send size={15} aria-hidden />
+                {pending ? "Publication…" : "Publier maintenant"}
+              </button>
+              <span className="text-xs text-muted-foreground">
+                Via l&apos;API, en tant que {connected}.{post.media.length > 0 && " Texte seul : les images restent à ajouter à la main."}
+              </span>
+            </div>
+          )}
           <div className="flex flex-wrap gap-2">
             <button type="button" className="btn btn-ghost min-h-10 px-4 text-sm" onClick={() => copy(text, "text")}>
               {copied === "text" ? <Check size={15} aria-hidden /> : <Copy size={15} aria-hidden />}
@@ -123,6 +146,15 @@ function NetworkStep({ post, network }: { post: PostView; network: SocialNetwork
 /** "À publier" helper: one step per network, until every network is marked as published. */
 export function PublishDialog({ post, onClose }: { post: PostView | null; onClose: () => void }) {
   const panel = useRef<HTMLDivElement>(null);
+  const [linked, setLinked] = useState<Partial<Record<SocialNetwork, string | null>>>({});
+
+  // Which networks can be published straight from here (connected in Comptes).
+  useEffect(() => {
+    if (!post) return;
+    apiConnections().then((c) =>
+      setLinked({ linkedin: c.linkedin.connected ? c.linkedin.name : null, x: c.x.connected ? c.x.name : null }),
+    );
+  }, [post]);
 
   useEffect(() => {
     if (!post) return;
@@ -172,7 +204,7 @@ export function PublishDialog({ post, onClose }: { post: PostView | null; onClos
               retrouver ensuite.
             </p>
             {post.networks.map((n) => (
-              <NetworkStep key={n} post={post} network={n} />
+              <NetworkStep key={n} post={post} network={n} connected={linked[n] ?? null} />
             ))}
           </motion.div>
         </motion.div>

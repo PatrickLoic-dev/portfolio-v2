@@ -5,8 +5,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { EASE } from "@/components/motion/ease";
 import { Reveal } from "@/components/motion/reveal";
-import { testimonials } from "@/content/site";
 import type { Locale } from "@/i18n/routing";
+import type { PublicTestimonial } from "@/lib/kind-words";
 import { cn } from "@/lib/cn";
 
 /** Time each quote stays on screen before sliding to the next. */
@@ -16,7 +16,7 @@ const INTERVAL = 7000;
  * "Kind words": one large quote at a time that slides to the next on its own.
  * Pauses on hover, keyboard focus and hidden tabs; no autoplay with reduced motion.
  */
-export function Testimonial({ eyebrow }: { eyebrow: string }) {
+export function Testimonial({ eyebrow, items: testimonials }: { eyebrow: string; items: PublicTestimonial[] }) {
   const t = useTranslations("testimonial");
   const locale = useLocale() as Locale;
   const reduce = useReducedMotion();
@@ -85,11 +85,11 @@ export function Testimonial({ eyebrow }: { eyebrow: string }) {
               >
                 <blockquote lang={locale} className="heading m-0 max-w-[1100px] text-[clamp(26px,3.4vw,48px)] leading-[1.14]">
                   <span className="text-accent">“</span>
-                  {current.quote[locale]}
+                  {current.quote}
                   <span className="text-accent">”</span>
                 </blockquote>
                 <figcaption className="sr-only">
-                  {current.name}, {current.role[locale]}, {current.company}
+                  {current.name}, {current.role}, {current.company}
                 </figcaption>
               </motion.figure>
             </AnimatePresence>
@@ -118,7 +118,7 @@ export function Testimonial({ eyebrow }: { eyebrow: string }) {
                   <span className="flex flex-col gap-0.5">
                     <span className="font-semibold">{p.name}</span>
                     <span className="text-sm text-muted-foreground">
-                      {p.role[locale]} · {p.company}
+                      {p.role} · {p.company}
                     </span>
                   </span>
                   {on && auto && (

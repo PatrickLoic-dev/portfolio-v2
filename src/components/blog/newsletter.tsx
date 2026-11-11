@@ -2,13 +2,14 @@
 
 import { Check } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useActionState } from "react";
 import { subscribe, type FormState } from "@/app/actions";
 import { EASE } from "@/components/motion/ease";
 
 export function NewsletterForm() {
   const t = useTranslations("blog");
+  const locale = useLocale();
   const [state, action, pending] = useActionState<FormState, FormData>(subscribe, { status: "idle" });
 
   return (
@@ -28,6 +29,9 @@ export function NewsletterForm() {
           </motion.div>
         ) : (
           <motion.form key="form" action={action} exit={{ opacity: 0 }} className="flex flex-wrap gap-2.5">
+            <input type="hidden" name="locale" value={locale} />
+            {/* Honeypot: hidden from people, filled by bots. */}
+            <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
             <label htmlFor="nl-email" className="sr-only">
               {t("newsletterEmail")}
             </label>
@@ -43,6 +47,11 @@ export function NewsletterForm() {
             <button type="submit" className="btn btn-light" disabled={pending}>
               {t("subscribe")}
             </button>
+            {state.status === "error" && (
+              <p role="alert" className="m-0 w-full text-sm text-blob-a">
+                {t("subscribeError")}
+              </p>
+            )}
           </motion.form>
         )}
       </AnimatePresence>

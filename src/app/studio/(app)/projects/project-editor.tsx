@@ -15,6 +15,10 @@ import { slugify } from "@/lib/slug";
 import { tones, type Tone } from "@/lib/tones";
 import { uploadImage } from "../../actions";
 import { saveProject, type ProjectInput } from "../../portfolio-actions";
+import { TranslateButton } from "@/components/studio/translate-button";
+import { HistoryButton } from "@/components/studio/history-button";
+import { PreviewButton } from "@/components/studio/preview-button";
+import type { ProjectSnapshot } from "@/lib/portfolio";
 import { StackInput } from "./stack-input";
 
 type Lang = "fr" | "en";
@@ -54,6 +58,8 @@ export function ProjectEditor({ initial, usedTags }: { initial: EditorProject; u
   const isNew = p.id === null;
   const personal = p.type === "personal";
   const t = p.translations[lang];
+  const other: Lang = lang === "fr" ? "en" : "fr";
+  const TEXT_KEYS = ["description", "sector", "problemTitle", "problem", "approachTitle", "approach", "outcomeTitle", "outcome"] as const;
 
   const upd = (patch: Partial<EditorProject>) => {
     setP((x) => ({ ...x, ...patch }));
@@ -155,6 +161,17 @@ export function ProjectEditor({ initial, usedTags }: { initial: EditorProject; u
                 ? `Enregistré · ${new Date(savedAt).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`
                 : "Nouveau projet (non enregistré)"}
         </span>
+        <PreviewButton entity="project" id={p.id} savedAt={savedAt} />
+        <HistoryButton<ProjectSnapshot>
+          entity="project"
+          id={p.id}
+          dirty={dirty}
+          savedAt={savedAt}
+          onRestore={(snap) => {
+            setP((x) => ({ ...x, ...snap, id: x.id, status: x.status }));
+            setDirty(true);
+          }}
+        />
       </StudioTopBar>
 
       <div className="flex flex-wrap items-start gap-5 p-[clamp(24px,3vw,40px)]">
@@ -286,6 +303,28 @@ export function ProjectEditor({ initial, usedTags }: { initial: EditorProject; u
                 transition={{ duration: 0.15 }}
                 className="flex flex-col gap-4 p-[22px]"
               >
+                <TranslateButton
+                  only={other}
+                  context="A portfolio case study: short card description, sector, then problem / approach / outcome sections with optional titles, and metric labels."
+                  fields={{
+                    ...Object.fromEntries(TEXT_KEYS.map((k) => [k, { fr: p.translations.fr[k], en: p.translations.en[k] }])),
+                    ...Object.fromEntries(p.metrics.map((m, i) => [`metric${i}`, { fr: m.labelFr, en: m.labelEn }])),
+                  }}
+                  onTranslated={(to, out) => {
+                    setP((x) => ({
+                      ...x,
+                      translations: {
+                        ...x.translations,
+                        [to]: { ...x.translations[to], ...Object.fromEntries(TEXT_KEYS.filter((k) => out[k] !== undefined).map((k) => [k, out[k]])) },
+                      },
+                      metrics: x.metrics.map((m, i) => {
+                        const label = out[`metric${i}`];
+                        return label === undefined ? m : to === "fr" ? { ...m, labelFr: label } : { ...m, labelEn: label };
+                      }),
+                    }));
+                    setDirty(true);
+                  }}
+                />
                 <div className="grid grid-cols-[minmax(0,1fr)_200px] gap-3.5 max-nav:grid-cols-1">
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[13px] font-semibold" htmlFor="pd">

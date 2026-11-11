@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { site } from "@/content/site";
+import { siteUrl } from "@/lib/newsletter";
 import { getPublishedPosts } from "@/lib/notes";
 import { getSetting } from "@/lib/portfolio";
 import { getSocialPost } from "@/lib/social-data";
@@ -21,7 +21,7 @@ export default async function ComposePage({ searchParams }: PageProps<"/studio/s
     id: n.id,
     title: n.title,
     text: `${n.excerpt}${n.tags.length ? `\n\n${n.tags.map((t) => `#${t.replace(/[^\p{L}\p{N}]/gu, "")}`).join(" ")}` : ""}`,
-    link: `${site.url}/fr/blog/${n.slug}`,
+    link: `${siteUrl()}/fr/blog/${n.slug}`,
     cover: n.coverUrl,
   }));
 

@@ -7,9 +7,14 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition, type ChangeEvent } from "react";
 import { Markdown } from "@/components/blog/markdown";
 import { EASE } from "@/components/motion/ease";
+import { HistoryButton } from "@/components/studio/history-button";
+import { PreviewButton } from "@/components/studio/preview-button";
 import { StudioTopBar } from "@/components/studio/page-header";
 import { fmtDay, fromLocalInput, statusMeta, toLocalInput } from "@/components/studio/status";
 import { useToast } from "@/components/studio/toast";
+import { TranslateButton } from "@/components/studio/translate-button";
+import { useFeatures } from "@/components/studio/features";
+import type { NoteSnapshot } from "@/lib/notes";
 import { tones, type Tone } from "@/lib/tones";
 import type { NoteStatus } from "@/db/schema";
 import { cn } from "@/lib/cn";
@@ -70,6 +75,7 @@ export function NoteEditor({
   const router = useRouter();
   const toast = useToast();
   const [d, setD] = useState(initial);
+  const { ai } = useFeatures();
   const [lang, setLang] = useState<Lang>("fr");
   const [mode, setMode] = useState<"write" | "preview">("write");
   const [dirty, setDirty] = useState(false);
@@ -271,6 +277,19 @@ export function NoteEditor({
                 ? `Enregistré · ${new Date(savedAt).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`
                 : "Nouvelle note (non enregistrée)"}
         </span>
+        <PreviewButton entity="note" id={d.id} savedAt={savedAt} />
+        <HistoryButton<NoteSnapshot>
+          entity="note"
+          id={d.id}
+          dirty={dirty}
+          savedAt={savedAt}
+          onRestore={(snap) => {
+            // Content only: the status and date stay as they are now.
+            setD((x) => ({ ...x, ...snap, id: x.id, status: x.status, publishedAt: x.publishedAt }));
+            setTagsText(snap.tags.join(", "));
+            setDirty(true);
+          }}
+        />
         <div role="tablist" aria-label="Mode" className="hairline flex gap-1 rounded-full border bg-card p-1">
           {(["write", "preview"] as const).map((m) => (
             <button
@@ -350,14 +369,29 @@ export function NoteEditor({
                     value={t.dek}
                     onChange={(e) => updText({ dek: e.target.value })}
                   />
-                  {!t.title && d.translations[other].title && (
-                    <button
-                      type="button"
-                      className="self-start text-[13px] font-semibold text-accent-ink underline underline-offset-[3px]"
-                      onClick={() => updText({ ...d.translations[other] })}
-                    >
-                      Partir de la version {other === "fr" ? "française" : "anglaise"} pour traduire
-                    </button>
+                  {d.translations[other].title.trim() && (
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                      <TranslateButton
+                        only={other}
+                        context="A blog note (title, dek, short cover hook, Markdown body, SEO description)."
+                        fields={Object.fromEntries(
+                          (["title", "dek", "hook", "body", "seoDescription"] as const).map((k) => [k, { fr: d.translations.fr[k], en: d.translations.en[k] }]),
+                        )}
+                        onTranslated={(to, out) => {
+                          setD((x) => ({ ...x, translations: { ...x.translations, [to]: { ...x.translations[to], ...out } } }));
+                          setDirty(true);
+                        }}
+                      />
+                      {!t.title && (
+                        <button
+                          type="button"
+                          className="text-[13px] font-semibold text-accent-ink underline underline-offset-[3px]"
+                          onClick={() => updText({ ...d.translations[other] })}
+                        >
+                          {ai ? "Ou copier" : "Partir de"} la version {other === "fr" ? "française" : "anglaise"}
+                        </button>
+                      )}
+                    </div>
                   )}
                 </div>
                 <div role="toolbar" aria-label="Mise en forme" className="hairline flex flex-wrap gap-0.5 border-y bg-surface px-[clamp(14px,2.4vw,32px)] py-1.5">

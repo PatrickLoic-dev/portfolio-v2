@@ -8,9 +8,11 @@ import { WhatIDo } from "@/components/home/what-i-do";
 import { TechChip } from "@/components/tech";
 import { SitemapFooter } from "@/components/site/site-footer";
 import { Testimonial } from "@/components/site/testimonial";
+import { TrustedBy } from "@/components/site/trusted-by";
 import { site, stats, toolkit } from "@/content/site";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
+import { getPublicClients, getPublicTestimonials } from "@/lib/kind-words";
 import { getPublicProjects } from "@/lib/portfolio";
 
 export const dynamic = "force-dynamic";
@@ -21,7 +23,11 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const t = await getTranslations("home");
   const nav = await getTranslations("nav");
 
-  const projects = await getPublicProjects(locale as Locale);
+  const [projects, testimonials, clients] = await Promise.all([
+    getPublicProjects(locale as Locale),
+    getPublicTestimonials(locale as Locale),
+    getPublicClients(),
+  ]);
   const [featured, ...rest] = projects.filter((p) => p.featured).slice(0, 5);
   const statValue = (key: (typeof stats)[number]["key"], value: string) => (key === "projects" ? String(projects.length) : value);
 
@@ -133,7 +139,9 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
       <WhatIDo />
 
-      <Testimonial eyebrow={t("kindWords")} />
+      <TrustedBy label={t("trustedBy")} clients={clients} />
+
+      <Testimonial eyebrow={t("kindWords")} items={testimonials} />
 
       {/* Let's talk + footer */}
       <footer className="bg-ink text-background">

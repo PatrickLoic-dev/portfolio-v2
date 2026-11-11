@@ -1,6 +1,7 @@
 "use server";
 
 import { site } from "@/content/site";
+import { subscribeEmail } from "@/lib/newsletter";
 
 export type FormState = { status: "idle" | "ok" | "error" };
 
@@ -41,10 +42,17 @@ export async function sendContact(_: FormState, formData: FormData): Promise<For
   return { status: res.ok ? "ok" : "error" };
 }
 
-/** Newsletter sign-up placeholder — wire to your provider (Resend audiences, Buttondown…). */
+/** Newsletter sign-up: stores the address and emails a confirmation link (double opt-in). */
 export async function subscribe(_: FormState, formData: FormData): Promise<FormState> {
-  const email = String(formData.get("email") ?? "").trim();
+  const email = String(formData.get("email") ?? "").trim().slice(0, 200);
+  const locale = formData.get("locale") === "fr" ? "fr" : "en";
+  if (String(formData.get("company") ?? "")) return { status: "ok" }; // bot
   if (!isEmail(email)) return { status: "error" };
-  console.info("[newsletter] new subscriber:", email);
-  return { status: "ok" };
+  try {
+    await subscribeEmail(email, locale);
+    return { status: "ok" };
+  } catch (e) {
+    console.error("[newsletter] subscribe", e);
+    return { status: "error" };
+  }
 }

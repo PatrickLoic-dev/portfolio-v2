@@ -9,6 +9,7 @@ import { requireAdmin } from "@/lib/auth";
 import { lookupTrack, providerOf, type TrackInfo } from "@/lib/music-lookup";
 import { MOOD_KEYS } from "@/lib/moods";
 import { setSetting } from "@/lib/portfolio";
+import { keepOrigin, recordRevision } from "@/lib/revisions";
 import { slugify } from "@/lib/slug";
 import { addFamilyGame, SteamError, syncSteam } from "@/lib/steam";
 import { TONE_KEYS } from "@/lib/tones";
@@ -101,6 +102,7 @@ export async function saveProject(raw: ProjectInput): Promise<ActionResult<{ id:
     updatedAt: new Date(),
   };
 
+  await keepOrigin("project", p.id);
   const id = await db.transaction(async (tx) => {
     let projectId = p.id;
     if (projectId) {
@@ -119,6 +121,7 @@ export async function saveProject(raw: ProjectInput): Promise<ActionResult<{ id:
     }
     return projectId;
   });
+  await recordRevision("project", id, p.status === "published" ? "Publié" : "Brouillon");
 
   refresh();
   return { ok: true, data: { id, slug } };

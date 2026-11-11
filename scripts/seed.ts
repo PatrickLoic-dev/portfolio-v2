@@ -194,7 +194,7 @@ async function main() {
     const { error } = await supabase.storage.createBucket("covers", {
       public: true,
       fileSizeLimit: "5MB",
-      allowedMimeTypes: ["image/jpeg", "image/png", "image/webp", "image/avif"],
+      allowedMimeTypes: ["image/jpeg", "image/png", "image/webp", "image/avif", "image/svg+xml"],
     });
     if (error) throw error;
     console.log("✓ storage bucket “covers” created");

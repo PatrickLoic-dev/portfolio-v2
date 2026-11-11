@@ -7,6 +7,7 @@ import { z } from "zod";
 import { db } from "@/db";
 import { ideas, notes, noteTranslations, subjects, type NoteStatus } from "@/db/schema";
 import { isAdminEmail, requireAdmin } from "@/lib/auth";
+import { keepOrigin, recordRevision } from "@/lib/revisions";
 import { slugify } from "@/lib/slug";
 import { createSupabaseAdmin, createSupabaseServer } from "@/lib/supabase/server";
 
@@ -111,6 +112,7 @@ export async function saveNote(raw: NoteInput): Promise<ActionResult<{ id: strin
     updatedAt: new Date(),
   };
 
+  await keepOrigin("note", input.id);
   const id = await db.transaction(async (tx) => {
     let noteId = input.id;
     if (noteId) {
@@ -132,6 +134,7 @@ export async function saveNote(raw: NoteInput): Promise<ActionResult<{ id: strin
     if (input.ideaId) await tx.delete(ideas).where(eq(ideas.id, input.ideaId));
     return noteId;
   });
+  await recordRevision("note", id, { published: "Publiée", scheduled: "Programmée", draft: "Brouillon" }[input.status]);
 
   refresh();
   return { ok: true, data: { id, slug, status: input.status, publishedAt: publishedAt?.toISOString() ?? null } };
@@ -180,10 +183,12 @@ export async function uploadImage(form: FormData): Promise<ActionResult<{ url: s
   await requireAdmin();
   const file = form.get("file");
   if (!(file instanceof File) || !file.size) return { ok: false, error: "Aucun fichier." };
-  if (!IMAGE_TYPES.includes(file.type)) return { ok: false, error: "Format accepté : JPG, PNG, WebP ou AVIF." };
+  // SVG only for logos (shown through <img>, where scripts never run).
+  const svg = form.get("svg") === "1" && file.type === "image/svg+xml";
+  if (!IMAGE_TYPES.includes(file.type) && !svg) return { ok: false, error: form.get("svg") === "1" ? "Format accepté : SVG, PNG, WebP, AVIF ou JPG." : "Format accepté : JPG, PNG, WebP ou AVIF." };
   if (file.size > 5 * 1024 * 1024) return { ok: false, error: "Image trop lourde (5 Mo maximum)." };
 
-  const ext = file.type.split("/")[1].replace("jpeg", "jpg");
+  const ext = svg ? "svg" : file.type.split("/")[1].replace("jpeg", "jpg");
   const path = `${new Date().toISOString().slice(0, 7)}/${crypto.randomUUID()}.${ext}`;
   const supabase = createSupabaseAdmin();
   const { error } = await supabase.storage.from("covers").upload(path, file, { contentType: file.type });

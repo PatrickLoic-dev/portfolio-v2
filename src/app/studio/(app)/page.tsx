@@ -6,6 +6,8 @@ import { fmtDay, fmtDayShort, fmtDayTime, StatusBadge, statusMeta, whenLabel } f
 import { socialCounts } from "@/lib/social-data";
 import { tones } from "@/lib/tones";
 import { studioCounts, studioIdeas, studioLastPublished, studioNextScheduled, studioRecentNotes, studioSubjects } from "@/lib/notes";
+import { subscriberCounts } from "@/lib/newsletter";
+import { weekVisitors } from "@/lib/stats";
 import { QuickIdea } from "./quick-idea";
 
 export const metadata: Metadata = { title: "Tableau de bord" };
@@ -32,7 +34,7 @@ function StatCard({ href, label, value, dot, note }: { href?: string; label: str
 }
 
 export default async function DashboardPage() {
-  const [counts, next, recent, subjects, ideas, lastPublished, social] = await Promise.all([
+  const [counts, next, recent, subjects, ideas, lastPublished, social, subs, visitors] = await Promise.all([
     studioCounts(),
     studioNextScheduled(),
     studioRecentNotes(5),
@@ -40,6 +42,8 @@ export default async function DashboardPage() {
     studioIdeas(),
     studioLastPublished(),
     socialCounts(),
+    subscriberCounts(),
+    weekVisitors(),
   ]);
   const maxCount = Math.max(1, ...subjects.map((s) => s.count));
 
@@ -89,7 +93,20 @@ export default async function DashboardPage() {
             dot={statusMeta.scheduled.dot}
             note={next ? `Prochaine : ${fmtDay(next)}` : "Rien de prévu"}
           />
-          <StatCard label="Abonnés newsletter" value="-" dot="var(--accent-ink)" note="À connecter" />
+          <StatCard
+            href="/studio/newsletter"
+            label="Abonnés newsletter"
+            value={subs.active}
+            dot="var(--accent-ink)"
+            note={subs.pending ? `${subs.pending} en attente de confirmation` : "Confirmés"}
+          />
+          <StatCard
+            href="/studio/stats?jours=7"
+            label="Visiteurs · 7 jours"
+            value={visitors.now}
+            dot="var(--success)"
+            note={visitors.before ? `${visitors.now >= visitors.before ? "+" : ""}${Math.round(((visitors.now - visitors.before) / visitors.before) * 100)} % vs semaine précédente` : "Statistiques du site"}
+          />
         </div>
 
         <div className="flex flex-wrap items-start gap-5">

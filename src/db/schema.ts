@@ -245,3 +245,117 @@ export type Subject = typeof subjects.$inferSelect;
 export type Note = typeof notes.$inferSelect;
 export type NoteTranslation = typeof noteTranslations.$inferSelect;
 export type NoteStatus = (typeof noteStatus.enumValues)[number];
+
+/* ------------------------------------------------------------------ */
+/* Kind words & trusted companies                                      */
+/* ------------------------------------------------------------------ */
+
+/** "Kind words" on Home and About, in `position` order. */
+export const testimonials = pgTable("testimonials", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
+  initials: text("initials").notNull().default(""),
+  /** A design-system blob key for the initials badge (blob-a, blob-b…). */
+  tone: text("tone").notNull().default("blob-b"),
+  roleEn: text("role_en").notNull().default(""),
+  roleFr: text("role_fr").notNull().default(""),
+  company: text("company").notNull().default(""),
+  quoteEn: text("quote_en").notNull().default(""),
+  quoteFr: text("quote_fr").notNull().default(""),
+  visible: boolean("visible").notNull().default(true),
+  position: integer("position").notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}).enableRLS();
+
+/** "They trust me": client logos on Home. */
+export const clients = pgTable("clients", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
+  logoUrl: text("logo_url"),
+  url: text("url"),
+  visible: boolean("visible").notNull().default(true),
+  position: integer("position").notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}).enableRLS();
+
+/* ------------------------------------------------------------------ */
+/* Versions & previews                                                 */
+/* ------------------------------------------------------------------ */
+
+export const revisionEntity = pgEnum("revision_entity", ["note", "project"]);
+
+/** Saved states of a note or a project (the editor input), newest first. */
+export const revisions = pgTable(
+  "revisions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    entity: revisionEntity("entity").notNull(),
+    entityId: uuid("entity_id").notNull(),
+    /** Short human summary ("Titre FR", "Publication"…). */
+    label: text("label").notNull().default(""),
+    snapshot: jsonb("snapshot").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("revisions_entity_idx").on(t.entity, t.entityId, t.updatedAt)],
+).enableRLS();
+
+/** Secret links that show a draft before it is published. */
+export const previewLinks = pgTable(
+  "preview_links",
+  {
+    token: text("token").primaryKey(),
+    entity: revisionEntity("entity").notNull(),
+    entityId: uuid("entity_id").notNull(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("preview_links_entity_idx").on(t.entity, t.entityId)],
+).enableRLS();
+
+/* ------------------------------------------------------------------ */
+/* Audience                                                            */
+/* ------------------------------------------------------------------ */
+
+/** One row per page view. No IP or cookie is kept: `visitor` is a daily salted hash. */
+export const pageViews = pgTable(
+  "page_views",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    path: text("path").notNull(),
+    locale: text("locale").notNull().default("en"),
+    /** Referring host ("google.com"), null for direct visits. */
+    referrer: text("referrer"),
+    visitor: text("visitor").notNull(),
+    device: text("device").notNull().default("desktop"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("page_views_created_idx").on(t.createdAt), index("page_views_path_idx").on(t.path)],
+).enableRLS();
+
+export const subscriberStatus = pgEnum("subscriber_status", ["pending", "active", "unsubscribed"]);
+
+export const subscribers = pgTable("subscribers", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  email: text("email").notNull().unique(),
+  locale: locale("locale").notNull().default("en"),
+  status: subscriberStatus("status").notNull().default("pending"),
+  /** Confirms the address and unsubscribes (in every email). */
+  token: text("token").notNull().unique(),
+  confirmedAt: timestamp("confirmed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}).enableRLS();
+
+/** Each "send this note to subscribers". */
+export const newsletterSends = pgTable("newsletter_sends", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  noteId: uuid("note_id").references(() => notes.id, { onDelete: "set null" }),
+  subject: text("subject").notNull(),
+  recipients: integer("recipients").notNull().default(0),
+  sentAt: timestamp("sent_at", { withTimezone: true }).notNull().defaultNow(),
+}).enableRLS();
+
+export type TestimonialRow = typeof testimonials.$inferSelect;
+export type ClientRow = typeof clients.$inferSelect;
+export type Revision = typeof revisions.$inferSelect;
+export type Subscriber = typeof subscribers.$inferSelect;

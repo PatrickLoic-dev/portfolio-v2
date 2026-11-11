@@ -205,3 +205,47 @@ export async function currentSong(): Promise<Song | null> {
 export async function songHistory(limit = 6) {
   return db.select().from(songs).orderBy(desc(songs.createdAt)).limit(limit + 1);
 }
+
+type StudioProject = NonNullable<Awaited<ReturnType<typeof studioGetProject>>>;
+
+/** A project in the editor's shape (also what the version history stores). */
+export function projectToEditor(p: StudioProject) {
+  const text = (t: ProjectTranslation | null) => ({
+    description: t?.description ?? "",
+    sector: t?.sector ?? "",
+    problemTitle: t?.problemTitle ?? "",
+    problem: t?.problem ?? "",
+    approachTitle: t?.approachTitle ?? "",
+    approach: t?.approach ?? "",
+    outcomeTitle: t?.outcomeTitle ?? "",
+    outcome: t?.outcome ?? "",
+  });
+  return {
+    id: p.id as string | null,
+    slug: p.slug,
+    name: p.name,
+    type: p.type,
+    platform: p.platform,
+    status: p.status,
+    featured: p.featured,
+    client: p.client ?? "",
+    role: p.role ?? "",
+    liveUrl: p.liveUrl ?? "",
+    openSource: p.openSource,
+    repoUrl: p.repoUrl ?? "",
+    tone: p.tone,
+    tags: p.tags,
+    media: p.media,
+    metrics: p.metrics as ProjectMetric[],
+    translations: { fr: text(p.translations.fr), en: text(p.translations.en) },
+  };
+}
+export type ProjectSnapshot = ReturnType<typeof projectToEditor>;
+
+/** A project opened through a preview link: drafts and hidden projects too. */
+export async function getPreviewProject(id: string, locale: Locale): Promise<PublicProject | null> {
+  const [p] = await db.select().from(projects).where(and(eq(projects.id, id), isNull(projects.deletedAt))).limit(1);
+  if (!p) return null;
+  const texts = await db.select().from(projectTranslations).where(eq(projectTranslations.projectId, id));
+  return toPublic(p, texts, locale, 0);
+}

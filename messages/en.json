@@ -115,7 +115,8 @@
         "projectText": "A scoped project on a fixed timeline: I lead it end-to-end, from discovery to launch.",
         "teamText": "Embedded in your team: shipping features, reviews and design systems alongside you."
       }
-    }
+    },
+    "trustedBy": "Trusted by"
   },
   "testimonial": {
     "choose": "Choose a testimonial"
@@ -356,7 +357,8 @@
     "newsletterEmail": "Email address",
     "subscribe": "Subscribe",
     "subscribed": "You're in! Check your inbox to confirm.",
-    "author": "Frontend Engineer"
+    "author": "Frontend Engineer",
+    "subscribeError": "That didn't work. Check the address and try again."
   },
   "post": {
     "journal": "Journal",
@@ -421,5 +423,16 @@
     "title": "Lost\nin space",
     "body": "This page doesn't exist, or it moved.",
     "home": "Back home"
+  },
+  "preview": {
+    "title": "Private preview",
+    "body": "This page isn't published yet. Please don't share the link."
+  },
+  "newsletter": {
+    "title": "Newsletter",
+    "confirmed": "You're subscribed. The next note will land in your inbox",
+    "unsubscribed": "You're unsubscribed. No more emails from me, promise",
+    "invalid": "This link has expired or was already used",
+    "back": "Back to the notes"
   }
 }

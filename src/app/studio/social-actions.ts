@@ -7,7 +7,8 @@ import { db } from "@/db";
 import { socialPosts, type SocialNetwork, type SocialPublished } from "@/db/schema";
 import { requireAdmin } from "@/lib/auth";
 import { getSetting, setSetting } from "@/lib/portfolio";
-import { checks, NETWORK_KEYS, NETWORKS, nextSlot, pendingNetworks, type SocialSettings } from "@/lib/social";
+import { checks, finalText, NETWORK_KEYS, NETWORKS, nextSlot, pendingNetworks, type SocialSettings } from "@/lib/social";
+import { connections, disconnect, publishText, SocialApiError } from "@/lib/social-api";
 import type { ActionResult } from "./actions";
 
 const network = z.enum(NETWORK_KEYS as [SocialNetwork, ...SocialNetwork[]]);
@@ -186,4 +187,43 @@ export async function saveSocialSettings(raw: SocialSettings): Promise<ActionRes
   await setSetting("social", parsed.data);
   refresh();
   return { ok: true };
+}
+
+/* ------------------------------------------------------------------ */
+/* Direct publishing (LinkedIn & X APIs)                               */
+/* ------------------------------------------------------------------ */
+
+export async function apiConnections() {
+  await requireAdmin();
+  return connections();
+}
+
+export async function disconnectNetwork(net: "linkedin" | "x"): Promise<ActionResult> {
+  await requireAdmin();
+  await disconnect(z.enum(["linkedin", "x"]).parse(net));
+  revalidatePath("/studio/social/accounts");
+  return { ok: true };
+}
+
+/** Publishes one network of a post now, through the API, then marks it as published. */
+export async function publishNow(id: string, net: "linkedin" | "x"): Promise<ActionResult<{ done: boolean; url: string }>> {
+  await requireAdmin();
+  const postId = z.uuid().parse(id);
+  const n = z.enum(["linkedin", "x"]).parse(net);
+  const [post] = await db.select().from(socialPosts).where(eq(socialPosts.id, postId)).limit(1);
+  if (!post) return { ok: false, error: "Publication introuvable." };
+  if (post.published[n]) return { ok: false, error: "Déjà publié sur ce réseau." };
+  const text = finalText({ text: post.text, custom: post.custom, link: post.link ?? "" }, n);
+  if (!text.trim()) return { ok: false, error: "Le texte est vide." };
+
+  let url: string;
+  try {
+    url = await publishText(n, text);
+  } catch (e) {
+    if (e instanceof SocialApiError) return { ok: false, error: e.message };
+    console.error("[social-api] publish", e);
+    return { ok: false, error: "La publication a échoué." };
+  }
+  const res = await markPublished(postId, n, url);
+  return res.ok ? { ok: true, data: { done: res.data!.done, url } } : res;
 }

@@ -1,13 +1,13 @@
 "use client";
 
-import { FileText, Gamepad2, LayoutGrid, LogOut, Menu, Share2, X } from "lucide-react";
+import { FileText, Gamepad2, Globe, LayoutGrid, LogOut, Menu, Share2, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useState, type ReactNode } from "react";
 import { signOut } from "@/app/studio/actions";
 import { cn } from "@/lib/cn";
 
-type Counts = { all: number; published: number; draft: number; scheduled: number; subjects: number; projects: number; games: number; socialDue: number };
+type Counts = { all: number; published: number; draft: number; scheduled: number; subjects: number; projects: number; games: number; socialDue: number; subscribers: number; testimonials: number };
 
 function Item({
   href,
@@ -117,6 +117,9 @@ export function StudioSidebar({ counts, email }: { counts: Counts; email: string
             <Item href="/studio/subjects" active={pathname === "/studio/subjects"} count={counts.subjects} onNavigate={close}>
               Sujets
             </Item>
+            <Item href="/studio/newsletter" active={pathname === "/studio/newsletter"} count={counts.subscribers} onNavigate={close}>
+              Newsletter
+            </Item>
           </Group>
 
           <Group icon={<LayoutGrid size={14} aria-hidden />} label="Projets" color="var(--blob-c)">
@@ -125,6 +128,14 @@ export function StudioSidebar({ counts, email }: { counts: Counts; email: string
             </Item>
             <Item href="/studio/projects/new" active={pathname === "/studio/projects/new"} onNavigate={close}>
               Nouveau projet
+            </Item>
+          </Group>
+          <Group icon={<Globe size={14} aria-hidden />} label="Site" color="var(--background)">
+            <Item href="/studio/stats" active={pathname === "/studio/stats"} onNavigate={close}>
+              Statistiques
+            </Item>
+            <Item href="/studio/testimonials" active={pathname === "/studio/testimonials"} count={counts.testimonials} onNavigate={close}>
+              Témoignages &amp; clients
             </Item>
           </Group>
           <Group icon={<Share2 size={14} aria-hidden />} label="Réseaux sociaux" color="var(--blob-b)">

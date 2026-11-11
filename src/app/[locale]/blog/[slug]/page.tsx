@@ -15,23 +15,35 @@ import { tones } from "@/lib/tones";
 import { site } from "@/content/site";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { getPublishedPost, getPublishedPosts } from "@/lib/notes";
+import { getPreviewPost, getPublishedPost, getPublishedPosts } from "@/lib/notes";
+import { resolvePreview } from "@/lib/preview";
+import { PreviewBanner } from "@/components/site/preview-banner";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({ params }: PageProps<"/[locale]/blog/[slug]">): Promise<Metadata> {
-  const { locale, slug } = await params;
-  const post = await getPublishedPost(slug, locale as Locale);
-  if (!post) return {};
-  return { title: post.title, description: post.seoDescription };
+/** The published note, or any note when a valid preview link opened it. */
+async function load(slug: string, locale: Locale, token: string | string[] | undefined) {
+  const previewId = await resolvePreview(token, "note");
+  const draft = previewId ? await getPreviewPost(previewId, locale) : null;
+  if (draft) return { post: draft, preview: true };
+  const post = await getPublishedPost(slug, locale);
+  return post ? { post, preview: false } : null;
 }
 
-export default async function PostPage({ params }: PageProps<"/[locale]/blog/[slug]">) {
+export async function generateMetadata({ params, searchParams }: PageProps<"/[locale]/blog/[slug]">): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const found = await load(slug, locale as Locale, (await searchParams).preview);
+  if (!found) return {};
+  return { title: found.post.title, description: found.post.seoDescription, ...(found.preview && { robots: { index: false, follow: false } }) };
+}
+
+export default async function PostPage({ params, searchParams }: PageProps<"/[locale]/blog/[slug]">) {
   const { locale: l, slug } = await params;
   const locale = l as Locale;
   setRequestLocale(locale);
-  const post = await getPublishedPost(slug, locale);
-  if (!post) notFound();
+  const found = await load(slug, locale, (await searchParams).preview);
+  if (!found) notFound();
+  const { post, preview } = found;
 
   const t = await getTranslations("post");
   const blog = await getTranslations("blog");
@@ -45,6 +57,7 @@ export default async function PostPage({ params }: PageProps<"/[locale]/blog/[sl
 
   return (
     <>
+      {preview && <PreviewBanner />}
       <article lang={post.textLocale}>
         <header className="wrap flex flex-col gap-7 pb-14 pt-10">
           <nav aria-label={t("journal")} className="label flex items-center gap-2.5 text-muted-foreground">

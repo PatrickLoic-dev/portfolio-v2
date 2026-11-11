@@ -266,3 +266,33 @@ export async function studioGetNote(id: string): Promise<StudioNote | null> {
 export async function studioIdeas() {
   return db.select().from(ideas).orderBy(desc(ideas.createdAt));
 }
+
+/** A note in the editor's shape (also what the version history stores). */
+export function noteToEditor(note: StudioNote) {
+  const text = (t: NoteTranslation | null) => ({
+    title: t?.title ?? "",
+    dek: t?.dek ?? "",
+    hook: t?.hook ?? "",
+    body: t?.body ?? "",
+    seoDescription: t?.seoDescription ?? "",
+  });
+  return {
+    id: note.id as string | null,
+    slug: note.slug,
+    subjectId: note.subjectId,
+    status: note.status,
+    publishedAt: note.publishedAt?.toISOString() ?? null,
+    tone: note.tone as Tone,
+    coverUrl: note.coverUrl,
+    tags: note.tags,
+    featured: note.featured,
+    translations: { fr: text(note.translations.fr), en: text(note.translations.en) },
+  };
+}
+export type NoteSnapshot = ReturnType<typeof noteToEditor>;
+
+/** A note opened through a preview link: any status, still not from the bin. */
+export async function getPreviewPost(noteId: string, locale: Locale) {
+  const rows = await db.select().from(notes).where(and(eq(notes.id, noteId), isNull(notes.deletedAt))).limit(1);
+  return (await hydrate(rows, locale))[0] ?? null;
+}

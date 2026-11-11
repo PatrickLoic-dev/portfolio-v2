@@ -10,6 +10,9 @@ import { Testimonial } from "@/components/site/testimonial";
 import { experiences, site, toolkitGroups } from "@/content/site";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
+import { getPublicTestimonials } from "@/lib/kind-words";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/about">): Promise<Metadata> {
   const { locale } = await params;
@@ -27,6 +30,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
   const process = await getTranslations("process");
   const cta = await getTranslations("cta");
   const format = await getFormatter();
+  const testimonials = await getPublicTestimonials(locale);
 
   const month = (ym: string) => format.dateTime(new Date(`${ym}-01T00:00:00`), { month: "short", year: "numeric" });
   const years = experiences.flatMap((x) => [x.start, x.end]).map((d) => d.slice(0, 4)).sort();
@@ -151,7 +155,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
         </Reveal>
       </section>
 
-      <Testimonial eyebrow={t("kindWords")} />
+      <Testimonial eyebrow={t("kindWords")} items={testimonials} />
 
       <CtaFooter>
         <div className="flex flex-wrap items-end justify-between gap-8">

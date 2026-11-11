@@ -4,6 +4,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MotionProvider } from "@/components/motion/motion-provider";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
+import { Analytics } from "@/components/site/analytics";
 import { SiteHeader } from "@/components/site/site-header";
 import { site } from "@/content/site";
 import { routing } from "@/i18n/routing";
@@ -39,6 +40,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
             <SmoothScroll>
               <SiteHeader />
               <main id="content">{children}</main>
+              <Analytics />
             </SmoothScroll>
           </MotionProvider>
         </NextIntlClientProvider>

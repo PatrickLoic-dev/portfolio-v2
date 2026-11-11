@@ -12,25 +12,40 @@ import { CtaFooter } from "@/components/site/site-footer";
 import { Toc } from "@/components/site/toc";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { getPublicProject } from "@/lib/portfolio";
+import { getPreviewProject, getPublicProject } from "@/lib/portfolio";
+import { resolvePreview } from "@/lib/preview";
+import { PreviewBanner } from "@/components/site/preview-banner";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({ params }: PageProps<"/[locale]/work/[slug]">): Promise<Metadata> {
-  const { locale, slug } = await params;
-  const found = await getPublicProject(slug, locale as Locale);
-  if (!found) return {};
-  const t = await getTranslations({ locale, namespace: "project" });
-  return { title: t("metaTitle", { name: found.project.name }), description: found.project.description };
+/** The public project, or any project when a valid preview link opened it. */
+async function load(slug: string, locale: Locale, token: string | string[] | undefined) {
+  const previewId = await resolvePreview(token, "project");
+  const draft = previewId ? await getPreviewProject(previewId, locale) : null;
+  if (draft) return { project: draft, next: null, preview: true };
+  const found = await getPublicProject(slug, locale);
+  return found ? { ...found, preview: false } : null;
 }
 
-export default async function ProjectPage({ params }: PageProps<"/[locale]/work/[slug]">) {
+export async function generateMetadata({ params, searchParams }: PageProps<"/[locale]/work/[slug]">): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const found = await load(slug, locale as Locale, (await searchParams).preview);
+  if (!found) return {};
+  const t = await getTranslations({ locale, namespace: "project" });
+  return {
+    title: t("metaTitle", { name: found.project.name }),
+    description: found.project.description,
+    ...(found.preview && { robots: { index: false, follow: false } }),
+  };
+}
+
+export default async function ProjectPage({ params, searchParams }: PageProps<"/[locale]/work/[slug]">) {
   const { locale: l, slug } = await params;
   const locale = l as Locale;
   setRequestLocale(locale);
-  const found = await getPublicProject(slug, locale);
+  const found = await load(slug, locale, (await searchParams).preview);
   if (!found) notFound();
-  const { project, next } = found;
+  const { project, next, preview } = found;
 
   const t = await getTranslations("project");
   const types = await getTranslations("types");
@@ -46,6 +61,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/work/
 
   return (
     <>
+      {preview && <PreviewBanner />}
       <section className="wrap flex flex-col gap-8 pb-12 pt-10">
         <nav aria-label={t("breadcrumb")} className="label flex items-center gap-2.5 text-muted-foreground">
           <Link href={project.personal ? "/work#side-projects" : "/work"} className="inline-flex min-h-11 items-center gap-2 hover:text-foreground">

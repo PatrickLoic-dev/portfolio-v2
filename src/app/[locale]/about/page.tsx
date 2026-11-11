@@ -89,7 +89,6 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
       <section className="wrap pb-30">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
           <div className="flex flex-col gap-4">
-            <span className="label text-accent-ink">{t("xpEyebrow")}</span>
             <SplitHeadline text={t("xpTitle")} className="text-[clamp(44px,6vw,88px)]" />
           </div>
           <span className="label text-muted-foreground">
@@ -123,7 +122,6 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
       {/* Toolkit */}
       <section className="wrap pb-30">
         <div className="mb-10 flex flex-col gap-4">
-          <span className="label text-accent-ink">{t("toolkitEyebrow")}</span>
           <SplitHeadline text={t("toolkitTitle")} className="text-[clamp(44px,6vw,88px)]" />
         </div>
         <Stagger className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-4">
@@ -144,7 +142,6 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
             className="group flex flex-wrap items-end justify-between gap-10 rounded-[28px] bg-blob-a p-[clamp(32px,5vw,64px)]"
           >
             <div className="flex max-w-[720px] flex-col gap-5">
-              <span className="label">{t("studioEyebrow")}</span>
               <span className="display text-[clamp(26px,6.5vw,96px)]">{site.studio.name}</span>
               <p className="m-0 text-lg leading-relaxed">{t("studioBody")}</p>
             </div>

@@ -25,7 +25,6 @@ export function SideProjects({ projects }: { projects: Project[] }) {
     <section id="side-projects" className="wrap hairline scroll-mt-24 border-t pb-30 pt-[clamp(56px,8vw,112px)]">
       <div className="flex flex-wrap items-end justify-between gap-8">
         <div className="flex flex-col gap-6">
-          <span className="label text-accent-ink">{t("sideEyebrow", { count: projects.length })}</span>
           <SplitHeadline as="h2" text={t("sideTitle")} accent="." className="text-[clamp(48px,8vw,120px)]" />
         </div>
         <Reveal delay={0.15}>

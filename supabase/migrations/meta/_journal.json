@@ -50,6 +50,13 @@
       "when": 1794430988616,
       "tag": "20261111210308_page_view_country",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794433967392,
+      "tag": "20261111215247_project_platform_package",
+      "breakpoints": true
     }
   ]
 }

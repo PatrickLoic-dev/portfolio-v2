@@ -91,7 +91,7 @@ export const ideas = pgTable("ideas", {
 /* ------------------------------------------------------------------ */
 
 export const projectType = pgEnum("project_type", ["professional", "community", "personal"]);
-export const projectPlatform = pgEnum("project_platform", ["web", "mobile"]);
+export const projectPlatform = pgEnum("project_platform", ["web", "mobile", "package"]);
 export const projectStatus = pgEnum("project_status", ["draft", "published"]);
 
 export type ProjectMetric = { value: string; labelEn: string; labelFr: string };

@@ -93,7 +93,6 @@ export default async function PassionsPage({ params }: PageProps<"/[locale]/pass
       <section id="gaming" className="wrap flex scroll-mt-6 flex-col gap-8 pb-28">
         <div className="hairline flex flex-wrap items-end justify-between gap-6 border-t pt-12">
           <div className="flex flex-col gap-4">
-            <span className="label text-accent-ink">{t("gamingEyebrow")}</span>
             <SplitHeadline text={t("gamingTitle")} className="text-[clamp(48px,7vw,104px)]" />
           </div>
           <p className="m-0 max-w-[380px] text-base leading-relaxed text-muted-foreground">{t("gamingBody")}</p>
@@ -185,7 +184,6 @@ export default async function PassionsPage({ params }: PageProps<"/[locale]/pass
           <div className="wrap flex flex-col gap-10 py-26">
             <div className="flex flex-wrap items-end justify-between gap-6">
               <div className="flex flex-col gap-4">
-                <span className="label text-accent-ink">{t("musicEyebrow")}</span>
                 <SplitHeadline text={t("musicTitle")} className="text-[clamp(48px,7vw,104px)]" />
               </div>
               <p className="m-0 max-w-[380px] text-base leading-relaxed text-muted-foreground">{t("musicBody")}</p>

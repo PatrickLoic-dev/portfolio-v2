@@ -215,6 +215,7 @@ export function ProjectEditor({ initial, usedTags }: { initial: EditorProject; u
                 <select id="pp" className={field} value={p.platform} onChange={(e) => upd({ platform: e.target.value as ProjectInput["platform"] })}>
                   <option value="web">Web responsive</option>
                   <option value="mobile">App mobile</option>
+                  <option value="package">Package (npm, bibliothèque)</option>
                 </select>
               </div>
               <div className="flex flex-col gap-1.5">
@@ -521,7 +522,7 @@ export function ProjectEditor({ initial, usedTags }: { initial: EditorProject; u
             <span className="label text-muted-foreground">Aperçu de la carte</span>
             <div className="hairline overflow-hidden rounded-2xl border">
               <ProjectMedia
-                project={{ name: p.name || "Projet", tone: p.tone as Tone, mobile: p.platform === "mobile", host: "", media: p.media }}
+                project={{ name: p.name || "Projet", tone: p.tone as Tone, mobile: p.platform === "mobile", platform: p.platform, host: "", media: p.media }}
                 size="card"
                 className="aspect-[5/4]"
               />

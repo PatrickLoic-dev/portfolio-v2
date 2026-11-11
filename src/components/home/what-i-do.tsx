@@ -20,7 +20,6 @@ export function WhatIDo() {
   return (
     <section className="wrap flex flex-col gap-12 py-[clamp(64px,8vw,104px)]" aria-labelledby="wd-title">
       <div className="flex flex-col items-start gap-4">
-        <span className="label text-accent-ink">{t("doEyebrow")}</span>
         <SplitHeadline text={t("wd.titleLead")} accent={t("wd.titleAccent")} className="text-[clamp(44px,6.5vw,96px)]" />
         <Reveal as="p" delay={0.1} className="m-0 max-w-[520px] text-[17px] leading-relaxed text-muted-foreground">
           {t("doBody")}
@@ -66,8 +65,7 @@ export function WhatIDo() {
 
 function Card({ label, title, children, className, style }: { label: string; title: string; children: React.ReactNode; className?: string; style?: CSSProperties }) {
   return (
-    <article className={`wd-card ${className ?? ""}`} style={style}>
-      <span className="wd-label">{label}</span>
+    <article className={`wd-card ${className ?? ""}`} style={style} aria-label={label}>
       <h3 className="wd-title">{title}</h3>
       {children}
     </article>

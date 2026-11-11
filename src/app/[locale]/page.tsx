@@ -21,7 +21,6 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("home");
-  const nav = await getTranslations("nav");
 
   const [projects, testimonials, clients] = await Promise.all([
     getPublicProjects(locale as Locale),
@@ -38,10 +37,6 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         <div className="flex flex-wrap items-end gap-12">
           <div className="flex min-w-0 flex-[999_1_560px] flex-col gap-8">
             <Reveal className="flex flex-wrap items-center gap-3" y={12}>
-              <span className="label inline-flex items-center gap-2 rounded-full bg-secondary px-3.5 py-2">
-                <span className="size-2 rounded-full bg-success" />
-                {nav("available")}
-              </span>
               <span className="label text-muted-foreground">{t("role")}</span>
             </Reveal>
             <SplitHeadline as="h1" text={site.name.replace(" ", "\n")} accent="." immediate className="text-[clamp(76px,13.5vw,208px)]" />
@@ -113,7 +108,6 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       <section className="wrap pb-16 pt-24">
         <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
           <div className="flex flex-col gap-4">
-            <span className="label text-accent-ink">{t("selectedEyebrow")}</span>
             <SplitHeadline text={t("selectedTitle")} className="text-[clamp(48px,7vw,104px)]" />
           </div>
           <Link href="/work" className="btn btn-ghost">

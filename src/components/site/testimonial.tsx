@@ -54,9 +54,8 @@ export function Testimonial({ eyebrow, items: testimonials }: { eyebrow: string;
   if (!current) return null;
 
   return (
-    <section className="bg-surface">
+    <section className="bg-surface" aria-label={eyebrow}>
       <div className="wrap flex flex-col gap-10 py-28">
-        <span className="label text-accent-ink">{eyebrow}</span>
         <Reveal
           className="flex flex-col gap-12"
           onMouseEnter={() => setHovered(true)}

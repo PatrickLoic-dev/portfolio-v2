@@ -50,14 +50,12 @@
       "studio": "Studio fondé"
     },
     "toolkit": "Outils",
-    "selectedEyebrow": "(01) Projets choisis",
     "selectedTitle": "Projets\nchoisis",
     "allProjects": "Tous les projets ({count})",
-    "doEyebrow": "(02) Ce que je fais",
     "doBody": "Des produits numériques épurés, pensés pour le mouvement, la typographie et la performance, des plateformes fintech aux vitrines éditoriales.",
     "aboutMe": "À propos",
     "howIWork": "Ma méthode",
-    "kindWords": "(03) Ils en parlent",
+    "kindWords": "Ils en parlent",
     "openTo": "Ouvert au freelance & CDI",
     "talkTitle": "On en\nparle",
     "talkBody": "Ouvert à quelques missions freelance et à des postes à temps plein. Basé au Cameroun, je travaille avec des équipes du monde entier.",
@@ -144,7 +142,6 @@
     "reset": "Réinitialiser",
     "appScreen": "Écran de l'app",
     "screenshot": "Capture",
-    "sideEyebrow": "(02) Projets persos · {count}",
     "sideTitle": "Construits\npar passion",
     "sideIntro": "Expériences, outils et idées que je construis sur mon temps libre. Les projets open source renvoient directement vers leur code.",
     "source": "Code",
@@ -177,7 +174,8 @@
     "openSource": "Open source",
     "closedSource": "Code privé",
     "viewCode": "Voir le code source",
-    "allSide": "Tous les projets persos"
+    "allSide": "Tous les projets persos",
+    "package": "Package"
   },
   "about": {
     "eyebrow": "À propos & expérience",
@@ -192,9 +190,7 @@
     "status": "Statut",
     "workWithMe": "Travailler ensemble",
     "downloadCv": "Télécharger le CV",
-    "xpEyebrow": "(01) Expérience",
     "xpTitle": "Là où j'ai\ntravaillé",
-    "toolkitEyebrow": "(02) Outils",
     "toolkitTitle": "Avec quoi\nje construis",
     "groups": {
       "frontend": "Frontend",
@@ -202,9 +198,8 @@
       "backend": "Backend & données",
       "workflow": "Workflow"
     },
-    "studioEyebrow": "(03) Le studio",
     "studioBody": "Un studio web qui conçoit des produits numériques soignés pour des équipes ambitieuses, fondé et dirigé par Patrick.",
-    "kindWords": "(04) Ils en parlent",
+    "kindWords": "Ils en parlent",
     "xpTypes": {
       "fulltime": "Temps plein",
       "internship": "Stage"
@@ -392,7 +387,6 @@
     "intro": "Quand je ne livre pas, j'enchaîne les matchs classés, je chasse les trophées ou je cherche le prochain morceau sur lequel coder.",
     "gaming": "Jeux ↓",
     "music": "Musique ↓",
-    "gamingEyebrow": "(01) Jeux vidéo",
     "gamingTitle": "Press\nstart",
     "gamingBody": "Heures et succès synchronisés depuis mon profil Steam. Les jeux de combat, c'est la maison, et je construis aussi des sites pour la communauté Tekken.",
     "profile": "Profil ↗",
@@ -409,7 +403,6 @@
     "unlocked": "{got} / {total} débloqués",
     "last": "{days, plural, =0 {aujourd'hui} =1 {hier} other {il y a # jours}}",
     "lastMonths": "il y a {months} mois",
-    "musicEyebrow": "(02) Musique",
     "musicTitle": "En\nboucle",
     "musicBody": "Le morceau et l'humeur du moment, mis à jour quand l'ambiance change.",
     "songOfMoment": "Le morceau du moment",

@@ -50,14 +50,12 @@
       "studio": "Studio founded"
     },
     "toolkit": "Toolkit",
-    "selectedEyebrow": "(01) Selected work",
     "selectedTitle": "Selected\nwork",
     "allProjects": "All projects ({count})",
-    "doEyebrow": "(02) What I do",
     "doBody": "Crafting minimalist digital products with a focus on motion, typography and performance, from fintech platforms to editorial showcases.",
     "aboutMe": "About me",
     "howIWork": "How I work",
-    "kindWords": "(03) Kind words",
+    "kindWords": "Kind words",
     "openTo": "Open to freelance & full-time",
     "talkTitle": "Let’s\ntalk",
     "talkBody": "Currently open to select freelance projects and full-time opportunities. Based in Cameroon, working with teams worldwide.",
@@ -144,7 +142,6 @@
     "reset": "Reset filters",
     "appScreen": "App screen",
     "screenshot": "Screenshot",
-    "sideEyebrow": "(02) Side projects · {count}",
     "sideTitle": "Built for\nthe love of it",
     "sideIntro": "Experiments, tools and ideas I build on my own time. The open-source ones link straight to their code.",
     "source": "Source",
@@ -177,7 +174,8 @@
     "openSource": "Open source",
     "closedSource": "Closed source",
     "viewCode": "View the source code",
-    "allSide": "All side projects"
+    "allSide": "All side projects",
+    "package": "Package"
   },
   "about": {
     "eyebrow": "About & experience",
@@ -192,9 +190,7 @@
     "status": "Status",
     "workWithMe": "Work with me",
     "downloadCv": "Download CV",
-    "xpEyebrow": "(01) Experience",
     "xpTitle": "Where I've\nworked",
-    "toolkitEyebrow": "(02) Toolkit",
     "toolkitTitle": "What I\nbuild with",
     "groups": {
       "frontend": "Frontend",
@@ -202,9 +198,8 @@
       "backend": "Backend & data",
       "workflow": "Workflow"
     },
-    "studioEyebrow": "(03) The studio",
     "studioBody": "A web studio crafting considered digital products for ambitious teams, founded and led by Patrick.",
-    "kindWords": "(04) Kind words",
+    "kindWords": "Kind words",
     "xpTypes": {
       "fulltime": "Full-time",
       "internship": "Internship"
@@ -392,7 +387,6 @@
     "intro": "When I'm not shipping, I'm grinding ranked matches, chasing trophies or digging for the next song to code to.",
     "gaming": "Gaming ↓",
     "music": "Music ↓",
-    "gamingEyebrow": "(01) Gaming",
     "gamingTitle": "Press\nstart",
     "gamingBody": "Hours and achievements synced from my Steam profile. Fighting games are home, and I also build sites for the Tekken community.",
     "profile": "Profile ↗",
@@ -409,7 +403,6 @@
     "unlocked": "{got} / {total} unlocked",
     "last": "{days, plural, =0 {today} =1 {yesterday} other {# days ago}}",
     "lastMonths": "{months} mo ago",
-    "musicEyebrow": "(02) Music",
     "musicTitle": "On\nrepeat",
     "musicBody": "The song and the mood of the moment, updated whenever the vibe changes.",
     "songOfMoment": "Song of the moment",

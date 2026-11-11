@@ -22,6 +22,7 @@ export type PublicProject = {
   repo: string | null;
   featured: boolean;
   mobile: boolean;
+  platform: "web" | "mobile" | "package";
   tone: Tone;
   tags: string[];
   client: string | null;
@@ -63,6 +64,7 @@ function toPublic(p: Project, texts: ProjectTranslation[], locale: Locale, index
     repo: p.openSource ? p.repoUrl : null,
     featured: p.featured,
     mobile: p.platform === "mobile",
+    platform: p.platform,
     tone: p.tone as Tone,
     tags: p.tags,
     client: p.client,

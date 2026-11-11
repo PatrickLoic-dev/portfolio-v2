@@ -50,11 +50,13 @@ export default async function ProjectPage({ params, searchParams }: PageProps<"/
   const t = await getTranslations("project");
   const types = await getTranslations("types");
   const hasTitles = project.sections.some((s) => s.title.trim());
+  // The hero already shows the first screenshot, except for packages (the hero is a box).
+  const gallery = project.platform === "package" ? project.media : project.media.slice(1);
 
   const meta = [
     !project.personal && project.client && { label: t("client"), value: project.client },
     project.personal && { label: t("source"), value: project.openSource ? t("openSource") : t("closedSource") },
-    { label: t("platform"), value: project.mobile ? t("mobile") : t("web") },
+    { label: t("platform"), value: t(project.platform) },
     project.tags.length > 0 && { label: t("stack"), value: <TechList names={project.tags} focusable /> },
     project.role ? { label: t("role"), value: project.role } : { label: t("type"), value: types(project.type) },
   ].filter(Boolean) as { label: string; value: ReactNode }[];
@@ -165,15 +167,15 @@ export default async function ProjectPage({ params, searchParams }: PageProps<"/
                 </Reveal>
               ))}
 
-              {project.media.length > 1 && (
+              {gallery.length > 0 && (
                 <div id="gallery" className="grid scroll-mt-24 grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] gap-4">
-                  {project.media.slice(1).map((src, i, all) => (
+                  {gallery.map((src, i, all) => (
                     <Reveal
                       key={src}
                       className={`hairline overflow-hidden rounded-[22px] border bg-surface ${all.length % 2 === 1 && i === all.length - 1 ? "col-span-full" : ""}`}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={src} alt={`${project.name} ${i + 2}`} className="size-full object-cover" loading="lazy" />
+                      <img src={src} alt={`${project.name} ${i + 1 + (project.platform === "package" ? 0 : 1)}`} className="size-full object-cover" loading="lazy" />
                     </Reveal>
                   ))}
                 </div>

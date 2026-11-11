@@ -850,3 +850,107 @@ html.lenis body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Package box (project media for npm packages / libraries)            */
+/* --w is the front width; depth and height follow from it.            */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .pkg-scene {
+    --d: calc(var(--w) * 0.78);
+    --h: calc(var(--w) * 0.78);
+    position: relative;
+    width: var(--w);
+    height: var(--h);
+    perspective: 1100px;
+    margin-top: calc(var(--h) * 0.12);
+  }
+  .pkg-box {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transform: rotateX(-16deg) rotateY(-36deg);
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .group:hover .pkg-box,
+  .pkg-scene:hover .pkg-box {
+    transform: rotateX(-11deg) rotateY(-20deg) translateY(-4px);
+  }
+  .pkg-face {
+    position: absolute;
+    border: 2px solid var(--foreground);
+    border-radius: 6px;
+    backface-visibility: hidden;
+  }
+  .pkg-front {
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: calc(var(--w) * 0.08);
+    background: var(--card);
+    transform: translateZ(calc(var(--d) / 2));
+  }
+  .pkg-arrows {
+    align-self: flex-end;
+    font-family: var(--font-mono, monospace);
+    font-size: calc(var(--w) * 0.07);
+    letter-spacing: -0.1em;
+    color: var(--muted-foreground);
+  }
+  .pkg-side {
+    top: 0;
+    left: calc((var(--w) - var(--d)) / 2);
+    width: var(--d);
+    height: var(--h);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: color-mix(in oklab, var(--card) 72%, var(--foreground));
+    transform: rotateY(90deg) translateZ(calc(var(--w) / 2));
+  }
+  /* The name runs along the side, bottom to top, like a label on a shipping box. */
+  .pkg-name {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    max-height: 90%;
+    white-space: nowrap;
+    /* Fits the name to the side height: --len is the number of characters. */
+    font-size: min(calc(var(--d) * 0.3), calc(var(--h) * 1.25 / var(--len, 8)));
+    line-height: 1;
+    color: var(--card);
+  }
+  .pkg-top {
+    left: 0;
+    top: calc((var(--h) - var(--d)) / 2);
+    width: var(--w);
+    height: var(--d);
+    background: color-mix(in oklab, var(--card) 88%, var(--foreground));
+    transform: rotateX(90deg) translateZ(calc(var(--h) / 2));
+  }
+  .pkg-tape {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 22%;
+    transform: translateX(-50%);
+    background: color-mix(in oklab, var(--accent) 55%, var(--card));
+  }
+  .pkg-shadow {
+    position: absolute;
+    left: 6%;
+    right: -14%;
+    bottom: calc(var(--h) * -0.22);
+    height: calc(var(--h) * 0.16);
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(37 30 25 / 0.28), transparent);
+    filter: blur(2px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pkg-box {
+    transition: none;
+  }
+}

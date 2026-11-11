@@ -42,7 +42,7 @@ const projectInput = z.object({
   slug: z.string().max(80),
   name: z.string().trim().min(1, "Donnez un nom au projet.").max(80),
   type: z.enum(["professional", "community", "personal"]),
-  platform: z.enum(["web", "mobile"]),
+  platform: z.enum(["web", "mobile", "package"]),
   status: z.enum(["draft", "published"]),
   featured: z.boolean(),
   client: z.string().max(80),

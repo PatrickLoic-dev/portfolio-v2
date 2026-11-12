@@ -437,5 +437,28 @@
       "Développer",
       "Livrer"
     ]
+  },
+  "secrets": {
+    "unlocked": "Mot secret saisi",
+    "close": "Fermer",
+    "here": "Vous êtes ici",
+    "noclipTitle": "Mode no-clip",
+    "noclipBody": "Le site, calque par calque. Choisissez-en un pour y aller.",
+    "noclipHint": "Survolez un calque · Échap pour quitter",
+    "huntTimer": "Temps",
+    "huntCombo": "Combo",
+    "huntGauge": "Jauge de combo",
+    "huntWords": "Mots cachés",
+    "huntFound": "trouvé",
+    "huntLevel": "Difficulté de la cachette",
+    "huntMiss": "{n, plural, one {# raté} other {# ratés}} : cliquez pile sur le mot",
+    "huntWonEyebrow": "Chasse terminée",
+    "huntWon": "Tout trouvé",
+    "huntLostEyebrow": "Temps écoulé",
+    "huntLost": "Presque",
+    "huntStatWords": "Mots",
+    "huntStatRank": "Meilleur combo",
+    "huntStatTime": "Temps",
+    "huntAgain": "Rejouer"
   }
 }

@@ -437,5 +437,28 @@
       "Build",
       "Ship"
     ]
+  },
+  "secrets": {
+    "unlocked": "Secret word entered",
+    "close": "Close",
+    "here": "You are here",
+    "noclipTitle": "Noclip mode",
+    "noclipBody": "The site, layer by layer. Pick one to go there.",
+    "noclipHint": "Hover a layer · Esc to leave",
+    "huntTimer": "Time",
+    "huntCombo": "Combo",
+    "huntGauge": "Combo gauge",
+    "huntWords": "Hidden words",
+    "huntFound": "found",
+    "huntLevel": "How well it is hidden",
+    "huntMiss": "{n, plural, one {# miss} other {# misses}}: click right on the word",
+    "huntWonEyebrow": "Hunt complete",
+    "huntWon": "All found",
+    "huntLostEyebrow": "Time is up",
+    "huntLost": "So close",
+    "huntStatWords": "Words",
+    "huntStatRank": "Best combo",
+    "huntStatTime": "Time",
+    "huntAgain": "Play again"
   }
 }

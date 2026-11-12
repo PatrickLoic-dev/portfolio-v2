@@ -430,5 +430,12 @@
     "unsubscribed": "You're unsubscribed. No more emails from me, promise",
     "invalid": "This link has expired or was already used",
     "back": "Back to the notes"
+  },
+  "loader": {
+    "words": [
+      "Design",
+      "Build",
+      "Ship"
+    ]
   }
 }

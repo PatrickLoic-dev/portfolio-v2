@@ -113,7 +113,7 @@ export function SiteHeader() {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "relative inline-flex min-h-10 items-center rounded-full px-4 text-sm font-medium transition-colors",
+                    "relative inline-flex min-h-10 items-center whitespace-nowrap rounded-full px-3.5 text-sm font-medium transition-colors min-[1180px]:px-4",
                     active ? "text-card" : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
@@ -132,7 +132,7 @@ export function SiteHeader() {
 
           <div className="flex items-center gap-2.5">
             <LanguageSwitch />
-            <Link href="/contact" className="btn btn-primary hidden nav:inline-flex">
+            <Link href="/contact" className="btn btn-primary hidden min-[1180px]:inline-flex">
               {t("startProject")}
               <ArrowUpRight size={16} strokeWidth={2} aria-hidden />
             </Link>

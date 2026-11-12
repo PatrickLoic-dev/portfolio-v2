@@ -954,3 +954,8 @@ html.lenis body {
     transition: none;
   }
 }
+
+/* Entry loader: hidden before first paint once it has played (see site-loader.tsx). */
+.loader-done .site-loader {
+  display: none;
+}

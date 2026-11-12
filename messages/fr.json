@@ -430,5 +430,12 @@
     "unsubscribed": "Vous êtes désinscrit·e. Plus aucun email de ma part, promis",
     "invalid": "Ce lien a expiré ou a déjà été utilisé",
     "back": "Retour aux notes"
+  },
+  "loader": {
+    "words": [
+      "Concevoir",
+      "Développer",
+      "Livrer"
+    ]
   }
 }

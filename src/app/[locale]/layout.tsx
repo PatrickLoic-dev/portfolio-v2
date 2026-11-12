@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MotionProvider } from "@/components/motion/motion-provider";
+import { PageTransition } from "@/components/motion/page-transition";
+import { loaderGateScript, SiteLoader } from "@/components/motion/site-loader";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { Analytics } from "@/components/site/analytics";
 import { SiteHeader } from "@/components/site/site-header";
@@ -34,13 +36,19 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} className={fontVariables}>
+    <html lang={locale} className={fontVariables} suppressHydrationWarning>
+      <head>
+        {/* Decides before first paint whether the entry loader shows (once per visit). */}
+        <script dangerouslySetInnerHTML={{ __html: loaderGateScript }} />
+      </head>
       <body>
         <NextIntlClientProvider>
           <MotionProvider>
             <SmoothScroll>
               <SiteHeader />
               <main id="content">{children}</main>
+              <SiteLoader />
+              <PageTransition />
               <Analytics />
               <VercelAnalytics />
             </SmoothScroll>

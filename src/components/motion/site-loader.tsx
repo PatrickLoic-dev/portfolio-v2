@@ -87,9 +87,9 @@ export function SiteLoader() {
     >
       <div className="relative">
         {/* Word slot, in the same spot as the first line of the name */}
-        <div className="display absolute left-0 top-0 h-[1.05em] w-full overflow-hidden text-[clamp(44px,10vw,148px)]">
+        <div className="display absolute -top-[0.2em] left-0 h-[1.25em] w-full overflow-hidden pt-[0.2em] text-[clamp(44px,10vw,148px)]">
           {words.map((w) => (
-            <span key={w} data-word className="absolute left-0 top-0 block" style={{ transform: "translateY(130%)" }}>
+            <span key={w} data-word className="absolute left-0 top-[0.2em] block" style={{ transform: "translateY(130%)" }}>
               {w}
             </span>
           ))}
